@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class TabManager : MonoBehaviour
 {
+    internal static TabManager Instance { get; private set; }
     public Button[] tabsButtons;
-    public int currentTabInex;
-
+    private int currentTabInex;
     private string[] scences = new string[] {
         "ShopScene",
         "BattleTowerScene",
@@ -15,14 +15,31 @@ public class TabManager : MonoBehaviour
         "GuildScene"
         };
 
+
+    void Awake()
+    {
+        print(Instance);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
+        currentTabInex = 2; // default
         UpdateTabActive();
     }
 
     public void OnTabClick(int tabIndex)
     {
-        SceneManager.LoadScene(scences[tabIndex]);
+        currentTabInex = tabIndex;
+        SceneManager.LoadScene(scences[currentTabInex]);
         UpdateTabActive();
     }
 
@@ -33,13 +50,14 @@ public class TabManager : MonoBehaviour
             ColorBlock colors = tabsButtons[i].colors;
             if (i == currentTabInex)
             {
-                colors.normalColor = Color.green; // Mark the current tab
+                colors.normalColor = Color.green;
             }
             else
             {
-                colors.normalColor = Color.white;
+                colors.normalColor = Color.yellow;
             }
             tabsButtons[i].colors = colors;
         }
     }
+
 }

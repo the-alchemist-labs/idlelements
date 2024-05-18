@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8636467706672227011}
   - component: {fileID: 9218485446559575566}
   - component: {fileID: 2962318130479737343}
+  - component: {fileID: 1852609917728584196}
   m_Layer: 5
   m_Name: Tabs
   m_TagString: Untagged
@@ -102,6 +103,24 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1852609917728584196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168557122842481181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce5c0b1a84cd66a49a75f432767cb672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tabsButtons:
+  - {fileID: 7399952047347740951}
+  - {fileID: 65528381602578010}
+  - {fileID: 4184256086928287330}
+  - {fileID: 7144182389795826450}
+  - {fileID: 5782770565727531476}
 --- !u!1 &606308959351703883
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +355,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 0, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -359,7 +378,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2692942674386289369}
+      - m_Target: {fileID: 1852609917728584196}
         m_TargetAssemblyTypeName: TabManager, Assembly-CSharp
         m_MethodName: OnTabClick
         m_Mode: 3
@@ -383,7 +402,6 @@ GameObject:
   - component: {fileID: 6387219953708099387}
   - component: {fileID: 141302065555648301}
   - component: {fileID: 1776797736269741873}
-  - component: {fileID: 2692942674386289369}
   m_Layer: 5
   m_Name: Panel_Tabs
   m_TagString: Untagged
@@ -479,25 +497,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &2692942674386289369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867111489904737311}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce5c0b1a84cd66a49a75f432767cb672, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tabsButtons:
-  - {fileID: 7399952047347740951}
-  - {fileID: 65528381602578010}
-  - {fileID: 4184256086928287330}
-  - {fileID: 7144182389795826450}
-  - {fileID: 5782770565727531476}
-  currentTabInex: 0
 --- !u!1 &940209005827352490
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,7 +595,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 0, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -619,7 +618,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2692942674386289369}
+      - m_Target: {fileID: 1852609917728584196}
         m_TargetAssemblyTypeName: TabManager, Assembly-CSharp
         m_MethodName: OnTabClick
         m_Mode: 3
@@ -997,7 +996,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 0, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1020,7 +1019,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2692942674386289369}
+      - m_Target: {fileID: 1852609917728584196}
         m_TargetAssemblyTypeName: TabManager, Assembly-CSharp
         m_MethodName: OnTabClick
         m_Mode: 3
@@ -1398,7 +1397,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 0, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1421,7 +1420,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2692942674386289369}
+      - m_Target: {fileID: 1852609917728584196}
         m_TargetAssemblyTypeName: TabManager, Assembly-CSharp
         m_MethodName: OnTabClick
         m_Mode: 3
@@ -1531,7 +1530,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 0, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1554,7 +1553,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2692942674386289369}
+      - m_Target: {fileID: 1852609917728584196}
         m_TargetAssemblyTypeName: TabManager, Assembly-CSharp
         m_MethodName: OnTabClick
         m_Mode: 3
