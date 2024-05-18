@@ -73,3 +73,7 @@ crashlytics-build.properties
 
 # vscode files
 .vscode
+
+# TMP assets
+/Assets/TextMesh Pro/
+
