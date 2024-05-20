@@ -18,7 +18,6 @@ public class TabManager : MonoBehaviour
 
     void Awake()
     {
-        print(Instance);
         if (Instance == null)
         {
             Instance = this;
