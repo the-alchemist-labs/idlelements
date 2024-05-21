@@ -339,6 +339,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tabs
       objectReference: {fileID: 0}
+    - target: {fileID: 1776797736269741873, guid: 6a2008ad59be7224188d151f5c5ffe52, type: 3}
+      propertyPath: m_ChildAlignment
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776797736269741873, guid: 6a2008ad59be7224188d151f5c5ffe52, type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1953475764295421718, guid: 6a2008ad59be7224188d151f5c5ffe52, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2518106928606647333, guid: 6a2008ad59be7224188d151f5c5ffe52, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -510,8 +522,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 867111489904737311, guid: 6a2008ad59be7224188d151f5c5ffe52, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2037380713}
   m_SourcePrefab: {fileID: 100100000, guid: 6a2008ad59be7224188d151f5c5ffe52, type: 3}
+--- !u!1 &2037380711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 867111489904737311, guid: 6a2008ad59be7224188d151f5c5ffe52, type: 3}
+  m_PrefabInstance: {fileID: 1067119336}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2037380713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037380711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
