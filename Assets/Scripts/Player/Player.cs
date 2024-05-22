@@ -1,9 +1,11 @@
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     internal static Player instance { get; private set; }
 
+    public TMP_Text  textField;
     public PlayerInfo playerInfo;
 
     private void Awake()
@@ -16,12 +18,23 @@ public class Player : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+
     }
     void Start()
-    {
+    {   
         // for debug
         if (playerInfo.playerId == null) {
             LoadPlayerData();
+        }
+    }
+
+    void Update()
+    {
+        print(PlayerPrefs.GetString("Gold"));
+        if (textField != null)
+        {   
+            string gold = PlayerPrefs.GetInt("Gold").ToString();
+            textField.text = "Score: " + gold;
         }
     }
 
