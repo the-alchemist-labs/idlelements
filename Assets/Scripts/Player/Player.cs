@@ -1,14 +1,10 @@
 using UnityEngine;
-using PlayerInterface;
 
-public class Player : MonoBehaviour, IPlayerData
+public class Player : MonoBehaviour
 {
     internal static Player instance { get; private set; }
 
-    public PlayerInfo playerInfo { get; set; }
-    public Inventory inventory { get; set; }
-    public int nextLevelRequiredExp { get; set; }
-    public string mapLocation { get; set; }
+    public PlayerInfo playerInfo;
 
     private void Awake()
     {
@@ -32,11 +28,7 @@ public class Player : MonoBehaviour, IPlayerData
     public async void LoadPlayerData()
     {
         string playerId = PlayerPrefs.GetString("playerId");
-        PlayerData playerData = await PlayerDataHandler.FetchPlayerData(playerId);
+        PlayerData playerData = await PlayerApi.GetData<PlayerData>(playerId);
         playerInfo = playerData.playerInfo;
-        inventory = playerData.inventory;
-        nextLevelRequiredExp = playerData.nextLevelRequiredExp;
-        mapLocation = playerData.mapLocation;
-        print("ign " + playerInfo.ign);
     }
 }
