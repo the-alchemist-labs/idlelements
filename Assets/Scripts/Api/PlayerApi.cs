@@ -8,6 +8,9 @@ public static class PlayerApi
 {
     public static async Task<PlayerData> GetData<PlayerData>(string playerId)
     {    
+        // example:
+        // PlayerData playerData = await PlayerApi.GetData<PlayerData>(playerId);
+
         string url = $"http://localhost:3000/player/{playerId}";
         TaskCompletionSource<PlayerData> tcs = new TaskCompletionSource<PlayerData>();
         CoroutineRunner.Instance.StartCoroutine(GetCoroutine(url, tcs));
