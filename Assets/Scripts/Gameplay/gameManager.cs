@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         LoadData();
-        print(resources.diamonds);
         StartCoroutine(ProgressRoutine());
         StartCoroutine(BackupData());
     }
@@ -48,6 +47,10 @@ public class GameManager : MonoBehaviour
         GameData savedData = DataService.LoadData<GameData>("data", encrypted);
         resources = savedData.resources;
         playerInfo = savedData.playerInfo;
+        TimeSpan idleTime = DateTime.Now - DateTime.Parse(savedData.lastTimestamp);
+
+        resources.gold += (int)Math.Round(idleTime.TotalSeconds);
+        print("total.gold " + resources.gold);
     }
 
     void SaveGameData()
@@ -67,6 +70,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             resources.gold++;
+            print(resources.gold);
             yield return new WaitForSeconds(1);
         }
     }
@@ -79,5 +83,4 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(5);
         }
     }
-
 }
