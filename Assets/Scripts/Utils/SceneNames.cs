@@ -1,4 +1,4 @@
-public static class SceneNames
+public static class TbNames
 {
     public const string Shop = "ShopScene";
     public const string BattleTower = "BattleTowerScene";

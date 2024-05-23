@@ -12,21 +12,11 @@ public class IdleManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
             StartCoroutine(SaveTimestampRoutine());
         }
         else
         {
             Destroy(gameObject);
-        }
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log(scene.name);
-        if (scene.name == SceneNames.IdleMap)
-        {
-            Debug.Log("calc");
         }
     }
 
