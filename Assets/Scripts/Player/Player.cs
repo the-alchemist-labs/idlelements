@@ -1,11 +1,9 @@
-using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     internal static Player instance { get; private set; }
 
-    public TMP_Text  textField;
     public PlayerInfo playerInfo;
 
     private void Awake()
@@ -31,11 +29,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         print(PlayerPrefs.GetString("Gold"));
-        if (textField != null)
-        {   
-            string gold = PlayerPrefs.GetInt("Gold").ToString();
-            textField.text = "Score: " + gold;
-        }
+        HeaderBannerManager.Instance.UpdateGoldText($"{PlayerPrefs.GetInt("Gold")}");
     }
 
     public async void LoadPlayerData()
