@@ -47,7 +47,8 @@ public class GameManager : MonoBehaviour
         GameData savedData = DataService.LoadData<GameData>("data", encrypted);
         resources = savedData.resources;
         playerInfo = savedData.playerInfo;
-        TimeSpan idleTime = DateTime.Now - DateTime.Parse(savedData.lastTimestamp);
+        DateTime lastTimestamp = savedData.lastTimestamp != null ? DateTime.Parse(savedData.lastTimestamp) : DateTime.Now;
+        TimeSpan idleTime = DateTime.Now - lastTimestamp;
 
         resources.gold += (int)Math.Round(idleTime.TotalSeconds);
         print("total.gold " + resources.gold);
