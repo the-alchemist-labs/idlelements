@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private PlayerInfo playerInfo;
     private Resources resources;
-
+    private DateTime lastTimestamp = DateTime.Now;
 
     void Awake()
     {
@@ -47,10 +47,9 @@ public class GameManager : MonoBehaviour
         GameData savedData = DataService.LoadData<GameData>("data", encrypted);
         resources = savedData.resources;
         playerInfo = savedData.playerInfo;
-        DateTime lastTimestamp = savedData.lastTimestamp != null ? DateTime.Parse(savedData.lastTimestamp) : DateTime.Now;
-        TimeSpan idleTime = DateTime.Now - lastTimestamp;
-
-        resources.gold += (int)Math.Round(idleTime.TotalSeconds);
+        lastTimestamp = savedData.lastTimestamp == null ? lastTimestamp : DateTime.Parse(savedData.lastTimestamp);
+        int secondsDiff = GetSecondsDiff(lastTimestamp);
+        resources.gold += secondsDiff;
         print("total.gold " + resources.gold);
     }
 
@@ -70,8 +69,8 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            resources.gold++;
-            print(resources.gold);
+            resources.gold+= GetSecondsDiff(lastTimestamp);
+            lastTimestamp = DateTime.Now;
             yield return new WaitForSeconds(1);
         }
     }
@@ -83,5 +82,11 @@ public class GameManager : MonoBehaviour
             SaveGameData();
             yield return new WaitForSeconds(5);
         }
+    }
+
+    int GetSecondsDiff(DateTime date)
+    {
+        TimeSpan diff = DateTime.Now - date;
+        return (int)diff.TotalSeconds;
     }
 }
