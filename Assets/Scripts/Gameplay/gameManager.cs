@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private DateTime lastEncounter = DateTime.Now;
     private Map currentMap = Maps.mapA;
 
-    private int encounterRate = 5;
+    private int encounterRate = 10;
 
     void Awake()
     {
@@ -80,7 +80,6 @@ public class GameManager : MonoBehaviour
             {
                 Enumerable.Range(0, encounters).ToList().ForEach(_ => TriggerEncounter());
                 lastEncounter = DateTime.Now.AddSeconds(remainder);
-
             }
 
             yield return new WaitForSeconds(1);
@@ -104,7 +103,13 @@ public class GameManager : MonoBehaviour
 
     void TriggerEncounter()
     {
-        Elemental e = currentMap.GetEncounter();
-        Debug.Log($"{DateTime.Now}: {e.name}");
+        Elemental elemental = currentMap.GetEncounter();
+        bool isCaught = elemental.IsCaught(); // add modifiers
+        if (isCaught)
+        {
+            resources.gold += elemental.goldGain;
+            elemental.tokens += elemental.isRegistered ? 1 : 0;
+            elemental.isRegistered = true;
+        }
     }
 }

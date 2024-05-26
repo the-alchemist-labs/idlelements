@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 
 [Serializable]
+public struct ElementalEncounter
+{
+    public Elemental elemental;
+    public float encounterChance;
+
+    public ElementalEncounter(Elemental elemental, float encounterChance)
+    {
+        this.elemental = elemental;
+        this.encounterChance = encounterChance;
+    }
+}
+
+[Serializable]
 public class Map
 {
     public string mapName;
@@ -23,18 +36,5 @@ public class Map
             .ToList();
         int randomIndex = UnityEngine.Random.Range(0, encounterPool.Count);
         return encounterPool[randomIndex];
-    }
-}
-
-[Serializable]
-public struct ElementalEncounter
-{
-    public Elemental elemental;
-    public float encounterChance;
-
-    public ElementalEncounter(Elemental elemental, float encounterChance)
-    {
-        this.elemental = elemental;
-        this.encounterChance = encounterChance;
     }
 }
