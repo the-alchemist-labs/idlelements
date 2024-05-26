@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,7 +11,10 @@ public class GameManager : MonoBehaviour
 
     private PlayerInfo playerInfo;
     private Resources resources;
-    private DateTime lastTimestamp = DateTime.Now;
+    private DateTime lastEncounter = DateTime.Now;
+    private Map currentMap = Maps.mapA;
+
+    private int encounterRate = 5;
 
     void Awake()
     {
@@ -47,17 +51,16 @@ public class GameManager : MonoBehaviour
         GameData savedData = DataService.LoadData<GameData>("data", encrypted);
         resources = savedData.resources;
         playerInfo = savedData.playerInfo;
-        lastTimestamp = savedData.lastTimestamp == null ? lastTimestamp : DateTime.Parse(savedData.lastTimestamp);
-        int secondsDiff = GetSecondsDiff(lastTimestamp);
+        lastEncounter = savedData.lastEncounter == null ? lastEncounter : DateTime.Parse(savedData.lastEncounter);
+        int secondsDiff = GetSecondsDiff(lastEncounter);
         resources.gold += secondsDiff;
-        print("total.gold " + resources.gold);
     }
 
     void SaveGameData()
     {
         GameData data = new GameData()
         {
-            lastTimestamp = DateTime.Now.ToString(),
+            lastEncounter = DateTime.Now.ToString(),
             resources = resources,
             playerInfo = playerInfo
         };
@@ -69,8 +72,17 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            resources.gold+= GetSecondsDiff(lastTimestamp);
-            lastTimestamp = DateTime.Now;
+            int elapedsSecconds = GetSecondsDiff(lastEncounter);
+            int encounters = elapedsSecconds / encounterRate;
+            int remainder = elapedsSecconds % encounterRate;
+
+            if (encounters > 0)
+            {
+                Enumerable.Range(0, encounters).ToList().ForEach(_ => TriggerEncounter());
+                lastEncounter = DateTime.Now.AddSeconds(remainder);
+
+            }
+
             yield return new WaitForSeconds(1);
         }
     }
@@ -88,5 +100,11 @@ public class GameManager : MonoBehaviour
     {
         TimeSpan diff = DateTime.Now - date;
         return (int)diff.TotalSeconds;
+    }
+
+    void TriggerEncounter()
+    {
+        Elemental e = currentMap.GetEncounter();
+        Debug.Log($"{DateTime.Now}: {e.name}");
     }
 }

@@ -9,3 +9,11 @@ public static class PlayerPrefsKeys
 {
     public const string playerId = "playerId";
 }
+
+
+public enum ElementType {
+    Fire,
+    Water,
+    Earth,
+    Air,
+}

@@ -4,7 +4,7 @@ using System;
 public struct GameData
 {
     public PlayerInfo playerInfo;
-    public string lastTimestamp;
+    public string lastEncounter;
     public Resources resources;
 }
 
