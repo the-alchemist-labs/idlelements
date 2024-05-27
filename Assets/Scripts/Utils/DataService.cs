@@ -3,6 +3,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
+using Newtonsoft.Json;
+
 
 public class DataService
 {
@@ -28,7 +30,7 @@ public class DataService
             else
             {
                 stream.Close();
-                File.WriteAllText(path, JsonUtility.ToJson(Data));
+                File.WriteAllText(path, JsonConvert.SerializeObject(Data));
             }
             return true;
         }
@@ -54,7 +56,7 @@ public class DataService
         // You can uncomment the below to see a generated value for the IV & key.
         //Debug.Log($"Initialization Vector: {Convert.ToBase64String(aesProvider.IV)}");
         //Debug.Log($"Key: {Convert.ToBase64String(aesProvider.Key)}");
-        cryptoStream.Write(Encoding.ASCII.GetBytes(JsonUtility.ToJson(Data)));
+        cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Data)));
     }
 
 
@@ -70,7 +72,7 @@ public class DataService
 
         try
         {
-            return isEncrypted ? ReadEncryptedData<T>(path) : JsonUtility.FromJson<T>(File.ReadAllText(path));
+            return isEncrypted ? ReadEncryptedData<T>(path) :JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
         catch (Exception e)
         {
@@ -102,6 +104,6 @@ public class DataService
         string result = reader.ReadToEnd();
 
         Debug.Log($"Decrypted result (if the following is not legible, probably wrong key or iv): {result}");
-        return JsonUtility.FromJson<T>(result);
+        return JsonConvert.DeserializeObject<T>(result);
     }
 }
