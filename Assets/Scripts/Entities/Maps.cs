@@ -6,7 +6,7 @@ public class Maps
 
     static Maps()
     {
-        all = DataService.Instance.LoadData<List<Map>>("maps");
+        all = DataService.Instance.LoadData<List<Map>>(FileName.Maps);
     }
 
     public static Map GetMap(MapId id) {

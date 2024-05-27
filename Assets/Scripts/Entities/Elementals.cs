@@ -6,7 +6,7 @@ public class Elementals
 
     static Elementals()
     {
-        all = DataService.Instance.LoadData<List<Elemental>>("elementals");
+        all = DataService.Instance.LoadData<List<Elemental>>(FileName.Elementals);
     }
 
     public static Elemental GetElement(ElementalId id) {
