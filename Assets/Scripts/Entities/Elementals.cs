@@ -1,6 +1,15 @@
-public static class Elementals {
-    public static Elemental elementalA = new Elemental(1, "a", ElementType.Fire, 1.0f, 300, 100);
-    public static Elemental elementalB = new Elemental(2, "b", ElementType.Water, 0.5f, 300, 100);
+using System.Collections.Generic;
 
-    public static Elemental[] all = { elementalA, elementalB };
+public class Elementals
+{
+    public static List<Elemental> all { get; private set; }
+
+    static Elementals()
+    {
+        all = DataService.Instance.LoadData<List<Elemental>>("elementals");
+    }
+
+    public static Elemental GetElement(ElementalId id) {
+        return all.Find(el => el.id == id);
+    }
 }

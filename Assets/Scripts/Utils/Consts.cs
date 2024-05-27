@@ -1,4 +1,9 @@
 
+public static class Conts
+{
+    public const bool isEncrypted = false;
+}
+
 public static class SceneNames
 {
     public const string IdleMap = "IdleMapScene";
@@ -16,4 +21,14 @@ public enum ElementType {
     Water,
     Earth,
     Air,
+}
+
+public enum ElementalId {
+    ElementalA = 1,
+    ElementalB,
+}
+
+public enum MapId {
+    MapA = 1,
+    MapB,
 }

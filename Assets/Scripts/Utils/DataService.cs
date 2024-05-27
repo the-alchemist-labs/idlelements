@@ -5,14 +5,34 @@ using System.Text;
 using UnityEngine;
 using Newtonsoft.Json;
 
-
-public class DataService
+public sealed class DataService
 {
+    private static DataService instance = null;
+    private static readonly object padlock = new object();
+    private static bool isEncrypted = Conts.isEncrypted;
+
     // move to safe place
     private const string KEY = "FAaeKAN0R9eiXi7B2H9mLwUz4qUhOB6x7D2XktjH90U=";
     private const string IV = "G4aMWxXw19wyUVUR9KEpKg==";
 
-    public bool SaveData<T>(string fileName, T Data, bool shouldEncrypt)
+    private DataService() {}
+
+    public static DataService Instance
+    {
+        get
+        {
+            lock (padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new DataService();
+                }
+                return instance;
+            }
+        }
+    }
+
+    public bool SaveData<T>(string fileName, T Data)
     {
         string path = $"{Application.persistentDataPath}/{fileName}.json";
 
@@ -23,7 +43,7 @@ public class DataService
                 File.Delete(path);
             }
             using FileStream stream = File.Create(path);
-            if (shouldEncrypt)
+            if (isEncrypted)
             {
                 WriteEncryptedData(Data, stream);
             }
@@ -53,14 +73,10 @@ public class DataService
             CryptoStreamMode.Write
         );
 
-        // You can uncomment the below to see a generated value for the IV & key.
-        //Debug.Log($"Initialization Vector: {Convert.ToBase64String(aesProvider.IV)}");
-        //Debug.Log($"Key: {Convert.ToBase64String(aesProvider.Key)}");
         cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Data)));
     }
 
-
-    public T LoadData<T>(string fileName, bool isEncrypted)
+    public T LoadData<T>(string fileName)
     {
         string path = $"{Application.persistentDataPath}/{fileName}.json";
 
@@ -72,7 +88,7 @@ public class DataService
 
         try
         {
-            return isEncrypted ? ReadEncryptedData<T>(path) :JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+            return isEncrypted ? ReadEncryptedData<T>(path) : JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
         catch (Exception e)
         {

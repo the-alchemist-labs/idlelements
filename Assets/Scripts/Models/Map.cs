@@ -5,12 +5,12 @@ using System.Linq;
 [Serializable]
 public struct ElementalEncounter
 {
-    public Elemental elemental;
-    public float encounterChance;
+    public ElementalId elementalId { get; }
+    public float encounterChance { get; }
 
-    public ElementalEncounter(Elemental elemental, float encounterChance)
+    public ElementalEncounter(ElementalId elementalId, float encounterChance)
     {
-        this.elemental = elemental;
+        this.elementalId = elementalId;
         this.encounterChance = encounterChance;
     }
 }
@@ -18,23 +18,25 @@ public struct ElementalEncounter
 [Serializable]
 public class Map
 {
-    public string mapName;
-    public ElementalEncounter[] elementalEncounters;
-    public int requiredLevel;
+    public MapId id { get; }
+    public string name { get; }
+    public ElementalEncounter[] elementalEncounters { get; }
+    public int requiredLevel { get; }
 
-    public Map(string mapName, int requiredLevel, ElementalEncounter[] elementalEncounters)
+    public Map(MapId id, string name, int requiredLevel, ElementalEncounter[] elementalEncounters)
     {
-        this.mapName = mapName;
+        this.id = id;
+        this.name = name;
         this.requiredLevel = requiredLevel;
         this.elementalEncounters = elementalEncounters;
     }
 
     public Elemental GetEncounter()
     {
-        List<Elemental> encounterPool = elementalEncounters
-            .SelectMany(e => Enumerable.Repeat(e.elemental, (int)(e.encounterChance * 100)))
+        List<ElementalId> encounterPool = elementalEncounters
+            .SelectMany(e => Enumerable.Repeat(e.elementalId, (int)(e.encounterChance * 100)))
             .ToList();
         int randomIndex = UnityEngine.Random.Range(0, encounterPool.Count);
-        return encounterPool[randomIndex];
+        return Elementals.GetElement(encounterPool[randomIndex]);
     }
 }

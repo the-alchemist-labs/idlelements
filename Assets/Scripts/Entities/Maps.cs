@@ -1,10 +1,15 @@
-using System.Diagnostics;
+using System.Collections.Generic;
 
-public static class Maps {
-    public static Map mapA = new Map("map a", 1, new ElementalEncounter[] {
-        new ElementalEncounter(Elementals.elementalA, 0.3f),
-        new ElementalEncounter(Elementals.elementalB, 0.7f),
-    });
+public class Maps
+{
+    public static List<Map> all { get; private set; }
 
-    public static Map[] versionAMaps = { mapA };
+    static Maps()
+    {
+        all = DataService.Instance.LoadData<List<Map>>("maps");
+    }
+
+    public static Map GetMap(MapId id) {
+        return all.Find(el => el.id == id);
+    }
 }

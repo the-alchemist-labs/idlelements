@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class Elemental
 {
-    public int idNum { get; }
+    public ElementalId id { get; }
     public string name { get; }
     public ElementType type { get; }
     public float catchRate { get; }
@@ -11,12 +11,9 @@ public class Elemental
     public int expGain { get; }
     public int goldGain { get; }
 
-    public bool isRegistered { get; set; } = false;
-    public int tokens { get; set; } = 0;
-
-    public Elemental(int idNum, string name, ElementType type, float catchRate, int expGain, int goldGain)
+    public Elemental(ElementalId id, string name, ElementType type, float catchRate, int expGain, int goldGain)
     {
-        this.idNum = idNum;
+        this.id = id;
         this.name = name;
         this.type = type;
         this.catchRate = catchRate;

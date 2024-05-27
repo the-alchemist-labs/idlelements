@@ -1,18 +1,17 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
-    private DataService DataService = new DataService();
-    private bool encrypted = false; // change to true before release
-
+    private List<DeckRegistry> deck;
     private PlayerInfo playerInfo;
     private Resources resources;
     private DateTime lastEncounter = DateTime.Now;
-    private Map currentMap = Maps.mapA;
+    private Map currentMap;
 
     private int encounterRate = 10;
 
@@ -48,12 +47,11 @@ public class GameManager : MonoBehaviour
 
     void LoadData()
     {
-        GameData savedData = DataService.LoadData<GameData>("data", encrypted);
+        currentMap = Maps.GetMap(MapId.MapA);
+        GameData savedData = DataService.Instance.LoadData<GameData>("data");
         resources = savedData.resources;
         playerInfo = savedData.playerInfo;
         lastEncounter = savedData.lastEncounter == null ? lastEncounter : DateTime.Parse(savedData.lastEncounter);
-        int secondsDiff = GetSecondsDiff(lastEncounter);
-        resources.gold += secondsDiff;
     }
 
     void SaveGameData()
@@ -65,7 +63,7 @@ public class GameManager : MonoBehaviour
             playerInfo = playerInfo
         };
 
-        DataService.SaveData("data", data, encrypted);
+        DataService.Instance.SaveData("data", data);
     }
 
     IEnumerator ProgressRoutine()
@@ -108,8 +106,13 @@ public class GameManager : MonoBehaviour
         if (isCaught)
         {
             resources.gold += elemental.goldGain;
-            elemental.tokens += elemental.isRegistered ? 1 : 0;
-            elemental.isRegistered = true;
+            // DeckRegistry deckRegistry = deck.Find(e => e.id == elemental.idNum);
+
+            // if (deckRegistry != null) {
+            //     //deck.Add(new DeckRegistry((elemental.idNum, true, 0));
+            // }
+            // elemental.tokens += elemental.isRegistered ? 1 : 0;
+            // elemental.isRegistered = true;
         }
     }
 }
