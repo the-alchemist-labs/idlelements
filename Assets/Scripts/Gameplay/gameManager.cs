@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
             if (encounters > 0)
             {
                 Enumerable.Range(0, encounters).ToList().ForEach(_ => TriggerEncounter());
-                State.lastEncounter = DateTime.Now.AddSeconds(remainder);
+                State.UpdateLastEncounter(DateTime.Now.AddSeconds(remainder));
             }
 
             yield return new WaitForSeconds(1);
@@ -68,9 +68,10 @@ public class GameManager : MonoBehaviour
         bool isCaught = elemental.IsCaught(); // add modifiers
         if (isCaught)
         {
-            State.essence += elemental.essenceGain;
+            State.UpdateEssence(elemental.essenceGain);
             State.GainExperience(elemental.expGain);
             Deck.RegisterElement(elemental.id);
         }
+        Debug.Log($"A wild {elemental.name} apperead, it was { (isCaught ? "" : "not")} caught\n Level: {State.level} Exp: {State.experience} Essence: {State.essence}");
     }
 }
