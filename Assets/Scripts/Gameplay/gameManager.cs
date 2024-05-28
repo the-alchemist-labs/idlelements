@@ -27,11 +27,6 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ProgressRoutine());
     }
 
-    void Update()
-    {
-        // HeaderBannerManager.Instance.UpdateGoldText(State.essence.ToString());
-    }
-
     void OnDestroy()
     {
         State.Save();

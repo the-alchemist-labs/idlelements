@@ -14,7 +14,7 @@ public class State
     public static int orbs { get; private set; }
     public static List<Item> inventory { get; }
 
-    private static Dictionary<int, int> requiredExpToLevelUp = new Dictionary<int, int>()
+    public readonly static Dictionary<int, int> requiredExpToLevelUp = new Dictionary<int, int>()
     {
         { 1, 250 },
         { 2, 600 },
@@ -47,10 +47,18 @@ public class State
         experience += exp;
         if (experience >= requiredExpToLevelUp[level])
         {
-            experience = experience - requiredExpToLevelUp[level];
+            if (level + 1 == requiredExpToLevelUp.Count)
+            {
+                experience = 0;
+
+            }
+            else
+            {
+                experience = experience - requiredExpToLevelUp[level];
+                GainExperience(0);
+            }
             level++;
             // trigger levelup behavior
-            GainExperience(0);
         }
         Save();
     }
