@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DynnamicScrollView : MonoBehaviour
 {
+    public ScrollRect scrollRect;
     public Transform scrollViewContent;
     public GameObject rowPrefab;
 
@@ -15,6 +17,9 @@ public class DynnamicScrollView : MonoBehaviour
                 item.UpdateEntry(entry);
             }
         }
+
+        // Scroll to top of the scrollview
+        scrollRect.verticalNormalizedPosition = 1f;
     }
 
 }

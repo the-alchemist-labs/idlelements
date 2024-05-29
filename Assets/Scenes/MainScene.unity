@@ -2125,6 +2125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06183d7beb1ca2c458d095b41447b85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollRect: {fileID: 1417608128}
   scrollViewContent: {fileID: 1913010666}
   rowPrefab: {fileID: 6853158541445836017, guid: 528f229039b28bf4f8b7848270ea3d4b, type: 3}
 --- !u!1 &1932990694
