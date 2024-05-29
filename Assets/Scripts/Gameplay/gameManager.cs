@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
             int remainder = elapedsSecconds % encounterRate;
             if (encounters > 0)
             {
-                Enumerable.Range(0, encounters).ToList().ForEach(_ => TriggerEncounter());
+                Enumerable.Range(0, encounters).ToList().ForEach(_ => GameActions.TriggerEncounter());
                 State.UpdateLastEncounter(DateTime.Now.AddSeconds(remainder));
             }
 
@@ -55,18 +55,5 @@ public class GameManager : MonoBehaviour
     {
         TimeSpan diff = DateTime.Now - date;
         return (int)diff.TotalSeconds;
-    }
-
-    void TriggerEncounter()
-    {
-        Elemental elemental = Maps.GetMap(State.currentMap).GetEncounter();
-        bool isCaught = elemental.IsCaught(); // add modifiers
-        if (isCaught)
-        {
-            State.UpdateEssence(elemental.essenceGain);
-            State.GainExperience(elemental.expGain);
-            Deck.RegisterElement(elemental.id);
-        }
-        Debug.Log($"A wild {elemental.name} apperead, it was { (isCaught ? "" : "not")} caught\n Level: {State.level} Exp: {State.experience} Essence: {State.essence}");
     }
 }

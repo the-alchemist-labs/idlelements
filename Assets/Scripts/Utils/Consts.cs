@@ -3,7 +3,6 @@ public static class FileName
     public const string Maps = "maps";
     public const string Elementals = "elementals";
     public const string State = "state";
-    public const string Deck = "deck";
 }
 
 public static class Conts

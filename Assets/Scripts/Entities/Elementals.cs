@@ -12,4 +12,10 @@ public class Elementals
     public static Elemental GetElement(ElementalId id) {
         return all.Find(el => el.id == id);
     }
+
+    
+    public static void Save()
+    {
+        DataService.Instance.SaveData(FileName.Elementals, all);
+    }
 }
