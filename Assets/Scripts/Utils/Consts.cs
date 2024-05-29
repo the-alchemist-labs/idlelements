@@ -30,6 +30,15 @@ public enum ElementalId
 {
     ElementalA = 1,
     ElementalB,
+    ElementalC,
+    ElementalD,
+    ElementalE,
+    ElementalF,
+    ElementalG,
+    ElementalH,
+    ElementalI,
+    ElementalJ,
+    ElementalK,
 }
 
 public enum MapId
