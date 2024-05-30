@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class State
+public static class State
 {
     public static DateTime lastEncounter { get; private set; }
     public static MapId currentMap { get; private set; }

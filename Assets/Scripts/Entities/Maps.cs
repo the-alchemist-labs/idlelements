@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class Maps
+public static class Maps
 {
     public static List<Map> all { get; private set; }
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class Elementals
+public static class Elementals
 {
     public static List<Elemental> all { get; private set; }
 
