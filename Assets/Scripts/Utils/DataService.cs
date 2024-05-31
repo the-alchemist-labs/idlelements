@@ -34,7 +34,7 @@ public sealed class DataService
 
     public bool SaveData<T>(string fileName, T Data)
     {
-        string path = $"{Application.persistentDataPath}/{fileName}.json";
+        string path = $"Data/{fileName}.json";
 
         try
         {
@@ -78,7 +78,7 @@ public sealed class DataService
 
     public T LoadData<T>(string fileName)
     {
-        string path = $"{Application.persistentDataPath}/{fileName}.json";
+        string path = $"Data/{fileName}.json";
 
         if (!File.Exists(path))
         {
