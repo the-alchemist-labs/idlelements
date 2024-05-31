@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(ProgressRoutine());
+        StartCoroutine(Backup());
     }
 
     void OnDestroy()
@@ -51,9 +52,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator Backup()
+    {
+        State.Save();
+        Elementals.Save();
+       yield return new WaitForSeconds(1);
+    }
+
     int GetSecondsDiff(DateTime date)
     {
         TimeSpan diff = DateTime.Now - date;
-        return (int)diff.TotalSeconds;
+        return Math.Min((int)diff.TotalSeconds, Conts.MaxIdleSecond);
     }
 }

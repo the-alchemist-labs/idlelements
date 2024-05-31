@@ -67,31 +67,26 @@ public static class State
             level++;
             // trigger levelup behavior
         }
-        Save();
     }
 
     public static void UpdateEssence(int amount)
     {
         essence = (essence + amount >= 0) ? essence + amount : 0;
-        Save();
     }
 
     public static void UpdateOrbs(int amount)
     {
         orbs = (orbs + amount >= 0) ? orbs + amount : 0;
-        Save();
     }
 
     public static void UpdateCurrentMap(MapId id)
     {
         currentMap = id;
-        Save();
     }
 
     public static void UpdateLastEncounter(DateTime date)
     {
         lastEncounter = date;
-        Save();
     }
 
     public static void Save()

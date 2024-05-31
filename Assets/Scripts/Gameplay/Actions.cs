@@ -13,7 +13,6 @@ public static class GameActions
             State.UpdateEssence(elemental.essenceGain);
             State.GainExperience(elemental.expGain);
         }
-        Elementals.Save();
         Debug.Log($"A wild {elemental.name} apperead, it was {(isCaught ? "" : "not")} caught");
     }
 }

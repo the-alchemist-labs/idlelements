@@ -8,6 +8,7 @@ public static class FileName
 public static class Conts
 {
     public const bool IsEncrypted = false;
+    public const int MaxIdleSecond = 84000; // 24h
 }
 
 public static class SceneNames
