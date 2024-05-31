@@ -21,7 +21,11 @@ public static class State
         { 3, 1000 },
         { 4, 2000 },
         { 5, 3500 },
-        { 6, 10000000 },
+        { 6, 5000 },
+        { 7, 8000 },
+        { 8, 12000 },
+        { 9, 16000 },
+        { 10, 20000 },
     };
 
     static State()
@@ -36,11 +40,15 @@ public static class State
         inventory = gs.inventory;
     }
 
+    public static bool IsMaxLevel()
+    {
+        return level == requiredExpToLevelUp.Count;
+    }
+
     public static void GainExperience(int exp)
     {
         if (level >= requiredExpToLevelUp.Count)
         {
-            Debug.Log("Max level reached");
             return;
         }
 
@@ -49,8 +57,7 @@ public static class State
         {
             if (level + 1 == requiredExpToLevelUp.Count)
             {
-                experience = 0;
-
+                experience = requiredExpToLevelUp[requiredExpToLevelUp.Count];
             }
             else
             {

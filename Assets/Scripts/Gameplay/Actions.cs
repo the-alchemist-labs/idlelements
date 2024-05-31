@@ -14,6 +14,6 @@ public static class GameActions
             State.GainExperience(elemental.expGain);
         }
         Elementals.Save();
-        Debug.Log($"A wild {elemental.name} apperead, it was {(isCaught ? "" : "not")} caught\n Level: {State.level} Exp: {State.experience} Essence: {State.essence}");
+        Debug.Log($"A wild {elemental.name} apperead, it was {(isCaught ? "" : "not")} caught");
     }
 }
