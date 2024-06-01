@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
-using UnityEngine;
-
-
 
 public static class State
 {
@@ -39,8 +35,8 @@ public static class State
         List<Map> allMaps = DataService.Instance.LoadData<List<Map>>(FileName.Maps);
         GameState gs = DataService.Instance.LoadData<GameState>(FileName.State);
 
-        lastEncounter = gs.lastEncounter;
-        currentMap = gs.currentMap;
+        lastEncounter = gs.lastEncounter.Year == 1 ? DateTime.Now : gs.lastEncounter;
+        currentMap = gs.currentMap == 0 ? MapId.MapA : gs.currentMap;
         level = gs.level == 0 ? 1 : gs.level;
         experience = gs.experience;
         essence = gs.essence;
