@@ -22,6 +22,7 @@ public class Map
     public string name { get; }
     public ElementalEncounter[] elementalEncounters { get; }
     public int requiredLevel { get; }
+    public ElementType[] mapElementalTypes { get; }
 
     public Map(MapId id, string name, int requiredLevel, ElementalEncounter[] elementalEncounters)
     {
@@ -29,6 +30,7 @@ public class Map
         this.name = name;
         this.requiredLevel = requiredLevel;
         this.elementalEncounters = elementalEncounters;
+        mapElementalTypes = new ElementType[]{ ElementType.Fire, ElementType.Water };
     }
 
     public Elemental GetEncounter()
