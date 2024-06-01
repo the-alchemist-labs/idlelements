@@ -1,18 +1,18 @@
 [
   {
     "id": 1,
-    "name": "ElementalA",
+    "name": "A",
     "type": 0,
     "catchRate": 0.6,
     "expGain": 5,
-    "essenceGain": 200
+    "essenceGain": 10
   },
   {
     "id": 2,
-    "name": "lemeEntalB",
+    "name": "B",
     "type": 0,
     "catchRate": 0.2,
     "expGain": 10,
-    "essenceGain": 500
+    "essenceGain": 20
   }
 ]

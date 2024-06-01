@@ -28,7 +28,7 @@ public static class State
         { 5, 3500 },
         { 6, 5000 },
         { 7, 8000 },
-        { 8, 12000 },
+        { 8, 10000 },
         { 9, 16000 },
         { 10, 20000 },
     };
@@ -56,29 +56,31 @@ public static class State
         return level == requiredExpToLevelUp.Count;
     }
 
-    public static void GainExperience(int exp)
+    private static bool ShouldToLevelUp()
     {
-        if (level >= requiredExpToLevelUp.Count)
-        {
-            return;
-        }
+        return  experience >= requiredExpToLevelUp[level];
+    }
 
-        experience += exp;
-        if (experience >= requiredExpToLevelUp[level])
+
+
+public static void GainExperience(int exp)
+{
+    experience += exp;
+
+    while (true)
+    {
+        if (ShouldToLevelUp() && !IsMaxLevel())
         {
-            if (level + 1 == requiredExpToLevelUp.Count)
-            {
-                experience = requiredExpToLevelUp[requiredExpToLevelUp.Count];
-            }
-            else
-            {
-                experience = experience - requiredExpToLevelUp[level];
-                GainExperience(0);
-            }
+            experience -= requiredExpToLevelUp[level];
             level++;
             // trigger levelup behavior
         }
+        else
+        {
+            break;
+        }
     }
+}
 
     public static void UpdateEssence(int amount)
     {
@@ -109,6 +111,7 @@ public static class State
             level = level,
             experience = experience,
             essence = essence,
+            orbs = orbs,
             inventory = inventory,
             elementalEnteries = Elementals.entries,
             mapsProgression = Maps.progressions,

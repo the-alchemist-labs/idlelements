@@ -24,9 +24,8 @@ public class MapViewPanel : MonoBehaviour
 
     void Update()
     {
-        int catchesToComplete = State.Maps.GetMap(State.currentMap).catchesToComplete;
         counter = State.Maps.GetMapProgression(State.currentMap).catchProgression;
-        mapProgressionText.text = $"Map Progression: {TextUtil.NumberFormatter(counter)}/{TextUtil.NumberFormatter(catchesToComplete)}";
+        mapProgressionText.text = $"Map Progression: {GetProgressionString()}";
         mapProgressionSlider.value = GetProgressionPercent();
     }
 
@@ -34,6 +33,11 @@ public class MapViewPanel : MonoBehaviour
     {
         if (counter == 500) return 1;
         if (counter == 0) return 0;
-        return (float)counter / 500f;
+        return counter / 500f;
+    }
+
+    private string GetProgressionString(){
+        int catchesToComplete = State.Maps.GetMap(State.currentMap).catchesToComplete;
+        return  State.Maps.IsMapCompleted(State.currentMap) ? "Clear" : $"{counter}/{TextUtil.NumberFormatter(catchesToComplete)}";
     }
 }

@@ -30,15 +30,23 @@ public class HeaderBannerManager : MonoBehaviour
     {
         levelText.text = TextUtil.NumberFormatter(State.level);
         expSlider.value = GetExpPercent();
-        expText.text = $"{TextUtil.NumberFormatter(State.experience)}/{TextUtil.NumberFormatter(State.requiredExpToLevelUp[State.level])}";
+        expText.text = GetExpDisplay();
         essenseText.text = TextUtil.NumberFormatter(State.essence);
         orbsText.text = TextUtil.NumberFormatter(State.orbs);
     }
 
     private static float GetExpPercent()
     {
+        if (State.IsMaxLevel()) return 1;
         if (State.experience == 0) return 0;
         return State.experience / State.requiredExpToLevelUp[State.level];
+    }
+
+    private static string GetExpDisplay()
+    {
+        return State.IsMaxLevel()
+        ? "Max Level"
+        : $"{TextUtil.NumberFormatter(State.experience)}/{TextUtil.NumberFormatter(State.requiredExpToLevelUp[State.level])}";
     }
 }
 

@@ -18,7 +18,20 @@ public class MapsData
 
     public void UpdateMapProgression(int catches)
     {
-        GetMapProgression(State.currentMap).catchProgression += catches;
+        Map map = GetMap(State.currentMap);
+        MapProgression mapProgression = GetMapProgression(State.currentMap);
+
+        mapProgression.catchProgression += catches;
+
+        if (mapProgression.catchProgression >= map.catchesToComplete)
+        {
+            mapProgression.isCompleted = true;
+        }
+    }
+
+    public bool IsMapCompleted(MapId id)
+    {
+        return GetMapProgression(id).isCompleted;
     }
 
     public MapProgression GetMapProgression(MapId id)
