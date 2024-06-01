@@ -50,7 +50,7 @@ public sealed class DataService
             else
             {
                 stream.Close();
-                File.WriteAllText(path, JsonConvert.SerializeObject(Data));
+                File.WriteAllText(path, JsonConvert.SerializeObject(Data, Formatting.Indented));
             }
             return true;
         }

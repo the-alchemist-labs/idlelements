@@ -12,7 +12,7 @@ public class MapViewPanel : MonoBehaviour
     public GameObject[] typePrefabs;
 
     private Map currentMap;
-    private int counter = 10;
+    private int counter = 0;
     void Start()
     {
         currentMap = Maps.GetMap(State.currentMap);
@@ -24,9 +24,9 @@ public class MapViewPanel : MonoBehaviour
 
     void Update()
     {
-        if (counter < 500) counter++;
-
-        mapProgressionText.text = $"Map Progression: {counter}/500";
+        int catchesToComplete = Maps.GetMap(State.currentMap).catchesToComplete;
+        counter = State.GetMapProgression(State.currentMap).catchProgression;
+        mapProgressionText.text = $"Map Progression: {TextUtil.NumberFormatter(counter)}/{TextUtil.NumberFormatter(catchesToComplete)}";
         mapProgressionSlider.value = GetProgressionPercent();
     }
 

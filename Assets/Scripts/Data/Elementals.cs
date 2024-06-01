@@ -13,7 +13,6 @@ public static class Elementals
         return all.Find(el => el.id == id);
     }
 
-    
     public static void Save()
     {
         DataService.Instance.SaveData(FileName.Elementals, all);

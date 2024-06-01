@@ -3,6 +3,7 @@
         "id": 1,
         "name": "MapA",
         "requiredLevel": 1,
+        "catchesToComplete": 500,
         "elementalEncounters": [
             {
                 "elementalId": 1,

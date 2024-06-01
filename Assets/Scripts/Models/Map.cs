@@ -23,14 +23,16 @@ public class Map
     public ElementalEncounter[] elementalEncounters { get; }
     public int requiredLevel { get; }
     public ElementType[] mapElementalTypes { get; }
+    public int catchesToComplete { get; }
 
-    public Map(MapId id, string name, int requiredLevel, ElementalEncounter[] elementalEncounters)
+    public Map(MapId id, string name, int requiredLevel, ElementalEncounter[] elementalEncounters, int catchesToComplete)
     {
         this.id = id;
         this.name = name;
         this.requiredLevel = requiredLevel;
         this.elementalEncounters = elementalEncounters;
         mapElementalTypes = new ElementType[]{ ElementType.Fire, ElementType.Water };
+        this.catchesToComplete = catchesToComplete;
     }
 
     public Elemental GetEncounter()

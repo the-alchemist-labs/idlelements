@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 
@@ -13,6 +14,8 @@ public static class State
     public static int essence { get; private set; }
     public static int orbs { get; private set; }
     public static List<Item> inventory { get; }
+    public static List<ElementalEntry> elementals { get; }
+    public static List<MapProgression> maps { get; }
 
     public readonly static Dictionary<int, int> requiredExpToLevelUp = new Dictionary<int, int>()
     {
@@ -33,11 +36,13 @@ public static class State
         GameState gs = DataService.Instance.LoadData<GameState>(FileName.State);
         lastEncounter = gs.lastEncounter;
         currentMap = gs.currentMap;
-        level = gs.level;
+        level = gs.level == 0 ? 1 : gs.level;
         experience = gs.experience;
         essence = gs.essence;
         orbs = gs.orbs;
         inventory = gs.inventory;
+        elementals = gs.elementals;
+        maps = gs.maps;
     }
 
     public static bool IsMaxLevel()
@@ -89,6 +94,56 @@ public static class State
         lastEncounter = date;
     }
 
+    public static bool IsElementalRegistered(ElementalId id)
+    {
+        return elementals.Find(e => e.id == id)?.isSeen ?? false;
+    }
+
+    public static void MarkElementalAsSeen(ElementalId id)
+    {
+        GetElemental(id).isSeen = true;
+    }
+
+    public static void MarkElementalAsCaught(ElementalId id)
+    {
+        GetElemental(id).isCaught = true;
+    }
+
+    public static void UpdateElementalTokens(ElementalId id, int updateBy)
+    {
+        int tokens = GetElemental(id).tokens;
+        GetElemental(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
+    }
+
+    public static void UpdateMapProgression(int catches)
+    {
+        GetMapProgression(currentMap).catchProgression += catches;
+    }
+
+    public static MapProgression GetMapProgression(MapId id)
+    {
+        MapProgression mapProgression = maps.Find(m => m.id == id);
+        if (mapProgression == null)
+        {
+            mapProgression = new MapProgression() { id = id };
+            maps.Add(mapProgression);
+        }
+
+        return mapProgression;
+    }
+
+    public static ElementalEntry GetElemental(ElementalId id)
+    {
+        ElementalEntry elemental = elementals.Find(e => e.id == id);
+        if (elemental == null)
+        {
+            elemental = new ElementalEntry() { id = id };
+            elementals.Add(elemental);
+        }
+
+        return elemental;
+    }
+
     public static void Save()
     {
         GameState gs = new GameState()
@@ -98,7 +153,9 @@ public static class State
             level = level,
             experience = experience,
             essence = essence,
-            inventory = inventory
+            inventory = inventory,
+            elementals = elementals,
+            maps = maps
         };
 
         DataService.Instance.SaveData(FileName.State, gs);

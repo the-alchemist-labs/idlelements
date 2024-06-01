@@ -10,12 +10,31 @@ public struct GameState
     public int experience;
     public int essence;
     public int orbs;
+    public List<ElementalEntry> elementals;
+    public List<MapProgression> maps;
     public List<Item> inventory;
 }
 
 
 [Serializable]
-public class Item
+public class ElementalEntry
+{
+    public ElementalId id;
+    public bool isSeen = false;
+    public bool isCaught = false;
+    public int tokens = 0; 
+}
+
+[Serializable]
+public class MapProgression
+{
+    public MapId id;
+    public int catchProgression = 0;
+    public bool isCompleted  = false;
+}
+
+[Serializable]
+public struct Item
 {
     public int name;
     public int amount;
