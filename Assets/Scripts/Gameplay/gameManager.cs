@@ -42,9 +42,15 @@ public class GameManager : MonoBehaviour
             int elapedsSecconds = GetSecondsDiff(State.lastEncounter);
             int encounters = elapedsSecconds / encounterRate;
             int remainder = elapedsSecconds % encounterRate;
-            if (encounters > 0)
+
+            if (encounters == 1)
             {
-                Enumerable.Range(0, encounters).ToList().ForEach(_ => GameActions.TriggerEncounter());
+                GameActions.TriggerEncounter();
+                State.UpdateLastEncounter(DateTime.Now.AddSeconds(remainder));
+            }
+            else if (encounters > 0)
+            {
+                GameActions.TriggerMultipleEncounters(encounters);
                 State.UpdateLastEncounter(DateTime.Now.AddSeconds(remainder));
             }
 

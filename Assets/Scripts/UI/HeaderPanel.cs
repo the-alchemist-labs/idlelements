@@ -37,9 +37,8 @@ public class HeaderBannerManager : MonoBehaviour
 
     private static float GetExpPercent()
     {
-        if (State.level == 1) return 1;
         if (State.experience == 0) return 0;
-        return (float)State.experience / (float)State.requiredExpToLevelUp[State.level];
+        return State.experience / State.requiredExpToLevelUp[State.level];
     }
 }
 
