@@ -41,6 +41,6 @@ public class Map
             .SelectMany(e => Enumerable.Repeat(e.elementalId, (int)(e.encounterChance * 100)))
             .ToList();
         int randomIndex = UnityEngine.Random.Range(0, encounterPool.Count);
-        return Elementals.GetElement(encounterPool[randomIndex]);
+        return State.Elementals.GetElement(encounterPool[randomIndex]);
     }
 }

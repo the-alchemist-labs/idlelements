@@ -10,11 +10,10 @@ public struct GameState
     public int experience;
     public int essence;
     public int orbs;
-    public List<ElementalEntry> elementals;
-    public List<MapProgression> maps;
+    public List<ElementalEntry> elementalEnteries;
+    public List<MapProgression> mapsProgression;
     public List<Item> inventory;
 }
-
 
 [Serializable]
 public class ElementalEntry

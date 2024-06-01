@@ -1,20 +1,52 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
-public static class Elementals
+public class ElementalsData
 {
-    public static List<Elemental> all { get; private set; }
+    public List<Elemental> all { get; private set; }
+    public List<ElementalEntry> entries { get; private set; }
 
-    static Elementals()
+    public ElementalsData(List<Elemental> elementals, List<ElementalEntry> elementalEntries)
     {
-        all = DataService.Instance.LoadData<List<Elemental>>(FileName.Elementals);
+        all = elementals;
+        entries = elementalEntries ?? new List<ElementalEntry>();
     }
 
-    public static Elemental GetElement(ElementalId id) {
+    public Elemental GetElement(ElementalId id)
+    {
         return all.Find(el => el.id == id);
     }
 
-    public static void Save()
+    public bool IsElementalRegistered(ElementalId id)
     {
-        DataService.Instance.SaveData(FileName.Elementals, all);
+        return entries.Find(e => e.id == id)?.isCaught ?? false;
+    }
+
+    public void MarkElementalAsSeen(ElementalId id)
+    {
+        GetElemental(id).isSeen = true;
+    }
+
+    public void MarkElementalAsCaught(ElementalId id)
+    {
+        GetElemental(id).isCaught = true;
+    }
+
+    public void UpdateElementalTokens(ElementalId id, int updateBy)
+    {
+        int tokens = GetElemental(id).tokens;
+        GetElemental(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
+    }
+
+    public ElementalEntry GetElemental(ElementalId id)
+    {
+        ElementalEntry elemental = entries.Find(e => e.id == id);
+        if (elemental == null)
+        {
+            elemental = new ElementalEntry() { id = id };
+            entries.Add(elemental);
+        }
+
+        return elemental;
     }
 }

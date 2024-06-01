@@ -1,15 +1,35 @@
 using System.Collections.Generic;
 
-public static class Maps
+public class MapsData
 {
-    public static List<Map> all { get; private set; }
+    public List<Map> all { get; private set; }
+    public List<MapProgression> progressions { get; private set; }
 
-    static Maps()
+    public MapsData(List<Map> maps, List<MapProgression> mapsProgression)
     {
-        all = DataService.Instance.LoadData<List<Map>>(FileName.Maps);
+        all = maps;
+        progressions = mapsProgression ?? new List<MapProgression>();
     }
 
-    public static Map GetMap(MapId id) {
+    public Map GetMap(MapId id)
+    {
         return all.Find(el => el.id == id);
+    }
+
+    public void UpdateMapProgression(int catches)
+    {
+        GetMapProgression(State.currentMap).catchProgression += catches;
+    }
+
+    public MapProgression GetMapProgression(MapId id)
+    {
+        MapProgression mapProgression = progressions.Find(m => m.id == id);
+        if (mapProgression == null)
+        {
+            mapProgression = new MapProgression() { id = id };
+            progressions.Add(mapProgression);
+        }
+
+        return mapProgression;
     }
 }

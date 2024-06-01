@@ -55,8 +55,7 @@ public class GameManager : MonoBehaviour
     IEnumerator Backup()
     {
         State.Save();
-        Elementals.Save();
-       yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
     }
 
     int GetSecondsDiff(DateTime date)
