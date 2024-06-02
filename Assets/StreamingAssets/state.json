@@ -1,0 +1,30 @@
+{
+  "lastEncounter": "2024-06-02T15:31:11.89458+03:00",
+  "currentMap": 1,
+  "level": 1,
+  "experience": 245,
+  "essence": 490,
+  "orbs": 0,
+  "elementalEnteries": [
+    {
+      "id": 1,
+      "isSeen": true,
+      "isCaught": true,
+      "tokens": 38
+    },
+    {
+      "id": 2,
+      "isSeen": false,
+      "isCaught": false,
+      "tokens": 5
+    }
+  ],
+  "mapsProgression": [
+    {
+      "id": 1,
+      "catchProgression": 44,
+      "isCompleted": false
+    }
+  ],
+  "inventory": null
+}

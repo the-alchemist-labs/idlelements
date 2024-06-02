@@ -34,8 +34,9 @@ public sealed class DataService
 
     public bool SaveData<T>(string fileName, T Data)
     {
-        string path = $"Data/{fileName}.json";
-
+        // string path = $"Assets/Data/{fileName}.json";
+        string path = Path.Combine(Application.streamingAssetsPath, $"{fileName}.json");
+        Debug.Log("path: " + path);
         try
         {
             if (File.Exists(path))
@@ -78,8 +79,7 @@ public sealed class DataService
 
     public T LoadData<T>(string fileName)
     {
-        string path = $"Data/{fileName}.json";
-
+        string path = Path.Combine(Application.streamingAssetsPath, $"{fileName}.json");
         if (!File.Exists(path))
         {
             Debug.LogError($"Cannot load file at {path}. File does not exist!");

@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "MapA",
+        "requiredLevel": 1,
+        "catchesToComplete": 800,
+        "elementalEncounters": [
+            {
+                "elementalId": 1,
+                "encounterChance": 0.7
+            },
+            {
+                "elementalId": 2,
+                "encounterChance": 0.3
+            }
+        ]
+    }
+]
