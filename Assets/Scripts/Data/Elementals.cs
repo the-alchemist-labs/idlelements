@@ -22,11 +22,6 @@ public class ElementalsData
         return entries.Find(e => e.id == id)?.isCaught ?? false;
     }
 
-    public void MarkElementalAsSeen(ElementalId id)
-    {
-        GetElemental(id).isSeen = true;
-    }
-
     public void MarkElementalAsCaught(ElementalId id)
     {
         GetElemental(id).isCaught = true;

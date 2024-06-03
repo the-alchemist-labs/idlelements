@@ -13,8 +13,7 @@ public static class State
 
     public static ElementalsData Elementals { get; }
     public static MapsData Maps { get; }
-
-
+    
     public readonly static Dictionary<int, int> requiredExpToLevelUp = new Dictionary<int, int>()
     {
         { 1, 250 },

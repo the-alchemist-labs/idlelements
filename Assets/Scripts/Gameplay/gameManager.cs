@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject afkGainsPanel;
     private static GameManager instance;
-
     private int encounterRate = 5;
 
     void Awake()
@@ -24,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        HandleAfkGainsPanel();
         StartCoroutine(ProgressRoutine());
         StartCoroutine(Backup());
     }
@@ -33,7 +33,18 @@ public class GameManager : MonoBehaviour
         State.Save();
     }
 
+    void HandleAfkGainsPanel()
+    {
+        int elapedsSecconds = GetSecondsDiff(State.lastEncounter);
+        int encounters = elapedsSecconds / encounterRate;
+        IdleRewards rewards = GameActions.TriggerMultipleEncounters(encounters);
+        State.UpdateLastEncounter(DateTime.Now);
 
+        if (afkGainsPanel.TryGetComponent(out AfkGainsPanel panel))
+        {
+            panel.DisaplyAfkGains(rewards);
+        }
+    }
 
     IEnumerator ProgressRoutine()
     {
@@ -41,17 +52,13 @@ public class GameManager : MonoBehaviour
         {
             int elapedsSecconds = GetSecondsDiff(State.lastEncounter);
             int encounters = elapedsSecconds / encounterRate;
-            int remainder = elapedsSecconds % encounterRate;
 
-            if (encounters == 1)
+            if (encounters > 0)
             {
-                GameActions.TriggerEncounter();
-                State.UpdateLastEncounter(DateTime.Now.AddSeconds(remainder));
-            }
-            else if (encounters > 0)
-            {
-                GameActions.TriggerMultipleEncounters(encounters);
-                State.UpdateLastEncounter(DateTime.Now.AddSeconds(remainder));
+                IdleRewards rewards = encounters == 1
+                ? GameActions.TriggerEncounter()
+                : GameActions.TriggerMultipleEncounters(encounters);
+                GameActions.EarnRewardOfEncounters(rewards);
             }
 
             yield return new WaitForSeconds(1);

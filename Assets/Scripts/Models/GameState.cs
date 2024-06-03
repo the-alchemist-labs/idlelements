@@ -19,7 +19,6 @@ public struct GameState
 public class ElementalEntry
 {
     public ElementalId id;
-    public bool isSeen = false;
     public bool isCaught = false;
     public int tokens = 0; 
 }

@@ -1,29 +1,27 @@
 {
-  "lastEncounter": "2024-06-02T15:31:11.89458+03:00",
+  "lastEncounter": "2024-06-03T20:54:01.6069416+03:00",
   "currentMap": 1,
-  "level": 1,
-  "experience": 245,
-  "essence": 490,
+  "level": 10,
+  "experience": 6425,
+  "essence": 90850,
   "orbs": 0,
   "elementalEnteries": [
     {
       "id": 1,
-      "isSeen": true,
       "isCaught": true,
-      "tokens": 38
+      "tokens": 8341
     },
     {
       "id": 2,
-      "isSeen": false,
-      "isCaught": false,
-      "tokens": 5
+      "isCaught": true,
+      "tokens": 1246
     }
   ],
   "mapsProgression": [
     {
       "id": 1,
-      "catchProgression": 44,
-      "isCompleted": false
+      "catchProgression": 9591,
+      "isCompleted": true
     }
   ],
   "inventory": null

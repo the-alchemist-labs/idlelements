@@ -1,50 +1,76 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 public static class GameActions
 {
-    // add on click to call the terigger encounter on screen (with bonus to the terain he clicked)
-    public static void TriggerEncounter()
+    // add on click to call the trigger encounter on screen (with bonus to the terain he clicked)
+    public static IdleRewards TriggerEncounter()
     {
         Elemental elemental = State.Maps.GetMap(State.currentMap).GetEncounter();
-        State.Elementals.MarkElementalAsSeen(elemental.id);
+        IdleRewards rewards = new IdleRewards();
 
         bool isCaught = elemental.Catch(/*add modifiers*/);
         if (isCaught)
         {
-            if (State.Elementals.IsElementalRegistered(elemental.id))
-            {
-                State.Elementals.UpdateElementalTokens(elemental.id, 1);
-            }
-            else
-            {
-                State.Elementals.MarkElementalAsCaught(elemental.id);
-            }
+            bool isNewCatch = !State.Elementals.IsElementalRegistered(elemental.id);
 
-            State.Maps.UpdateMapProgression(1);
-            State.UpdateEssence(elemental.essenceGain);
-            State.GainExperience(elemental.expGain);
+            rewards.totalCatches = 1;
+            rewards.experience = elemental.expGain;
+            rewards.essence = elemental.essenceGain;
+            if (isNewCatch) rewards.newCatches.Add(elemental.id);
+            if (!isNewCatch) rewards.elementalTokens.Add(elemental.id, 1);
         }
 
-        Debug.Log($"A wild {elemental.name} apperead, it was {(isCaught ? "" : "not")} caught");
+        return rewards;
     }
 
-    public static void TriggerMultipleEncounters(int multiplier)
+    public static IdleRewards TriggerMultipleEncounters(int multiplier)
     {
-        ElementalEncounter[] encounters = State.Maps.GetMap(State.currentMap).elementalEncounters;
-        foreach (ElementalEncounter encounter in encounters)
+
+        IdleRewards rewards = new IdleRewards();
+
+        ElementalEncounter[] elementalEncounters = State.Maps.GetMap(State.currentMap).elementalEncounters;
+        foreach (ElementalEncounter encounter in elementalEncounters)
         {
             Elemental elemental = State.Elementals.GetElement(encounter.elementalId);
             int apperences = (int)(encounter.encounterChance * multiplier);
             int catches = (int)(apperences * elemental.catchRate);
 
-            Debug.Log($"{apperences} {elemental.name}s appered! {catches} caught");
-            
-            State.Elementals.UpdateElementalTokens(elemental.id, catches);
-            State.GainExperience(elemental.expGain * catches);
-            State.UpdateEssence(elemental.essenceGain * catches);
-            State.Maps.UpdateMapProgression(catches);
+            if (catches == 0) break;
+
+            if (!State.Elementals.IsElementalRegistered(elemental.id))
+            {
+                rewards.newCatches.Add(elemental.id);
+                catches--;
+            }
+
+            rewards.elementalTokens.Add(elemental.id, catches);
+            rewards.experience += elemental.expGain * catches;
+            rewards.essence += elemental.essenceGain * catches;
+            rewards.totalCatches += catches;
         }
+
+        return rewards;
     }
 
+
+    public static void EarnRewardOfEncounters(IdleRewards rewards)
+    {
+        rewards.newCatches.ForEach(c => State.Elementals.MarkElementalAsCaught(c));
+        rewards.elementalTokens.ToList().ForEach(c => State.Elementals.UpdateElementalTokens(c.Key, c.Value));
+        State.GainExperience(rewards.experience);
+        State.UpdateEssence(rewards.essence);
+        State.Maps.UpdateMapProgression(rewards.totalCatches);
+        State.UpdateLastEncounter(DateTime.Now);
+    }
+}
+
+public class IdleRewards
+{
+    public int totalCatches = 0;
+    public int essence = 0;
+    public int experience = 0;
+    public List<ElementalId> newCatches = new List<ElementalId>();
+    public Dictionary<ElementalId, int> elementalTokens = new Dictionary<ElementalId, int>();
 }
