@@ -79,4 +79,4 @@ debug.log
 /Assets/TextMesh Pro/
 
 # Player progression
-/Data/state.json
+/Assets/StreamingAssets/state.json*
