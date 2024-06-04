@@ -24,16 +24,16 @@ public class ElementalsData
 
     public void MarkElementalAsCaught(ElementalId id)
     {
-        GetElemental(id).isCaught = true;
+        GetElementalEntry(id).isCaught = true;
     }
 
     public void UpdateElementalTokens(ElementalId id, int updateBy)
     {
-        int tokens = GetElemental(id).tokens;
-        GetElemental(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
+        int tokens = GetElementalEntry(id).tokens;
+        GetElementalEntry(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
     }
 
-    public ElementalEntry GetElemental(ElementalId id)
+    public ElementalEntry GetElementalEntry(ElementalId id)
     {
         ElementalEntry elemental = entries.Find(e => e.id == id);
         if (elemental == null)
