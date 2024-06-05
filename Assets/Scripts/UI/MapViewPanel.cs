@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MapViewPanel : MonoBehaviour
 {
+    public GameObject allMapsPanel;
     public TMP_Text mapNameText;
     public TMP_Text mapProgressionText;
     public Slider mapProgressionSlider;
@@ -15,11 +16,7 @@ public class MapViewPanel : MonoBehaviour
     private int counter = 0;
     void Start()
     {
-        currentMap = State.Maps.GetMap(State.currentMap);
-        mapNameText.text = currentMap.name;
-        Enumerable.Range(0, currentMap.mapElementalTypes.Length)
-        .ToList()
-        .ForEach(elementalType => Instantiate(typePrefabs[elementalType], typeContainer));
+        UpdateDisaplayedMapData();
     }
 
     void Update()
@@ -29,6 +26,22 @@ public class MapViewPanel : MonoBehaviour
         mapProgressionSlider.value = GetProgressionPercent();
     }
 
+    public void UpdateDisaplayedMapData()
+    {
+        currentMap = State.Maps.GetMap(State.currentMap);
+        mapNameText.text = currentMap.name;
+        typeContainer.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
+        Enumerable.Range(0, currentMap.mapElementalTypes.Length)
+        .ToList()
+        .ForEach(elementalType => Instantiate(typePrefabs[elementalType], typeContainer));
+        // need to make generic type prefub and update the color and text inside
+    }
+
+    public void DisplayAllMaps()
+    {
+        allMapsPanel.SetActive(true);
+    }
+
     private float GetProgressionPercent()
     {
         if (counter == 500) return 1;
@@ -36,8 +49,9 @@ public class MapViewPanel : MonoBehaviour
         return counter / 500f;
     }
 
-    private string GetProgressionString(){
+    private string GetProgressionString()
+    {
         int catchesToComplete = State.Maps.GetMap(State.currentMap).catchesToComplete;
-        return  State.Maps.IsMapCompleted(State.currentMap) ? "Clear" : $"{counter}/{TextUtil.NumberFormatter(catchesToComplete)}";
+        return State.Maps.IsMapCompleted(State.currentMap) ? "Clear" : $"{counter}/{TextUtil.NumberFormatter(catchesToComplete)}";
     }
 }

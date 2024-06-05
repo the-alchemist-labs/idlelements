@@ -5,6 +5,12 @@ public static class FileName
     public const string State = "state";
 }
 
+public static class Tags
+{
+    public const string MapsPanel = "MapsPanel";
+    public const string MapData = "MapData";
+}
+
 public static class Conts
 {
     public const bool IsEncrypted = false;
@@ -45,4 +51,5 @@ public enum MapId
 {
     MapA = 1,
     MapB,
+    MapC,
 }

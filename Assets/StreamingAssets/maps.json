@@ -4,6 +4,7 @@
         "name": "MapA",
         "requiredLevel": 1,
         "catchesToComplete": 800,
+        "mapElementalTypes": ["Fire", "Water"],
         "elementalEncounters": [
             {
                 "elementalId": 1,
@@ -12,6 +13,32 @@
             {
                 "elementalId": 2,
                 "encounterChance": 0.3
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "MapB",
+        "requiredLevel": 5,
+        "catchesToComplete": 1000,
+        "mapElementalTypes": ["Water"],
+        "elementalEncounters": [
+            {
+                "elementalId": 2,
+                "encounterChance": 1
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "MapC",
+        "requiredLevel": 100,
+        "catchesToComplete": 2000,
+        "mapElementalTypes": ["Fire"],
+        "elementalEncounters": [
+            {
+                "elementalId": 1,
+                "encounterChance": 1
             }
         ]
     }

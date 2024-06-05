@@ -25,13 +25,13 @@ public class Map
     public ElementType[] mapElementalTypes { get; }
     public int catchesToComplete { get; }
 
-    public Map(MapId id, string name, int requiredLevel, ElementalEncounter[] elementalEncounters, int catchesToComplete)
+    public Map(MapId id, string name, int requiredLevel, ElementalEncounter[] elementalEncounters, int catchesToComplete, ElementType[] mapElementalTypes)
     {
         this.id = id;
         this.name = name;
         this.requiredLevel = requiredLevel;
         this.elementalEncounters = elementalEncounters;
-        mapElementalTypes = new ElementType[]{ ElementType.Fire, ElementType.Water };
+        this.mapElementalTypes = mapElementalTypes;
         this.catchesToComplete = catchesToComplete;
     }
 
