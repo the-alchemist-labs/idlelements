@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject afkGainsPanel;
     private static GameManager instance;
-    private int encounterRate = 5;
+    private int encounterSpeed = 10;
 
     void Awake()
     {
@@ -35,8 +35,7 @@ public class GameManager : MonoBehaviour
 
     void HandleAfkGainsPanel()
     {
-        int elapedsSecconds = GetSecondsDiff(State.lastEncounter);
-        int encounters = elapedsSecconds / encounterRate;
+        int encounters = GetEncounters();
         IdleRewards rewards = GameActions.TriggerMultipleEncounters(encounters);
         State.UpdateLastEncounter(DateTime.Now);
 
@@ -50,9 +49,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            int elapedsSecconds = GetSecondsDiff(State.lastEncounter);
-            int encounters = elapedsSecconds / encounterRate;
-
+            int encounters = GetEncounters();
             if (encounters > 0)
             {
                 IdleRewards rewards = encounters == 1
@@ -71,9 +68,16 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
     }
 
-    int GetSecondsDiff(DateTime date)
+    int GetSecondsSinceLastEncounter(DateTime date)
     {
         TimeSpan diff = DateTime.Now - date;
         return Math.Min((int)diff.TotalSeconds, Conts.MaxIdleSecond);
+    }
+
+    int GetEncounters()
+    {
+        float encounterSpeedModifier = Obelisk.GetTotalBuff() / 100;
+        float elapedsSecconds =  GetSecondsSinceLastEncounter(State.lastEncounter);
+        return (int)(elapedsSecconds * ( 1 + encounterSpeedModifier) / encounterSpeed);
     }
 }
