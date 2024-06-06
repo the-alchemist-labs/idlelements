@@ -7,7 +7,7 @@ public static class GameActions
     // add on click to call the trigger encounter on screen (with bonus to the terain he clicked)
     public static IdleRewards TriggerEncounter()
     {
-        Elemental elemental = State.Maps.GetMap(State.currentMap).GetEncounter();
+        Elemental elemental = State.Maps.currentMap.GetEncounter();
         IdleRewards rewards = new IdleRewards();
 
         bool isCaught = elemental.Catch(/*add modifiers*/);
@@ -30,7 +30,7 @@ public static class GameActions
 
         IdleRewards rewards = new IdleRewards();
 
-        ElementalEncounter[] elementalEncounters = State.Maps.GetMap(State.currentMap).elementalEncounters;
+        ElementalEncounter[] elementalEncounters = State.Maps.currentMap.elementalEncounters;
         foreach (ElementalEncounter encounter in elementalEncounters)
         {
             Elemental elemental = State.Elementals.GetElement(encounter.elementalId);
@@ -53,15 +53,13 @@ public static class GameActions
 
         return rewards;
     }
-
-
+    
     public static void EarnRewardOfEncounters(IdleRewards rewards)
     {
         rewards.newCatches.ForEach(c => State.Elementals.MarkElementalAsCaught(c));
         rewards.elementalTokens.ToList().ForEach(c => State.Elementals.UpdateElementalTokens(c.Key, c.Value));
         State.GainExperience(rewards.experience);
         State.UpdateEssence(rewards.essence);
-        State.Maps.UpdateMapProgression(rewards.totalCatches);
         State.UpdateLastEncounter(DateTime.Now);
     }
 }

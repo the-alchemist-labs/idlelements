@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public struct GameState
 {
     public DateTime lastEncounter;
-    public MapId currentMap;
+    public MapId currentMapId;
     public int level;
     public int experience;
     public int essence;
@@ -27,8 +27,8 @@ public class ElementalEntry
 public class MapProgression
 {
     public MapId id;
-    public int catchProgression = 0;
     public bool isCompleted  = false;
+    public int obeliskLevel = 0;
 }
 
 [Serializable]

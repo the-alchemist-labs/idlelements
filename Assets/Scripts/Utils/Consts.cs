@@ -7,8 +7,7 @@ public static class FileName
 
 public static class Tags
 {
-    public const string MapsPanel = "MapsPanel";
-    public const string MapData = "MapData";
+    public const string MapInfo = "MapInfo";
 }
 
 public static class Conts

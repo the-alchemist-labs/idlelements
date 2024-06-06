@@ -5,20 +5,17 @@ public class MapOption : MonoBehaviour
 {
     public MapId mapId;
     public TMP_Text mapNameText;
-    private GameObject mapsPanel;
-    private GameObject mapDataComponent;
+    public GameObject mapsPanel;
 
     void Start()
     {
-        mapsPanel = GameObject.FindWithTag(Tags.MapsPanel);
-        mapDataComponent = GameObject.FindWithTag(Tags.MapData);
         mapNameText.text = mapId.ToString();
     }
 
     public void ChooseMap()
     {
-        State.UpdateCurrentMap(mapId);
-        mapDataComponent?.GetComponent<MapViewPanel>()?.UpdateDisaplayedMapData();
+        State.Maps.UpdateCurrentMap(mapId);
+        GameEvents.MapDataChanged();
         mapsPanel.SetActive(false);
     }
 }

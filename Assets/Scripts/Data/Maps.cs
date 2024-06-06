@@ -4,42 +4,37 @@ public class MapsData
 {
     public List<Map> all { get; private set; }
     public List<MapProgression> progressions { get; private set; }
+    public MapId currentMapId { get; private set; }
+    public Map currentMap { get; private set; }
+    public MapProgression currentMapProgression { get; private set; }
 
-    public MapsData(List<Map> maps, List<MapProgression> mapsProgression)
+    public void UpdateCurrentMap(MapId id)
+    {
+        currentMapId = id;
+        currentMap = all.Find(el => el.id == currentMapId);
+        currentMapProgression = GetMapProgression();
+    }
+
+    public MapsData(List<Map> maps, List<MapProgression> mapsProgression, MapId currentMapId)
     {
         all = maps;
         progressions = mapsProgression ?? new List<MapProgression>();
+        this.currentMapId = currentMapId == 0 ? MapId.MapA : currentMapId;
+        currentMap = all.Find(el => el.id == currentMapId);
+        currentMapProgression = GetMapProgression();
     }
 
-    public Map GetMap(MapId id)
+    public MapProgression GetCurrentMapProgresion()
     {
-        return all.Find(el => el.id == id);
+        return progressions.Find(el => el.id == currentMapId);
     }
 
-    public void UpdateMapProgression(int catches)
+    private MapProgression GetMapProgression()
     {
-        Map map = GetMap(State.currentMap);
-        MapProgression mapProgression = GetMapProgression(State.currentMap);
-
-        mapProgression.catchProgression += catches;
-
-        if (mapProgression.catchProgression >= map.catchesToComplete)
-        {
-            mapProgression.isCompleted = true;
-        }
-    }
-
-    public bool IsMapCompleted(MapId id)
-    {
-        return GetMapProgression(id).isCompleted;
-    }
-
-    public MapProgression GetMapProgression(MapId id)
-    {
-        MapProgression mapProgression = progressions.Find(m => m.id == id);
+        MapProgression mapProgression = progressions.Find(m => m.id == currentMapId);
         if (mapProgression == null)
         {
-            mapProgression = new MapProgression() { id = id };
+            mapProgression = new MapProgression() { id = currentMapId };
             progressions.Add(mapProgression);
         }
 

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public static class State
 {
     public static DateTime lastEncounter { get; private set; }
-    public static MapId currentMap { get; private set; }
     public static int level { get; private set; }
     public static int experience { get; private set; }
     public static int essence { get; private set; }
@@ -35,7 +34,6 @@ public static class State
         GameState gs = DataService.Instance.LoadData<GameState>(FileName.State);
 
         lastEncounter = gs.lastEncounter.Year == 1 ? DateTime.Now : gs.lastEncounter;
-        currentMap = gs.currentMap == 0 ? MapId.MapA : gs.currentMap;
         level = gs.level == 0 ? 1 : gs.level;
         experience = gs.experience;
         essence = gs.essence;
@@ -43,7 +41,7 @@ public static class State
         inventory = gs.inventory;
 
         Elementals = new ElementalsData(allElementals, gs.elementalEnteries);
-        Maps = new MapsData(allMaps, gs.mapsProgression);
+        Maps = new MapsData(allMaps, gs.mapsProgression, gs.currentMapId);
     }
 
     public static bool IsMaxLevel()
@@ -87,11 +85,6 @@ public static void GainExperience(int exp)
         orbs = (orbs + amount >= 0) ? orbs + amount : 0;
     }
 
-    public static void UpdateCurrentMap(MapId id)
-    {
-        currentMap = id;
-    }
-
     public static void UpdateLastEncounter(DateTime date)
     {
         lastEncounter = date;
@@ -102,7 +95,7 @@ public static void GainExperience(int exp)
         GameState gs = new GameState()
         {
             lastEncounter = lastEncounter,
-            currentMap = currentMap,
+            currentMapId = Maps.currentMapId,
             level = level,
             experience = experience,
             essence = essence,

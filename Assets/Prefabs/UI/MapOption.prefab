@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2490656872298468000}
   - component: {fileID: 3618618249320297707}
   - component: {fileID: 465030305448551845}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text_MapName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 819422539161282463}
   - component: {fileID: 4306582366013958349}
   - component: {fileID: 5257837647704212773}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: MapOption
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,3 +282,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapId: 1
   mapNameText: {fileID: 465030305448551845}
+  mapsPanel: {fileID: 0}
