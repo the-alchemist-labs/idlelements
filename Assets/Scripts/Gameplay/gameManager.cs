@@ -6,7 +6,6 @@ public class GameManager : MonoBehaviour
 {
     public GameObject afkGainsPanel;
     private static GameManager instance;
-    private int encounterSpeed = 10;
 
     void Awake()
     {
@@ -24,7 +23,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         HandleAfkGainsPanel();
-        StartCoroutine(ProgressRoutine());
         StartCoroutine(Backup());
     }
 
@@ -36,9 +34,12 @@ public class GameManager : MonoBehaviour
     void HandleAfkGainsPanel()
     {
         int encounters = GetEncounters();
-        IdleRewards rewards = GameActions.TriggerMultipleEncounters(encounters);
-        State.UpdateLastEncounter(DateTime.Now);
+        int delta = GetEncounterDeltaTime(encounters);
 
+        IdleRewards rewards = GameActions.TriggerMultipleEncounters(encounters);
+        State.UpdateLastEncounter(DateTime.Now.AddSeconds(-delta));
+
+        StartCoroutine(ProgressRoutine());
         if (afkGainsPanel.TryGetComponent(out AfkGainsPanel panel))
         {
             panel.DisaplyAfkGains(rewards);
@@ -50,12 +51,15 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             int encounters = GetEncounters();
+            int delta = GetEncounterDeltaTime(encounters);
+
             if (encounters > 0)
             {
                 IdleRewards rewards = encounters == 1
                 ? GameActions.TriggerEncounter()
                 : GameActions.TriggerMultipleEncounters(encounters);
                 GameActions.EarnRewardOfEncounters(rewards);
+                State.UpdateLastEncounter(DateTime.Now.AddSeconds(-delta));
             }
 
             yield return new WaitForSeconds(1);
@@ -76,8 +80,15 @@ public class GameManager : MonoBehaviour
 
     int GetEncounters()
     {
-        float encounterSpeedModifier = Obelisk.GetTotalBuff() / 100;
-        float elapedsSecconds =  GetSecondsSinceLastEncounter(State.lastEncounter);
-        return (int)(elapedsSecconds * ( 1 + encounterSpeedModifier) / encounterSpeed);
+        float elapedsSecconds = GetSecondsSinceLastEncounter(State.lastEncounter);
+        return (int)(elapedsSecconds / State.GetEncounterSpeed());
     }
+
+    int GetEncounterDeltaTime(int encounters)
+    {
+        float elapedsSecconds = GetSecondsSinceLastEncounter(State.lastEncounter);
+        int encountersTime = encounters * State.GetEncounterSpeed();
+        return (int)elapedsSecconds - encountersTime;
+    }
+
 }

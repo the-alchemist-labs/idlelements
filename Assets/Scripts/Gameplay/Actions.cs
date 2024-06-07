@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public static class GameActions
 {
@@ -60,7 +60,6 @@ public static class GameActions
         rewards.elementalTokens.ToList().ForEach(c => State.Elementals.UpdateElementalTokens(c.Key, c.Value));
         State.GainExperience(rewards.experience);
         State.UpdateEssence(rewards.essence);
-        State.UpdateLastEncounter(DateTime.Now);
     }
 }
 

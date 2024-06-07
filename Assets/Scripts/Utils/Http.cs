@@ -24,7 +24,6 @@ public static class Http
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log(request.downloadHandler.text);
                 return JsonUtility.FromJson<T>(request.downloadHandler.text);
             }
             else

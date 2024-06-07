@@ -8,7 +8,7 @@ public class HeaderBannerManager : MonoBehaviour
     public TMP_Text expText;
     public Slider expSlider;
     public TMP_Text essenseText;
-    public TMP_Text orbsText;
+    public TMP_Text goldText;
 
     private static HeaderBannerManager instance;
     public static HeaderBannerManager Instance { get { return instance; } }
@@ -32,7 +32,7 @@ public class HeaderBannerManager : MonoBehaviour
         expSlider.value = GetExpPercent();
         expText.text = GetExpDisplay();
         essenseText.text = TextUtil.NumberFormatter(State.essence);
-        orbsText.text = TextUtil.NumberFormatter(State.orbs);
+        goldText.text = TextUtil.NumberFormatter(State.gold);
     }
 
     private static float GetExpPercent()

@@ -3,16 +3,20 @@ using System.Collections.Generic;
 
 public static class State
 {
+    private static int baseEncounterSpeed = 300;
+
     public static DateTime lastEncounter { get; private set; }
+
     public static int level { get; private set; }
     public static int experience { get; private set; }
     public static int essence { get; private set; }
+    public static int gold { get; private set; }
     public static int orbs { get; private set; }
     public static List<Item> inventory { get; }
 
     public static ElementalsData Elementals { get; }
     public static MapsData Maps { get; }
-    
+
     public readonly static Dictionary<int, int> requiredExpToLevelUp = new Dictionary<int, int>()
     {
         { 1, 250 },
@@ -37,11 +41,18 @@ public static class State
         level = gs.level == 0 ? 1 : gs.level;
         experience = gs.experience;
         essence = gs.essence;
+        gold = gs.gold;
         orbs = gs.orbs;
         inventory = gs.inventory;
 
         Elementals = new ElementalsData(allElementals, gs.elementalEnteries);
         Maps = new MapsData(allMaps, gs.mapsProgression, gs.currentMapId);
+    }
+
+    public static int GetEncounterSpeed()
+    {
+        float encounterSpeedModifier = Temple.GetTotalBuff() / 100;
+        return (int)(baseEncounterSpeed / (1 + encounterSpeedModifier));
     }
 
     public static bool IsMaxLevel()
@@ -51,33 +62,36 @@ public static class State
 
     private static bool ShouldToLevelUp()
     {
-        return  experience >= requiredExpToLevelUp[level];
+        return experience >= requiredExpToLevelUp[level];
     }
 
-
-
-public static void GainExperience(int exp)
-{
-    experience += exp;
-
-    while (true)
+    public static void GainExperience(int exp)
     {
-        if (ShouldToLevelUp() && !IsMaxLevel())
+        experience += exp;
+
+        while (true)
         {
-            experience -= requiredExpToLevelUp[level];
-            level++;
-            // trigger levelup behavior
-        }
-        else
-        {
-            break;
+            if (ShouldToLevelUp() && !IsMaxLevel())
+            {
+                experience -= requiredExpToLevelUp[level];
+                level++;
+                // trigger levelup behavior
+            }
+            else
+            {
+                break;
+            }
         }
     }
-}
 
     public static void UpdateEssence(int amount)
     {
         essence = (essence + amount >= 0) ? essence + amount : 0;
+    }
+
+    public static void UpdateGold(int amount)
+    {
+        gold = (gold + amount >= 0) ? gold + amount : 0;
     }
 
     public static void UpdateOrbs(int amount)
@@ -90,6 +104,14 @@ public static void GainExperience(int exp)
         lastEncounter = date;
     }
 
+    public static int GetSecondsUntilNextEncounter()
+    {
+
+        int secondsSinceLastEncounter = (int)(DateTime.Now - lastEncounter).TotalSeconds;
+        return (GetEncounterSpeed() - secondsSinceLastEncounter + GetEncounterSpeed())
+        % GetEncounterSpeed();
+    }
+
     public static void Save()
     {
         GameState gs = new GameState()
@@ -99,6 +121,7 @@ public static void GainExperience(int exp)
             level = level,
             experience = experience,
             essence = essence,
+            gold = gold,
             orbs = orbs,
             inventory = inventory,
             elementalEnteries = Elementals.entries,

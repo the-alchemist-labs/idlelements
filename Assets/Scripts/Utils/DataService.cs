@@ -34,9 +34,7 @@ public sealed class DataService
 
     public bool SaveData<T>(string fileName, T Data)
     {
-        // string path = $"Assets/Data/{fileName}.json";
         string path = Path.Combine(Application.streamingAssetsPath, $"{fileName}.json");
-        Debug.Log("path: " + path);
         try
         {
             if (File.Exists(path))
@@ -119,7 +117,7 @@ public sealed class DataService
 
         string result = reader.ReadToEnd();
 
-        Debug.Log($"Decrypted result (if the following is not legible, probably wrong key or iv): {result}");
+        Debug.LogWarning($"Decrypted result (if the following is not legible, probably wrong key or iv): {result}");
         return JsonConvert.DeserializeObject<T>(result);
     }
 }

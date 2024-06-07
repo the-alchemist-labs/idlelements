@@ -9,6 +9,7 @@ public struct GameState
     public int level;
     public int experience;
     public int essence;
+    public int gold;
     public int orbs;
     public List<ElementalEntry> elementalEnteries;
     public List<MapProgression> mapsProgression;
@@ -28,7 +29,7 @@ public class MapProgression
 {
     public MapId id;
     public bool isCompleted  = false;
-    public int obeliskLevel = 0;
+    public int templeLevel = 0;
 }
 
 [Serializable]
