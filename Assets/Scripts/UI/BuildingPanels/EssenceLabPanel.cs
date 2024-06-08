@@ -19,6 +19,11 @@ public class EssenceLabPanel : MonoBehaviour
         UpdateData();
     }
 
+    void OnEnable()
+    {
+        StartCoroutine(UpdateReactiveData());
+    }
+
     void OnDestroy()
     {
         GameEvents.OnMapDataChanged -= UpdateData;
