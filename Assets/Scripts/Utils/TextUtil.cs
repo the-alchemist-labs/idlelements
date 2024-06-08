@@ -1,3 +1,5 @@
+using System;
+
 public static class TextUtil
 {
     public static string NumberFormatter(int number)
@@ -17,6 +19,12 @@ public static class TextUtil
             // Format numbers less than 1000 with commas
             return number.ToString("N0");
         }
+    }
+
+    public static string FormatSecondsToTimeString(float seconds)
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
+        return timeSpan.ToString(@"hh\:mm\:ss");
     }
 }
 

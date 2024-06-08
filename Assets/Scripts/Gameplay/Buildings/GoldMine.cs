@@ -31,7 +31,7 @@ public static class GoldMine
         }
     }
 
-    private static int GetTotalGoldFromAllMaps()
+    public static int GetTotalGoldFromAllMaps()
     {
         return baseLevelModifiers
         .ToList()

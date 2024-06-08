@@ -1,10 +1,30 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using UnityEditor.PackageManager;
 
 public static class GameActions
 {
-    // add on click to call the trigger encounter on screen (with bonus to the terain he clicked)
+    public static int GetSecondsSinceLastEncounter(DateTime date)
+    {
+        TimeSpan diff = DateTime.Now - date;
+        return Math.Min((int)diff.TotalSeconds, Conts.MaxIdleSecond);
+    }
+
+    public static IdleRewards RunEncounters(float elapedsSeconds)
+    {
+        int encounters = GetEncounters(elapedsSeconds);
+        if (encounters == 0) return new IdleRewards();
+        return encounters > 1 ? TriggerEncounter() : TriggerMultipleEncounters(encounters, elapedsSeconds);
+    }
+
+
+
+    public static int GetEncounters(float elapedsSeconds)
+    {
+        return (int)(elapedsSeconds / State.GetEncounterSpeed());
+    }
+
     public static IdleRewards TriggerEncounter()
     {
         Elemental elemental = State.Maps.currentMap.GetEncounter();
@@ -17,7 +37,7 @@ public static class GameActions
 
             rewards.totalCatches = 1;
             rewards.experience = elemental.expGain;
-            rewards.essence = elemental.essenceGain;
+            rewards.orbs = elemental.orbsGain;
             if (isNewCatch) rewards.newCatches.Add(elemental.id);
             if (!isNewCatch) rewards.elementalTokens.Add(elemental.id, 1);
         }
@@ -25,9 +45,8 @@ public static class GameActions
         return rewards;
     }
 
-    public static IdleRewards TriggerMultipleEncounters(int multiplier)
+    public static IdleRewards TriggerMultipleEncounters(int multiplier, float elapedsSeconds)
     {
-
         IdleRewards rewards = new IdleRewards();
 
         ElementalEncounter[] elementalEncounters = State.Maps.currentMap.elementalEncounters;
@@ -47,25 +66,30 @@ public static class GameActions
 
             rewards.elementalTokens.Add(elemental.id, catches);
             rewards.experience += elemental.expGain * catches;
-            rewards.essence += elemental.essenceGain * catches;
+            rewards.orbs += elemental.orbsGain * catches;
             rewards.totalCatches += catches;
         }
 
+        rewards.gold =  GoldMine.GetTotalGoldFromAllMaps() * (int)(elapedsSeconds / GoldMine.incomeLoopSeconds);
+        rewards.essence = EssenceLab.GetTotalEssenceFromAllMaps() * (int)(elapedsSeconds / EssenceLab.incomeLoopSeconds);
+
         return rewards;
     }
-    
+
     public static void EarnRewardOfEncounters(IdleRewards rewards)
     {
         rewards.newCatches.ForEach(c => State.Elementals.MarkElementalAsCaught(c));
         rewards.elementalTokens.ToList().ForEach(c => State.Elementals.UpdateElementalTokens(c.Key, c.Value));
         State.GainExperience(rewards.experience);
-        State.UpdateEssence(rewards.essence);
+        State.UpdateEssence(rewards.orbs);
     }
 }
 
 public class IdleRewards
 {
     public int totalCatches = 0;
+    public int orbs = 0;
+    public int gold = 0;
     public int essence = 0;
     public int experience = 0;
     public List<ElementalId> newCatches = new List<ElementalId>();

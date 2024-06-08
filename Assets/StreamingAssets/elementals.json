@@ -5,7 +5,7 @@
     "type": 0,
     "catchRate": 0.6,
     "expGain": 5,
-    "essenceGain": 10
+    "orbsGain": 10
   },
   {
     "id": 2,
@@ -13,6 +13,6 @@
     "type": 0,
     "catchRate": 0.2,
     "expGain": 10,
-    "essenceGain": 20
+    "orbsGain": 15
   }
 ]

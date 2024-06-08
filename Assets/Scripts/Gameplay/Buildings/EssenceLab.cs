@@ -31,7 +31,7 @@ public static class EssenceLab
         }
     }
 
-    private static int GetTotalEssenceFromAllMaps()
+    public static int GetTotalEssenceFromAllMaps()
     {
         return baseLevelModifiers
         .ToList()

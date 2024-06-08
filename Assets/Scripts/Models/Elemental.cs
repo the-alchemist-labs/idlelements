@@ -9,16 +9,16 @@ public class Elemental
     public float catchRate { get; }
 
     public int expGain { get; }
-    public int essenceGain { get; }
+    public int orbsGain { get; }
 
-    public Elemental(ElementalId id, string name, ElementType type, float catchRate, int expGain, int essenceGain)
+    public Elemental(ElementalId id, string name, ElementType type, float catchRate, int expGain, int orbsGain)
     {
         this.id = id;
         this.name = name;
         this.type = type;
         this.catchRate = catchRate;
         this.expGain = expGain;
-        this.essenceGain = essenceGain;
+        this.orbsGain = orbsGain;
     }
 
     public bool Catch(float catchModifier = 1.0f)
