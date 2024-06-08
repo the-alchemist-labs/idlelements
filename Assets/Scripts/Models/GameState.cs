@@ -30,6 +30,7 @@ public class MapProgression
     public MapId id;
     public bool isCompleted  = false;
     public int templeLevel = 0;
+    public int goldMineLevel = 0;
 }
 
 [Serializable]

@@ -29,6 +29,11 @@ public class MapsData
         return progressions.Find(el => el.id == currentMapId);
     }
 
+    public MapProgression GetMapProgresion(MapId id)
+    {
+        return progressions.Find(el => el.id == id);
+    }
+
     private MapProgression GetMapProgression()
     {
         MapProgression mapProgression = progressions.Find(m => m.id == currentMapId);
