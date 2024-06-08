@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         IdleRewards rewards = GameActions.RunEncounters(elapedsSeconds);
         State.UpdateLastEncounter(DateTime.Now.AddSeconds(-delta));
 
-        StartCoroutine(ProgressRoutine());
+        StartCoroutine(ProgressRoutine()); 
         if (afkGainsPanel.TryGetComponent(out AfkGainsPanel panel))
         {
             panel.DisaplyAfkGains(rewards, idleTimeString);

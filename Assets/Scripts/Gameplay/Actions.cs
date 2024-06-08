@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.PackageManager;
 
 public static class GameActions
 {
@@ -69,7 +68,7 @@ public static class GameActions
             rewards.orbs += elemental.orbsGain * catches;
             rewards.totalCatches += catches;
         }
-
+ 
         rewards.gold =  GoldMine.GetTotalGoldFromAllMaps() * (int)(elapedsSeconds / GoldMine.incomeLoopSeconds);
         rewards.essence = EssenceLab.GetTotalEssenceFromAllMaps() * (int)(elapedsSeconds / EssenceLab.incomeLoopSeconds);
 
