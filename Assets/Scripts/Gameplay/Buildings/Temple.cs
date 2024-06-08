@@ -1,29 +1,15 @@
 using System.Collections.Generic;
 
-public class TempleLevel
-{
-    public int UnlockBonus { get; set; }
-    public int BuffBonus { get; set; }
-    public int CostModifier { get; set; }
-
-    public TempleLevel(int unlockBonus, int costModifier, int buffBonus)
-    {   
-        UnlockBonus = unlockBonus;
-        BuffBonus = buffBonus;
-        CostModifier = costModifier;
-    }
-}
-
 public static class Temple
 {
     private static int MAX_LEVEL = 10;
     private static int BOOST_SECONDS = 10;
 
-    public readonly static Dictionary<MapId, TempleLevel> baseModifiers = new Dictionary<MapId, TempleLevel>()
+    public readonly static Dictionary<MapId, BuildingLevel> baseModifiers = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.MapA, new TempleLevel(100, 100, 10) },
-        { MapId.MapB, new TempleLevel(100, 500, 10) },
-        { MapId.MapC, new TempleLevel(100, 1000, 10) },
+        { MapId.MapA, new BuildingLevel(100, 10, 100) },
+        { MapId.MapB, new BuildingLevel(500, 10, 100) },
+        { MapId.MapC, new BuildingLevel(1000, 10, 100) },
     };
 
     public static bool IsMaxLevel()
@@ -61,7 +47,7 @@ public static class Temple
     public static int GetNextLevelBuff()
     {  
         MapProgression map = State.Maps.GetCurrentMapProgresion();
-        TempleLevel templeLevel = baseModifiers[State.Maps.currentMapId];
+        BuildingLevel templeLevel = baseModifiers[State.Maps.currentMapId];
 
         if (map.templeLevel == 0) return templeLevel.UnlockBonus;
         return templeLevel.BuffBonus;
@@ -70,7 +56,7 @@ public static class Temple
     public static int GetLevelUpCost()
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
-        TempleLevel templeLevel = baseModifiers[State.Maps.currentMapId];
+        BuildingLevel templeLevel = baseModifiers[State.Maps.currentMapId];
         return (map.templeLevel + 1) * templeLevel.CostModifier;
     }
 }

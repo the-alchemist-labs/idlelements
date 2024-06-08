@@ -9,11 +9,11 @@ public static class EssenceLab
     public static DateTime lastCollectDate { get; private set; }
 
     public static int incomeLoopSeconds { get { return 5; } }
-    public readonly static Dictionary<MapId, int> baseBonusModifiers = new Dictionary<MapId, int>()
+    public readonly static Dictionary<MapId, BuildingLevel> baseLevelModifiers = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.MapA, 10 },
-        { MapId.MapB, 50 },
-        { MapId.MapC, 100  },
+        { MapId.MapA, new BuildingLevel(1000, 50, 100) },
+        { MapId.MapB, new BuildingLevel(5000, 100, 1000) },
+        { MapId.MapC, new BuildingLevel(20000, 500, 5000) },
     };
 
     static EssenceLab()
@@ -33,9 +33,11 @@ public static class EssenceLab
 
     private static int GetTotalEssenceFromAllMaps()
     {
-        return baseBonusModifiers
+        return baseLevelModifiers
         .ToList()
-        .Sum(kvp => State.Maps.GetMapProgresion(kvp.Key).essenceLabLevel * baseBonusModifiers[kvp.Key]);
+        .Sum(kvp => State.Maps.GetMapProgresion(
+            kvp.Key).essenceLabLevel * baseLevelModifiers[kvp.Key].BuffBonus
+            + baseLevelModifiers[kvp.Key].UnlockBonus);
     }
 
     public static int GetSecondsSinceLastCollect()
@@ -64,22 +66,21 @@ public static class EssenceLab
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
         if (map.essenceLabLevel == 0) return 0;
-
-        return map.essenceLabLevel * baseBonusModifiers[State.Maps.currentMapId];
+        BuildingLevel essenceLabLevel = baseLevelModifiers[State.Maps.currentMapId];
+        return essenceLabLevel.UnlockBonus + map.essenceLabLevel * essenceLabLevel.BuffBonus;
     }
 
     public static int GetNextLevelBuff()
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
-        int essenceLabLevel = baseBonusModifiers[State.Maps.currentMapId];
+        BuildingLevel essenceLabLevel = baseLevelModifiers[State.Maps.currentMapId];
 
-        if (map.essenceLabLevel == 0) return baseBonusModifiers[State.Maps.currentMapId];
-        return essenceLabLevel;
+        return map.essenceLabLevel == 0 ? essenceLabLevel.UnlockBonus : essenceLabLevel.BuffBonus;
     }
 
     public static int GetLevelUpCost()
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
-        return (map.essenceLabLevel + 1) * baseBonusModifiers[State.Maps.currentMapId];
+        return (map.essenceLabLevel + 1) * baseLevelModifiers[State.Maps.currentMapId].CostModifier;
     }
 }
