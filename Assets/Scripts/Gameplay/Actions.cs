@@ -14,7 +14,7 @@ public static class GameActions
     {
         int encounters = GetEncounters(elapedsSeconds);
         if (encounters == 0) return new IdleRewards();
-        return encounters > 1 ? TriggerEncounter() : TriggerMultipleEncounters(encounters, elapedsSeconds);
+        return encounters == 1 ? TriggerEncounter() : TriggerMultipleEncounters(encounters, elapedsSeconds);
     }
 
 
