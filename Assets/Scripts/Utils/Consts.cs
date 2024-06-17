@@ -13,7 +13,7 @@ public static class Tags
 public static class Conts
 {
     public const bool IsEncrypted = false;
-    public const int MaxIdleSecond = 84000; // 24h
+    public const int MaxIdleSecond = 43200; // 12h
 }
 
 public static class SceneNames
@@ -29,6 +29,9 @@ public enum ElementType
     Water,
     Earth,
     Air,
+    Ice,
+    Lightning,
+    Chaos
 }
 
 public enum ElementalId
