@@ -11,7 +11,7 @@
                 "encounterChance": 0.7
             },
             {
-                "elementalId": 2,
+                "elementalId": 3,
                 "encounterChance": 0.3
             }
         ]
@@ -21,11 +21,15 @@
         "name": "MapB",
         "requiredLevel": 5,
         "catchesToComplete": 1000,
-        "mapElementalTypes": ["Water"],
+        "mapElementalTypes": ["Water", "Air"],
         "elementalEncounters": [
             {
-                "elementalId": 2,
-                "encounterChance": 1
+                "elementalId": 3,
+                "encounterChance": 0.3
+            },
+            {
+                "elementalId": 7,
+                "encounterChance": 0.7
             }
         ]
     },
@@ -34,11 +38,15 @@
         "name": "MapC",
         "requiredLevel": 100,
         "catchesToComplete": 2000,
-        "mapElementalTypes": ["Fire"],
+        "mapElementalTypes": ["Earth", "Fire"],
         "elementalEncounters": [
             {
-                "elementalId": 1,
-                "encounterChance": 1
+                "elementalId": 2,
+                "encounterChance": 0.05
+            },
+            {
+                "elementalId": 5,
+                "encounterChance": 0.95
             }
         ]
     }

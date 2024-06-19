@@ -11,9 +11,9 @@ public static class GoldMine
     public static int incomeLoopSeconds { get { return 5; } }
     public readonly static Dictionary<MapId, BuildingLevel> baseLevelModifiers = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.MapA, new BuildingLevel(500, 1000, 0 ) },
-        { MapId.MapB, new BuildingLevel(1500, 5000, 0 ) },
-        { MapId.MapC, new BuildingLevel(3000, 8500, 0 )  },
+        { MapId.FireWater, new BuildingLevel(500, 1000, 0 ) },
+        { MapId.WaterAir, new BuildingLevel(1500, 5000, 0 ) },
+        { MapId.EarthFire, new BuildingLevel(3000, 8500, 0 )  },
     };
 
     static GoldMine()

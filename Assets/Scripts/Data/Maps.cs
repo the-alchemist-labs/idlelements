@@ -19,7 +19,7 @@ public class MapsData
     {
         all = maps;
         progressions = mapsProgression ?? new List<MapProgression>();
-        this.currentMapId = currentMapId == 0 ? MapId.MapA : currentMapId;
+        this.currentMapId = currentMapId == 0 ? MapId.FireWater : currentMapId;
         currentMap = all.Find(el => el.id == currentMapId);
         currentMapProgression = GetMapProgression();
     }

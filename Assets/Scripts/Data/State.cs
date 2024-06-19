@@ -14,6 +14,7 @@ public static class State
     public static int orbs { get; private set; }
     public static List<Item> inventory { get; }
 
+    public static Elemental[] party { get; }
     public static ElementalsData Elementals { get; }
     public static MapsData Maps { get; }
 
@@ -75,7 +76,7 @@ public static class State
             {
                 experience -= requiredExpToLevelUp[level];
                 level++;
-                // trigger levelup behavior
+                // TODO: trigger levelup behavior
             }
             else
             {
@@ -126,6 +127,7 @@ public static class State
             inventory = inventory,
             elementalEnteries = Elementals.entries,
             mapsProgression = Maps.progressions,
+            party = party,
         };
 
         DataService.Instance.SaveData(FileName.State, gs);

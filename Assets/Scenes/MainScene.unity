@@ -4646,7 +4646,6 @@ GameObject:
   m_Component:
   - component: {fileID: 907726314}
   - component: {fileID: 907726316}
-  - component: {fileID: 907726317}
   m_Layer: 5
   m_Name: Map
   m_TagString: MapInfo
@@ -4685,23 +4684,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907726313}
   m_CullTransparentMesh: 1
---- !u!114 &907726317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 907726313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36f5199b62a9e3643baa77ae3d20299f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allMapsPanel: {fileID: 0}
-  mapNameText: {fileID: 1912486687}
-  encounterTimeText: {fileID: 1811793475}
-  goldGainText: {fileID: 982418626}
-  essanceGainText: {fileID: 905960627}
 --- !u!1 &909323015
 GameObject:
   m_ObjectHideFlags: 0
@@ -5292,7 +5274,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e3bdbef85aaee884b8f41e676d93f42d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 68730811b177aa34f87fe00b76b839d6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10674,6 +10656,7 @@ GameObject:
   - component: {fileID: 1828553159}
   - component: {fileID: 1828553161}
   - component: {fileID: 1828553160}
+  - component: {fileID: 1828553162}
   m_Layer: 5
   m_Name: Image_Map
   m_TagString: Untagged
@@ -10738,6 +10721,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828553158}
   m_CullTransparentMesh: 1
+--- !u!114 &1828553162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828553158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc4e0b75255c5845a43d3417eb40143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapImage: {fileID: 1828553160}
 --- !u!1 &1832120886
 GameObject:
   m_ObjectHideFlags: 0
@@ -12727,7 +12723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3727915fb319d494c9cf4e68862ea318, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 008c03d2c7f379143a36b3d6f8b9ba42, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

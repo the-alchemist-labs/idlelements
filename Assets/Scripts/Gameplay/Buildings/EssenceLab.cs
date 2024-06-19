@@ -11,9 +11,9 @@ public static class EssenceLab
     public static int incomeLoopSeconds { get { return 5; } }
     public readonly static Dictionary<MapId, BuildingLevel> baseLevelModifiers = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.MapA, new BuildingLevel(1000, 50, 100) },
-        { MapId.MapB, new BuildingLevel(5000, 100, 1000) },
-        { MapId.MapC, new BuildingLevel(20000, 500, 5000) },
+        { MapId.FireWater, new BuildingLevel(1000, 50, 100) },
+        { MapId.WaterAir, new BuildingLevel(5000, 100, 1000) },
+        { MapId.EarthFire, new BuildingLevel(20000, 500, 5000) },
     };
 
     static EssenceLab()

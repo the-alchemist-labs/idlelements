@@ -11,6 +11,7 @@ public struct GameState
     public int essence;
     public int gold;
     public int orbs;
+    public Elemental[] party;
     public List<ElementalEntry> elementalEnteries;
     public List<MapProgression> mapsProgression;
     public List<Item> inventory;

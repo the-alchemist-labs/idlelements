@@ -36,22 +36,18 @@ public enum ElementType
 
 public enum ElementalId
 {
-    ElementalA = 1,
-    ElementalB,
-    ElementalC,
-    ElementalD,
-    ElementalE,
-    ElementalF,
-    ElementalG,
-    ElementalH,
-    ElementalI,
-    ElementalJ,
-    ElementalK,
+    Ferine = 1,
+    Ferion,
+    Wizo,
+    Wizar,
+    Bolli,
+    Bulldo,
+    Seria
 }
 
 public enum MapId
 {
-    MapA = 1,
-    MapB,
-    MapC,
+    FireWater = 1,
+    WaterAir,
+    EarthFire
 }

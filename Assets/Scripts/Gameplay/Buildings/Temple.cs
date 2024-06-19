@@ -7,9 +7,9 @@ public static class Temple
 
     public readonly static Dictionary<MapId, BuildingLevel> baseModifiers = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.MapA, new BuildingLevel(100, 10, 100) },
-        { MapId.MapB, new BuildingLevel(500, 10, 100) },
-        { MapId.MapC, new BuildingLevel(1000, 10, 100) },
+        { MapId.FireWater, new BuildingLevel(100, 10, 100) },
+        { MapId.WaterAir, new BuildingLevel(500, 10, 100) },
+        { MapId.EarthFire, new BuildingLevel(1000, 10, 100) },
     };
 
     public static bool IsMaxLevel()
