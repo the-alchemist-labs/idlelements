@@ -75,8 +75,5 @@ crashlytics-build.properties
 .vscode
 debug.log
 
-# TMP assets
-/Assets/TextMesh Pro/
-
 # Player progression
 /Assets/StreamingAssets/state.json*
