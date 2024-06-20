@@ -5,7 +5,7 @@ public static class State
 {
     private static int baseEncounterSpeed = 300;
 
-    public static DateTime lastEncounter { get; private set; }
+    public static DateTime lastEncounterDate { get; private set; }
 
     public static int level { get; private set; }
     public static int experience { get; private set; }
@@ -38,14 +38,14 @@ public static class State
         List<Map> allMaps = DataService.Instance.LoadData<List<Map>>(FileName.Maps);
         GameState gs = DataService.Instance.LoadData<GameState>(FileName.State);
 
-        lastEncounter = gs.lastEncounter.Year == 1 ? DateTime.Now : gs.lastEncounter;
+        lastEncounterDate = gs.lastEncounterDate.Year == 1 ? DateTime.Now : gs.lastEncounterDate;
         level = gs.level == 0 ? 1 : gs.level;
         experience = gs.experience;
         essence = gs.essence;
         gold = gs.gold;
         orbs = gs.orbs;
         inventory = gs.inventory;
-
+        party = party;
         Elementals = new ElementalsData(allElementals, gs.elementalEnteries);
         Maps = new MapsData(allMaps, gs.mapsProgression, gs.currentMapId);
     }
@@ -100,24 +100,23 @@ public static class State
         orbs = (orbs + amount >= 0) ? orbs + amount : 0;
     }
 
-    public static void UpdateLastEncounter(DateTime date)
+    public static void UpdatelastEncounterDate(DateTime date)
     {
-        lastEncounter = date;
+        lastEncounterDate = date;
     }
 
     public static int GetSecondsUntilNextEncounter()
     {
 
-        int secondsSinceLastEncounter = (int)(DateTime.Now - lastEncounter).TotalSeconds;
-        return (GetEncounterSpeed() - secondsSinceLastEncounter + GetEncounterSpeed())
-        % GetEncounterSpeed();
+        int secondsSincelastEncounterDate = (int)(DateTime.Now - lastEncounterDate).TotalSeconds;
+        return (GetEncounterSpeed() - secondsSincelastEncounterDate) % GetEncounterSpeed();
     }
 
     public static void Save()
     {
         GameState gs = new GameState()
         {
-            lastEncounter = lastEncounter,
+            lastEncounterDate = lastEncounterDate,
             currentMapId = Maps.currentMapId,
             level = level,
             experience = experience,

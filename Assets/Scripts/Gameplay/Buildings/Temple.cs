@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public static class Temple
 {
     private static int MAX_LEVEL = 10;
-    private static int BOOST_SECONDS = 10;
+    public static int BOOST_SECONDS = 10;
 
     public readonly static Dictionary<MapId, BuildingLevel> baseModifiers = new Dictionary<MapId, BuildingLevel>()
     {
@@ -31,7 +31,7 @@ public static class Temple
 
     public static void Boost()
     {
-        State.UpdateLastEncounter(State.lastEncounter.AddSeconds(-BOOST_SECONDS));
+        State.UpdatelastEncounterDate(State.lastEncounterDate.AddSeconds(-BOOST_SECONDS));
         State.UpdateEssence(-BOOST_SECONDS);
     }
 

@@ -1,18 +1,58 @@
 [
   {
     "id": 1,
-    "name": "A",
-    "type": 0,
+    "name": "Ferine",
+    "type": "Fire",
     "catchRate": 0.6,
-    "expGain": 5,
-    "orbsGain": 10
+    "expGain": 1,
+    "orbsGain": 3
   },
   {
     "id": 2,
-    "name": "B",
-    "type": 0,
-    "catchRate": 0.2,
+    "name": "Ferion",
+    "type": "Fire",
+    "catchRate": 0,
     "expGain": 10,
-    "orbsGain": 15
+    "orbsGain": 30
+  },
+  {
+    "id": 3,
+    "name": "Wizo",
+    "type": "Water",
+    "catchRate": 0.6,
+    "expGain": 1,
+    "orbsGain": 3
+  },
+  {
+    "id": 4,
+    "name": "Wizar",
+    "type": "Water",
+    "catchRate": 0,
+    "expGain": 10,
+    "orbsGain": 30
+  },
+  {
+    "id": 5,
+    "name": "Bolli",
+    "type": "Earth",
+    "catchRate": 0.5,
+    "expGain": 2,
+    "orbsGain": 5
+  },
+  {
+    "id": 6,
+    "name": "Bulldo",
+    "type": "Earth",
+    "catchRate": 0,
+    "expGain": 20,
+    "orbsGain": 50
+  },
+  {
+    "id": 7,
+    "name": "Seria",
+    "type": "Air",
+    "catchRate": 0.1,
+    "expGain": 25,
+    "orbsGain": 70
   }
 ]

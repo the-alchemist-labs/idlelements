@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public struct GameState
 {
-    public DateTime lastEncounter;
+    public DateTime lastEncounterDate;
     public MapId currentMapId;
     public int level;
     public int experience;

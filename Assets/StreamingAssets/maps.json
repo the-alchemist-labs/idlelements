@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "MapA",
+        "name": "Blazing Springs",
         "requiredLevel": 1,
         "catchesToComplete": 800,
         "mapElementalTypes": ["Fire", "Water"],
@@ -18,7 +18,7 @@
     },
     {
         "id": 2,
-        "name": "MapB",
+        "name": "Aurora gales",
         "requiredLevel": 5,
         "catchesToComplete": 1000,
         "mapElementalTypes": ["Water", "Air"],
@@ -35,7 +35,7 @@
     },
     {
         "id": 3,
-        "name": "MapC",
+        "name": "Gaya Volcano",
         "requiredLevel": 100,
         "catchesToComplete": 2000,
         "mapElementalTypes": ["Earth", "Fire"],

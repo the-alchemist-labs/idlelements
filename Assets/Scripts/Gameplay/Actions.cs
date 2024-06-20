@@ -4,7 +4,7 @@ using System.Linq;
 
 public static class GameActions
 {
-    public static int GetSecondsSinceLastEncounter(DateTime date)
+    public static int GetSecondsSincelastEncounterDate(DateTime date)
     {
         TimeSpan diff = DateTime.Now - date;
         return Math.Min((int)diff.TotalSeconds, Conts.MaxIdleSecond);
