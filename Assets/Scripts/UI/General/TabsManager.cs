@@ -25,13 +25,5 @@ public class TabManager : MonoBehaviour
     {        
         panels[lastTabIndex].SetActive(false);
         panels[currentTabIndex].SetActive(true);
-
-        ColorBlock lastTabColors = buttons[lastTabIndex].colors;
-        lastTabColors.normalColor = Color.yellow;
-        buttons[lastTabIndex].colors = lastTabColors;
-
-        ColorBlock currentTabColors = buttons[currentTabIndex].colors;
-        currentTabColors.normalColor = Color.green;
-        buttons[currentTabIndex].colors = currentTabColors;
     }
 }
