@@ -14,37 +14,15 @@ public static class GameActions
     {
         int encounters = GetEncounters(elapedsSeconds);
         if (encounters == 0) return new IdleRewards();
-        return encounters == 1 ? TriggerEncounter() : TriggerMultipleEncounters(encounters, elapedsSeconds);
+        return TriggerEncounters(encounters, elapedsSeconds);
     }
-
-
 
     public static int GetEncounters(float elapedsSeconds)
     {
         return (int)(elapedsSeconds / State.GetEncounterSpeed());
     }
 
-    public static IdleRewards TriggerEncounter()
-    {
-        Elemental elemental = State.Maps.currentMap.GetEncounter();
-        IdleRewards rewards = new IdleRewards();
-
-        bool isCaught = elemental.Catch(/*add modifiers*/);
-        if (isCaught)
-        {
-            bool isNewCatch = !State.Elementals.IsElementalRegistered(elemental.id);
-
-            rewards.totalCatches = 1;
-            rewards.experience = elemental.expGain;
-            rewards.orbs = elemental.orbsGain;
-            if (isNewCatch) rewards.newCatches.Add(elemental.id);
-            if (!isNewCatch) rewards.elementalTokens.Add(elemental.id, 1);
-        }
-
-        return rewards;
-    }
-
-    public static IdleRewards TriggerMultipleEncounters(int multiplier, float elapedsSeconds)
+    public static IdleRewards TriggerEncounters(int multiplier, float elapedsSeconds)
     {
         IdleRewards rewards = new IdleRewards();
 
@@ -52,8 +30,8 @@ public static class GameActions
         foreach (ElementalEncounter encounter in elementalEncounters)
         {
             Elemental elemental = State.Elementals.GetElement(encounter.elementalId);
-            int apperences = (int)(encounter.encounterChance * multiplier);
-            int catches = (int)(apperences * elemental.catchRate);
+
+            int catches = Enumerable.Range(0, multiplier).Count(_ => encounter.encounterChance > new Random().NextDouble());
 
             if (catches == 0) break;
 
@@ -68,8 +46,8 @@ public static class GameActions
             rewards.orbs += elemental.orbsGain * catches;
             rewards.totalCatches += catches;
         }
- 
-        rewards.gold =  GoldMine.GetTotalGoldFromAllMaps() * (int)(elapedsSeconds / GoldMine.incomeLoopSeconds);
+
+        rewards.gold = GoldMine.GetTotalGoldFromAllMaps() * (int)(elapedsSeconds / GoldMine.incomeLoopSeconds);
         rewards.essence = EssenceLab.GetTotalEssenceFromAllMaps() * (int)(elapedsSeconds / EssenceLab.incomeLoopSeconds);
 
         return rewards;
@@ -80,7 +58,8 @@ public static class GameActions
         rewards.newCatches.ForEach(c => State.Elementals.MarkElementalAsCaught(c));
         rewards.elementalTokens.ToList().ForEach(c => State.Elementals.UpdateElementalTokens(c.Key, c.Value));
         State.GainExperience(rewards.experience);
-        State.UpdateEssence(rewards.orbs);
+        State.UpdateEssence(rewards.essence);
+        State.UpdateGold(rewards.gold);
     }
 }
 

@@ -1,18 +1,16 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class AfkGainsPanel : MonoBehaviour
 {
     public GameObject afkGainsPanel;
-    public TMP_Text idleTimeText;
-    public GameObject newElelemtalPrefab;
     public GameObject newCatchesContainer;
     public GameObject tokensContainer;
+    public GameObject elementalPrefab;
 
-    public Transform newElelemtalContainer;
-    public GameObject elementalTokensPrefab;
-    public Transform elementalTokensContainer;
+    public TMP_Text idleTimeText;
     public TMP_Text essenceText;
     public TMP_Text goldText;
     public TMP_Text expText;
@@ -46,32 +44,42 @@ public class AfkGainsPanel : MonoBehaviour
 
     private void InstantiateNewCaught(List<ElementalId> newElementalIds)
     {
-        if (newElementalIds.Count == 0) newCatchesContainer.SetActive(false);
+        if (newElementalIds.Count == 0)
+        {
+            newCatchesContainer.SetActive(false);
+            return;
+        }
+
+        Transform containerTransform = newCatchesContainer.transform.Find("NewElementalsContainer");
+        containerTransform.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
         foreach (ElementalId id in newElementalIds)
         {
-            GameObject newCaught = Instantiate(newElelemtalPrefab, newElelemtalContainer);
-            if (newCaught.TryGetComponent(out ChangeImageToElemental item))
+            GameObject newCaught = Instantiate(elementalPrefab, containerTransform);
+            if (newCaught.TryGetComponent(out ElementaAfkRewardsPrefub item))
             {
-                item.UpdateImageToElemental(id);
+                item.UpdatePrefub(id);
             }
         }
     }
 
     private void InstantiateElementalTokens(Dictionary<ElementalId, int> gainedTokensDictionary)
     {
-        if (gainedTokensDictionary.Count == 0) tokensContainer.SetActive(false);
+        if (gainedTokensDictionary.Count == 0)
+        {
+            tokensContainer.SetActive(false);
+            return;
+        }
+
+        Transform containerTransform = tokensContainer.transform.Find("TokensContainer");
+        containerTransform.transform.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
         foreach (KeyValuePair<ElementalId, int> kvp in gainedTokensDictionary)
         {
-            GameObject tokens = Instantiate(elementalTokensPrefab, elementalTokensContainer);
-            if (tokens.TryGetComponent(out ChangeImageToElemental image))
+            GameObject tokens = Instantiate(elementalPrefab, containerTransform);
+            if (tokens.TryGetComponent(out ElementaAfkRewardsPrefub item))
             {
-                image.UpdateImageToElemental(kvp.Key);
-            }
-            if (tokens.TryGetComponent(out ChangeTokenLabel text))
-            {
-                text.UpdateTokenLabel(kvp.Value);
+                item.UpdatePrefub(kvp.Key, kvp.Value);
             }
         }
     }
