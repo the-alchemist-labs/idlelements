@@ -12,6 +12,7 @@ public struct GameState
     public int gold;
     public int orbs;
     public Elemental[] party;
+    public ElementalId lastCaught;
     public List<ElementalEntry> elementalEnteries;
     public List<MapProgression> mapsProgression;
     public List<Item> inventory;
@@ -29,10 +30,9 @@ public class ElementalEntry
 public class MapProgression
 {
     public MapId id;
-    public bool isCompleted  = false;
-    public int templeLevel = 0;
-    public int goldMineLevel = 0;
-    public int  essenceLabLevel = 0;
+    public int templeLevel = 1;
+    public int goldMineLevel = 1;
+    public int  essenceLabLevel = 1;
 }
 
 [Serializable]

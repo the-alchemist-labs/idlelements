@@ -1,13 +1,13 @@
 public class BuildingLevel
 {
-    public int UnlockBonus { get; set; }
-    public int BuffBonus { get; set; }
-    public int CostModifier { get; set; }
+    public int BuffBonus { get; }
+    public int CostModifier { get;}
+    public int MaxLevel { get; }
 
-    public BuildingLevel(int costModifier, int buffBonus, int unlockBonus = 0)
+    public BuildingLevel(int costModifier, int buffBonus, int maxLevel)
     {   
         BuffBonus = buffBonus;
         CostModifier = costModifier;
-        UnlockBonus = unlockBonus;
+        MaxLevel = maxLevel;
     }
 }

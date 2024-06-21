@@ -58,7 +58,6 @@ public class TemplePanel : MonoBehaviour
         else
         {
             levelUpButton.SetActive(true);
-            levelUpBuff.text = $"+{Temple.GetNextLevelBuff()}%";
             levelUpCost.text = $"{TextUtil.NumberFormatter(Temple.GetLevelUpCost())}";
         }
 
@@ -78,8 +77,8 @@ public class TemplePanel : MonoBehaviour
 
     void UpdateEncounterSliderData()
     {
-        int secondsUntilNextEncounter = State.GetSecondsUntilNextEncounter();
+        int secondsUntilNextEncounter = Temple.GetSecondsUntilNextEncounter();
         secondsToEncounterText.text = $"{secondsUntilNextEncounter} seconds";
-        encounterSlider.value = 1 - ((float)secondsUntilNextEncounter / (float)State.GetEncounterSpeed());
+        encounterSlider.value = 1 - ((float)secondsUntilNextEncounter / (float)Temple.GetEncounterSpeed());
     }
 }

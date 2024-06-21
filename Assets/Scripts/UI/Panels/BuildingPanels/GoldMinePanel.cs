@@ -45,7 +45,6 @@ public class GoldMinePanel : MonoBehaviour
         else
         {
             levelUpButton.SetActive(true);
-            levelUpBuff.text = $"+{GoldMine.GetNextLevelBuff()}";
             levelUpCost.text = $"{TextUtil.NumberFormatter(GoldMine.GetLevelUpCost())}";
         }
 

@@ -5,19 +5,18 @@ using System.Threading.Tasks;
 
 public static class EssenceLab
 {
-    private static int MAX_LEVEL = 10;
     public static DateTime lastCollectDate { get; private set; }
-
     public static int incomeLoopSeconds { get { return 5; } }
-    public readonly static Dictionary<MapId, BuildingLevel> baseLevelModifiers = new Dictionary<MapId, BuildingLevel>()
+    public readonly static Dictionary<MapId, BuildingLevel> buildingInfo = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.FireWater, new BuildingLevel(1000, 50, 0) },
-        { MapId.WaterAir, new BuildingLevel(5000, 100, 0) },
-        { MapId.EarthFire, new BuildingLevel(20000, 300, 0) },
+        { MapId.FireWater, new BuildingLevel(1000, 50, 10) },
+        { MapId.WaterAir, new BuildingLevel(5000, 100, 20) },
+        { MapId.EarthFire, new BuildingLevel(20000, 300, 30) },
     };
 
     static EssenceLab()
     {
+        // TODO: register to map change and set the buildingInfo of the relevant map
         _ = Collect();
     }
 
@@ -33,11 +32,16 @@ public static class EssenceLab
 
     public static int GetTotalEssenceFromAllMaps()
     {
-        return baseLevelModifiers
+        return buildingInfo
         .ToList()
-        .Sum(kvp => State.Maps.GetMapProgresion(
-            kvp.Key).essenceLabLevel * baseLevelModifiers[kvp.Key].BuffBonus
-            + baseLevelModifiers[kvp.Key].UnlockBonus);
+        .Sum(kvp =>
+        {
+            MapProgression mapProgression = State.Maps.GetMapProgresion(kvp.Key);
+            State.Maps.GetMapProgresion(kvp.Key);
+            return mapProgression != null
+            ? mapProgression.essenceLabLevel * buildingInfo[kvp.Key].BuffBonus
+            : 0;
+        });
     }
 
     public static int GetSecondsSinceLastCollect()
@@ -47,7 +51,7 @@ public static class EssenceLab
 
     public static bool IsMaxLevel()
     {
-        return State.Maps.GetCurrentMapProgresion().essenceLabLevel >= MAX_LEVEL;
+        return State.Maps.GetCurrentMapProgresion().essenceLabLevel >= buildingInfo[State.Maps.currentMapId].MaxLevel;
     }
 
     public static void LevelUp()
@@ -66,21 +70,13 @@ public static class EssenceLab
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
         if (map.essenceLabLevel == 0) return 0;
-        BuildingLevel essenceLabLevel = baseLevelModifiers[State.Maps.currentMapId];
-        return essenceLabLevel.UnlockBonus + map.essenceLabLevel * essenceLabLevel.BuffBonus;
-    }
-
-    public static int GetNextLevelBuff()
-    {
-        MapProgression map = State.Maps.GetCurrentMapProgresion();
-        BuildingLevel essenceLabLevel = baseLevelModifiers[State.Maps.currentMapId];
-
-        return map.essenceLabLevel == 0 ? essenceLabLevel.UnlockBonus : essenceLabLevel.BuffBonus;
+        BuildingLevel essenceLabLevel = buildingInfo[State.Maps.currentMapId];
+        return map.essenceLabLevel * essenceLabLevel.BuffBonus;
     }
 
     public static int GetLevelUpCost()
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
-        return (map.essenceLabLevel + 1) * baseLevelModifiers[State.Maps.currentMapId].CostModifier;
+        return (map.essenceLabLevel + 1) * buildingInfo[State.Maps.currentMapId].CostModifier;
     }
 }

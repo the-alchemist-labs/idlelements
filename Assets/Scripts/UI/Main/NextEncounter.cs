@@ -14,11 +14,13 @@ public class NextEncounter : MonoBehaviour
     void Start()
     {
         StartCoroutine(UpdateReactiveData());
+        GameEvents.OnMapDataChanged += UpdateBoostText;
+        UpdateBoostText();
     }
 
-    void OnEnable()
+    void OnDestroy()
     {
-        StartCoroutine(UpdateReactiveData());
+        GameEvents.OnMapDataChanged -= UpdateBoostText;
     }
 
     public void Boost()
@@ -31,7 +33,7 @@ public class NextEncounter : MonoBehaviour
     {
         while (true)
         {
-            boostButton.interactable = State.essence >= Temple.BOOST_SECONDS;
+            boostButton.interactable = State.essence >= Temple.GetBoostCost();
             UpdateEncounterSliderData();
 
             yield return new WaitForSeconds(0.5f);
@@ -40,8 +42,15 @@ public class NextEncounter : MonoBehaviour
 
     void UpdateEncounterSliderData()
     {
-        int secondsUntilNextEncounter = State.GetSecondsUntilNextEncounter();
-        secondsToEncounterText.text = $"{Math.Max(secondsUntilNextEncounter, 0)}/{State.GetEncounterSpeed()}";
-        encounterSlider.value = 1 - ((float)secondsUntilNextEncounter / (float)State.GetEncounterSpeed());
+        int secondsUntilNextEncounter = Temple.GetSecondsUntilNextEncounter() % Temple.GetEncounterSpeed();
+        secondsToEncounterText.text = secondsUntilNextEncounter <= 0
+        ? "Catch!"
+        : $"{Math.Max(secondsUntilNextEncounter, 0)}/{Temple.GetEncounterSpeed()}";
+        encounterSlider.value = 1 - ((float)secondsUntilNextEncounter / (float)Temple.GetEncounterSpeed());
+    }
+
+    void UpdateBoostText()
+    {
+        boostButtonText.text = $"Boost {Temple.GetBoostEffect()}s/{Temple.GetBoostCost()}";
     }
 }

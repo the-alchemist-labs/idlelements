@@ -5,15 +5,14 @@ using System.Threading.Tasks;
 
 public static class GoldMine
 {
-    private static int MAX_LEVEL = 10;
     public static DateTime lastCollectDate { get; private set; }
 
     public static int incomeLoopSeconds { get { return 5; } }
-    public readonly static Dictionary<MapId, BuildingLevel> baseLevelModifiers = new Dictionary<MapId, BuildingLevel>()
+    public readonly static Dictionary<MapId, BuildingLevel> buildingInfo = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.FireWater, new BuildingLevel(500, 50, 0 ) },
-        { MapId.WaterAir, new BuildingLevel(1500, 100, 0 ) },
-        { MapId.EarthFire, new BuildingLevel(3000, 250, 0 )  },
+        { MapId.FireWater, new BuildingLevel(500, 50, 10) },
+        { MapId.WaterAir, new BuildingLevel(1500, 100, 20) },
+        { MapId.EarthFire, new BuildingLevel(3000, 250, 30)  },
     };
 
     static GoldMine()
@@ -33,11 +32,15 @@ public static class GoldMine
 
     public static int GetTotalGoldFromAllMaps()
     {
-        return baseLevelModifiers
+        return buildingInfo
         .ToList()
-        .Sum(kvp => State.Maps.GetMapProgresion(
-            kvp.Key).goldMineLevel * baseLevelModifiers[kvp.Key].BuffBonus
-            + baseLevelModifiers[kvp.Key].UnlockBonus);
+        .Sum(kvp =>
+        {
+            MapProgression mapProgression = State.Maps.GetMapProgresion(kvp.Key);
+            return mapProgression != null
+            ? mapProgression.goldMineLevel * buildingInfo[kvp.Key].BuffBonus
+            : 0;
+        });
     }
 
     public static int GetSecondsSinceLastCollect()
@@ -47,7 +50,7 @@ public static class GoldMine
 
     public static bool IsMaxLevel()
     {
-        return State.Maps.GetCurrentMapProgresion().goldMineLevel >= MAX_LEVEL;
+        return State.Maps.GetCurrentMapProgresion().goldMineLevel >= buildingInfo[State.Maps.currentMapId].MaxLevel;
     }
 
     public static void LevelUp()
@@ -67,21 +70,13 @@ public static class GoldMine
         MapProgression map = State.Maps.GetCurrentMapProgresion();
         if (map.goldMineLevel == 0) return 0;
 
-        BuildingLevel goldMineLevel = baseLevelModifiers[State.Maps.currentMapId];
-        return map.goldMineLevel * goldMineLevel.BuffBonus + goldMineLevel.UnlockBonus;
-    }
-
-    public static int GetNextLevelBuff()
-    {
-        MapProgression map = State.Maps.GetCurrentMapProgresion();
-        BuildingLevel goldMineLevel = baseLevelModifiers[State.Maps.currentMapId];
-
-        return map.goldMineLevel == 0 ? goldMineLevel.UnlockBonus : goldMineLevel.BuffBonus;
+        BuildingLevel goldMineLevel = buildingInfo[State.Maps.currentMapId];
+        return map.goldMineLevel * goldMineLevel.BuffBonus;
     }
 
     public static int GetLevelUpCost()
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
-        return (map.goldMineLevel + 1) * baseLevelModifiers[State.Maps.currentMapId].CostModifier;
+        return (map.goldMineLevel + 1) * buildingInfo[State.Maps.currentMapId].CostModifier;
     }
 }

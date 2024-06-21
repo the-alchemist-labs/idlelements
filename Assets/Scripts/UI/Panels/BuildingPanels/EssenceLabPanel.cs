@@ -45,7 +45,6 @@ public class EssenceLabPanel : MonoBehaviour
         else
         {
             levelUpButton.SetActive(true);
-            levelUpBuff.text = $"+{EssenceLab.GetNextLevelBuff()}";
             levelUpCost.text = $"{TextUtil.NumberFormatter(EssenceLab.GetLevelUpCost())}";
         }
 

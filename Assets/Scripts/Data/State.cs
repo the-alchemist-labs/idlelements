@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public static class State
 {
-    private static int baseEncounterSpeed = 300;
 
     public static DateTime lastEncounterDate { get; private set; }
 
@@ -15,6 +14,7 @@ public static class State
     public static List<Item> inventory { get; }
 
     public static Elemental[] party { get; }
+    public static ElementalId lastCaught { get; private set; }
     public static ElementalsData Elementals { get; }
     public static MapsData Maps { get; }
 
@@ -46,14 +46,9 @@ public static class State
         orbs = gs.orbs;
         inventory = gs.inventory;
         party = party;
+        lastCaught = lastCaught;
         Elementals = new ElementalsData(allElementals, gs.elementalEnteries);
         Maps = new MapsData(allMaps, gs.mapsProgression, gs.currentMapId);
-    }
-
-    public static int GetEncounterSpeed()
-    {
-        float encounterSpeedModifier = Temple.GetTotalBuff() / 100;
-        return (int)(baseEncounterSpeed / (1 + encounterSpeedModifier));
     }
 
     public static bool IsMaxLevel()
@@ -105,11 +100,10 @@ public static class State
         lastEncounterDate = date;
     }
 
-    public static int GetSecondsUntilNextEncounter()
+    public static void UpdateLastCatch(ElementalId elementalId)
     {
-
-        int secondsSincelastEncounterDate = (int)(DateTime.Now - lastEncounterDate).TotalSeconds;
-        return (GetEncounterSpeed() - secondsSincelastEncounterDate) % GetEncounterSpeed();
+        lastCaught = elementalId;
+        GameEvents.ElementalCaught();
     }
 
     public static void Save()
@@ -127,6 +121,7 @@ public static class State
             elementalEnteries = Elementals.entries,
             mapsProgression = Maps.progressions,
             party = party,
+            lastCaught = lastCaught,
         };
 
         DataService.Instance.SaveData(FileName.State, gs);
