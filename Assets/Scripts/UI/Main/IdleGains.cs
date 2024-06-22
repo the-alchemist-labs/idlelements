@@ -9,6 +9,7 @@ public class IdleGains : MonoBehaviour
     void Start()
     {
         GameEvents.OnIdleGainsChanged += UpdateIdleGains;
+
         UpdateIdleGains();
     }
 
@@ -19,7 +20,7 @@ public class IdleGains : MonoBehaviour
 
     public void UpdateIdleGains()
     {
-        goldText.text = $"{GoldMine.GetTotalGoldFromAllMaps() / GoldMine.incomeLoopSeconds}/s";
-        essenceText.text = $"{EssenceLab.GetTotalEssenceFromAllMaps() / EssenceLab.incomeLoopSeconds}/s";
+        goldText.text = $"{GoldMine.GetTotalGoldFromAllMaps()}/ {GoldMine.incomeLoopSeconds}s";
+        essenceText.text = $"{EssenceLab.GetTotalEssenceFromAllMaps()}/ { EssenceLab.incomeLoopSeconds}s";
     }
 }

@@ -15,7 +15,6 @@ public class MapOption : MonoBehaviour
     public void ChooseMap()
     {
         State.Maps.UpdateCurrentMap(mapId);
-        GameEvents.MapDataChanged();
         mapsPanel.SetActive(false);
     }
 }

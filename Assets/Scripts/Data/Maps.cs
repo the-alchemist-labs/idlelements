@@ -6,13 +6,14 @@ public class MapsData
     public List<MapProgression> progressions { get; private set; }
     public MapId currentMapId { get; private set; }
     public Map currentMap { get; private set; }
-    public MapProgression currentMapProgression { get; private set; }
+    public MapProgression currentMapProgression { get { return progressions.Find(el => el.id == currentMapId); } private set {}}
 
     public void UpdateCurrentMap(MapId id)
     {
         currentMapId = id;
         currentMap = all.Find(el => el.id == currentMapId);
         currentMapProgression = GetMapProgression();
+        GameEvents.MapDataChanged();
     }
 
     public MapsData(List<Map> maps, List<MapProgression> mapsProgression, MapId currentMapId)

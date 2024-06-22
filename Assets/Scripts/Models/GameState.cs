@@ -15,7 +15,6 @@ public struct GameState
     public ElementalId lastCaught;
     public List<ElementalEntry> elementalEnteries;
     public List<MapProgression> mapsProgression;
-    public List<Item> inventory;
 }
 
 [Serializable]
@@ -33,11 +32,4 @@ public class MapProgression
     public int templeLevel = 1;
     public int goldMineLevel = 1;
     public int  essenceLabLevel = 1;
-}
-
-[Serializable]
-public struct Item
-{
-    public int name;
-    public int amount;
 }

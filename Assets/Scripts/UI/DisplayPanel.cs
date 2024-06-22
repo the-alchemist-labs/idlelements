@@ -4,18 +4,19 @@ public class DisplayPanel : MonoBehaviour
 {
     public GameObject panel;
 
-    public void OpenPanel()
+    private void OnCollisionEnter(Collision collision)
     {
-        panel.SetActive(true);
+        if (collision.gameObject == gameObject)
+        {
+            panel.SetActive(true);
+        }
     }
 
-    public void ClosePanel()
+    private void OnCollisionExit(Collision collision)
     {
-        panel.SetActive(false);
-    }
-
-    public void CloseAllPanels()
-    {
-        print("close");
+        if (collision.gameObject == gameObject)
+        {
+            panel.SetActive(false);
+        }
     }
 }

@@ -7,16 +7,18 @@ public static class EssenceLab
 {
     public static DateTime lastCollectDate { get; private set; }
     public static int incomeLoopSeconds { get { return 5; } }
-    public readonly static Dictionary<MapId, BuildingLevel> buildingInfo = new Dictionary<MapId, BuildingLevel>()
+    public readonly static Dictionary<MapId, BuildingLevel> mapEssenceLab = new Dictionary<MapId, BuildingLevel>()
     {
-        { MapId.FireWater, new BuildingLevel(1000, 50, 10) },
-        { MapId.WaterAir, new BuildingLevel(5000, 100, 20) },
-        { MapId.EarthFire, new BuildingLevel(20000, 300, 30) },
+        { MapId.FireWater, new BuildingLevel(3, 1000, 50, 10) },
+        { MapId.WaterAir, new BuildingLevel(3, 5000, 100, 20) },
+        { MapId.EarthFire, new BuildingLevel(3, 20000, 300, 30) },
     };
+
+    public static BuildingLevel currentMapEssenceLab { get { return mapEssenceLab[State.Maps.currentMapId]; } }
 
     static EssenceLab()
     {
-        // TODO: register to map change and set the buildingInfo of the relevant map
+        // TODO: register to map change and set the mapEssenceLab of the relevant map
         _ = Collect();
     }
 
@@ -32,14 +34,14 @@ public static class EssenceLab
 
     public static int GetTotalEssenceFromAllMaps()
     {
-        return buildingInfo
+        return mapEssenceLab
         .ToList()
         .Sum(kvp =>
         {
             MapProgression mapProgression = State.Maps.GetMapProgresion(kvp.Key);
             State.Maps.GetMapProgresion(kvp.Key);
             return mapProgression != null
-            ? mapProgression.essenceLabLevel * buildingInfo[kvp.Key].BuffBonus
+            ? GetTotalBuffByMap(kvp.Key)
             : 0;
         });
     }
@@ -51,32 +53,45 @@ public static class EssenceLab
 
     public static bool IsMaxLevel()
     {
-        return State.Maps.GetCurrentMapProgresion().essenceLabLevel >= buildingInfo[State.Maps.currentMapId].MaxLevel;
+        return State.Maps.GetCurrentMapProgresion().essenceLabLevel >= mapEssenceLab[State.Maps.currentMapId].MaxLevel;
     }
 
-    public static void LevelUp()
+    public static bool LevelUp()
     {
-        if (IsMaxLevel())
+        if (IsMaxLevel() || State.gold < GetLevelUpCost())
         {
-            return;
+            return false;
         }
 
         int levelUpCost = GetLevelUpCost();
         State.UpdateGold(-levelUpCost);
         State.Maps.GetCurrentMapProgresion().essenceLabLevel++;
+        GameEvents.IdleGainsChanged();
+
+        return true;
     }
 
     public static int GetTotalBuff()
     {
-        MapProgression map = State.Maps.GetCurrentMapProgresion();
-        if (map.essenceLabLevel == 0) return 0;
-        BuildingLevel essenceLabLevel = buildingInfo[State.Maps.currentMapId];
-        return map.essenceLabLevel * essenceLabLevel.BuffBonus;
+        return GetTotalBuffByMap(State.Maps.currentMapId);
     }
 
     public static int GetLevelUpCost()
     {
         MapProgression map = State.Maps.GetCurrentMapProgresion();
-        return (map.essenceLabLevel + 1) * buildingInfo[State.Maps.currentMapId].CostModifier;
+        return (map.essenceLabLevel + 1) * mapEssenceLab[State.Maps.currentMapId].CostModifier;
+    }
+
+    public static int GetLevelUpBuff()
+    {
+        return (State.Maps.GetCurrentMapProgresion().essenceLabLevel + 1) * currentMapEssenceLab.BuffBonus;
+    }
+
+    private static int GetTotalBuffByMap(MapId mapId)
+    {
+        return Enumerable
+        .Range(1, State.Maps.GetMapProgresion(mapId).essenceLabLevel)
+        .Select(i => i * mapEssenceLab[mapId].BuffBonus)
+        .Sum();
     }
 }

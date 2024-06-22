@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public static class State
 {
-
     public static DateTime lastEncounterDate { get; private set; }
 
     public static int level { get; private set; }
@@ -11,7 +10,6 @@ public static class State
     public static int essence { get; private set; }
     public static int gold { get; private set; }
     public static int orbs { get; private set; }
-    public static List<Item> inventory { get; }
 
     public static Elemental[] party { get; }
     public static ElementalId lastCaught { get; private set; }
@@ -44,7 +42,6 @@ public static class State
         essence = gs.essence;
         gold = gs.gold;
         orbs = gs.orbs;
-        inventory = gs.inventory;
         party = party;
         lastCaught = lastCaught;
         Elementals = new ElementalsData(allElementals, gs.elementalEnteries);
@@ -83,11 +80,14 @@ public static class State
     public static void UpdateEssence(int amount)
     {
         essence = (essence + amount >= 0) ? essence + amount : 0;
+        GameEvents.EssenceUpdated();
+
     }
 
     public static void UpdateGold(int amount)
     {
         gold = (gold + amount >= 0) ? gold + amount : 0;
+        GameEvents.GoldUpdated();
     }
 
     public static void UpdateOrbs(int amount)
@@ -117,7 +117,6 @@ public static class State
             essence = essence,
             gold = gold,
             orbs = orbs,
-            inventory = inventory,
             elementalEnteries = Elementals.entries,
             mapsProgression = Maps.progressions,
             party = party,

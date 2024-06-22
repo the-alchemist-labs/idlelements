@@ -15,12 +15,16 @@ public class NextEncounter : MonoBehaviour
     {
         StartCoroutine(UpdateReactiveData());
         GameEvents.OnMapDataChanged += UpdateBoostText;
+        GameEvents.OnIdleGainsChanged += UpdateBoostText;
+        GameEvents.OnEssenceUpdated += UpdateBoostButton;
         UpdateBoostText();
     }
 
     void OnDestroy()
     {
         GameEvents.OnMapDataChanged -= UpdateBoostText;
+        GameEvents.OnIdleGainsChanged -= UpdateBoostText;
+        GameEvents.OnEssenceUpdated -= UpdateBoostButton;
     }
 
     public void Boost()
@@ -33,10 +37,8 @@ public class NextEncounter : MonoBehaviour
     {
         while (true)
         {
-            boostButton.interactable = State.essence >= Temple.GetBoostCost();
-            UpdateEncounterSliderData();
-
-            yield return new WaitForSeconds(0.5f);
+            Invoke("UpdateEncounterSliderData", 0.1f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -47,6 +49,11 @@ public class NextEncounter : MonoBehaviour
         ? "Catch!"
         : $"{Math.Max(secondsUntilNextEncounter, 0)}/{Temple.GetEncounterSpeed()}";
         encounterSlider.value = 1 - ((float)secondsUntilNextEncounter / (float)Temple.GetEncounterSpeed());
+    }
+
+    void UpdateBoostButton()
+    {
+        boostButton.interactable = State.essence >= Temple.GetBoostCost();
     }
 
     void UpdateBoostText()
