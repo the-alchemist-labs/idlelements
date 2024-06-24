@@ -32,9 +32,9 @@ public sealed class DataService
         }
     }
 
-    public bool SaveData<T>(string fileName, T Data)
+    public bool SaveData<T>(string fileName, bool isPersistent, T Data)
     {
-        string path = Path.Combine(Application.streamingAssetsPath, $"{fileName}.json");
+        string path = GetPath(fileName, isPersistent);
         try
         {
             if (File.Exists(path))
@@ -75,9 +75,10 @@ public sealed class DataService
         cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Data)));
     }
 
-    public T LoadData<T>(string fileName)
+    public T LoadData<T>(string fileName, bool isPersistent)
     {
-        string path = Path.Combine(Application.streamingAssetsPath, $"{fileName}.json");
+        string path = GetPath(fileName, isPersistent);
+
         if (!File.Exists(path))
         {
             Debug.LogError($"Cannot load file at {path}. File does not exist!");
@@ -119,5 +120,10 @@ public sealed class DataService
 
         Debug.LogWarning($"Decrypted result (if the following is not legible, probably wrong key or iv): {result}");
         return JsonConvert.DeserializeObject<T>(result);
+    }
+
+    private static string GetPath(string fileName, bool isPersistent)
+    {
+        return Path.Combine(isPersistent ? Application.persistentDataPath : Application.streamingAssetsPath, $"{fileName}.json");
     }
 }

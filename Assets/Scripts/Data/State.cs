@@ -32,9 +32,9 @@ public static class State
 
     static State()
     {
-        List<Elemental> allElementals = DataService.Instance.LoadData<List<Elemental>>(FileName.Elementals);
-        List<Map> allMaps = DataService.Instance.LoadData<List<Map>>(FileName.Maps);
-        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State);
+        List<Elemental> allElementals = DataService.Instance.LoadData<List<Elemental>>(FileName.Elementals, false);
+        List<Map> allMaps = DataService.Instance.LoadData<List<Map>>(FileName.Maps, false);
+        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State, true);
 
         lastEncounterDate = gs.lastEncounterDate.Year == 1 ? DateTime.Now : gs.lastEncounterDate;
         level = gs.level == 0 ? 1 : gs.level;
@@ -123,6 +123,6 @@ public static class State
             lastCaught = lastCaught,
         };
 
-        DataService.Instance.SaveData(FileName.State, gs);
+        DataService.Instance.SaveData(FileName.State, true, gs);
     }
 }
