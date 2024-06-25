@@ -2000,7 +2000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 1605811968}
-  backgroundPanel: {fileID: 2049617034}
+  backgroundPanel: {fileID: 0}
 --- !u!1 &322800123
 GameObject:
   m_ObjectHideFlags: 0
@@ -4603,7 +4603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 1605811968}
-  backgroundPanel: {fileID: 2049617034}
+  backgroundPanel: {fileID: 0}
 --- !u!114 &645862609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6068,7 +6068,7 @@ GameObject:
   - component: {fileID: 907726316}
   m_Layer: 5
   m_Name: Map
-  m_TagString: MapInfo
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10120,9 +10120,10 @@ GameObject:
   - component: {fileID: 1605811969}
   - component: {fileID: 1605811972}
   - component: {fileID: 1605811971}
+  - component: {fileID: 1605811973}
   m_Layer: 0
   m_Name: Panel_AllMaps
-  m_TagString: Panel
+  m_TagString: MapsPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10188,6 +10189,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605811968}
   m_CullTransparentMesh: 1
+--- !u!114 &1605811973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605811968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b775180160c3d4895dd4fad7ae907a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 1605811968}
+  backgroundPanel: {fileID: 2049617034}
 --- !u!1 &1612994002
 GameObject:
   m_ObjectHideFlags: 0

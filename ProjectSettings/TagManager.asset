@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Panel
   - MapInfo
+  - MapsPanel
   layers:
   - Default
   - TransparentFX

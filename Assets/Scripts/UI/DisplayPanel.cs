@@ -7,7 +7,6 @@ public class DisplayPanel : MonoBehaviour
 
     public void OpenPanel()
     {
-        
         backgroundPanel?.SetActive(true);
         panel.SetActive(true);
     }
