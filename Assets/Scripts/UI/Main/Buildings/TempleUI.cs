@@ -29,7 +29,7 @@ public class TempleUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         infoPanel.GetComponent<BuildingPanel>()?.UpdateUI(
             "Temple",
              Temple.IsMaxLevel() ? "Next level: 0" : $"Next level:  + {Temple.GetLevelUpBuff()}%",
-            $"Total time buff: + {TextUtil.NumberFormatter(Temple.GetTotalBuff())}%",
+            $"Total buff: + {TextUtil.NumberFormatter(Temple.GetTotalBuff())}%",
             $"Catch time: {Temple.GetEncounterSpeed()} sec",
             "Sprites/Currencies/time"
         );
@@ -53,8 +53,8 @@ public class TempleUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         int templeLevel = State.Maps.GetCurrentMapProgresion().templeLevel;
 
-        levelText.text = $"{templeLevel}/{Temple.currentMapTemple.MaxLevel}";
-        costText.text = Temple.IsMaxLevel() ? "Max" : $"{Temple.currentMapTemple.CostModifier * templeLevel}";
+        levelText.text = $"{templeLevel}/{Temple.currentTemple.MaxLevel}";
+        costText.text = Temple.IsMaxLevel() ? "Max" : $"{Temple.currentTemple.CostModifier * templeLevel}";
         levelUpButton.transform.GetChild(0)?.GetComponentInChildren<Image>()?.gameObject?.SetActive(!Temple.IsMaxLevel());
         levelUpButton.GetComponent<Button>().interactable = !Temple.IsMaxLevel() && State.gold >= Temple.GetLevelUpCost();
     }

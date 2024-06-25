@@ -30,7 +30,7 @@ public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             "Essence Lab",
             EssenceLab.IsMaxLevel() ? "Next level: 0" : $"Next level: + {EssenceLab.GetLevelUpBuff()}",
             $"Total gains: {TextUtil.NumberFormatter(EssenceLab.GetTotalBuff())}",
-            $"Collect time: {EssenceLab.currentMapEssenceLab.interval} sec",
+            $"Collect time: {EssenceLab.currentMapEssenceLab.Interval} sec",
             "Sprites/Currencies/essence"
         );
     }

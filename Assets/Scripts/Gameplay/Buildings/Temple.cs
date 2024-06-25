@@ -9,8 +9,8 @@ public class MapTemple : BuildingLevel
     public int BoostEffect { get; }
     public int BoostCost { get; }
 
-   public MapTemple(int interval, int costModifier, int buffBonus, int boostEffect, int boostCost, int maxLevel)
-        : base(interval, costModifier, buffBonus, maxLevel)
+    public MapTemple(int interval, int costModifier, int buffBonus, int boostEffect, int boostCost, int maxLevel)
+         : base(interval, costModifier, buffBonus, maxLevel)
     {
         BoostEffect = boostEffect;
         BoostCost = boostCost;
@@ -19,16 +19,15 @@ public class MapTemple : BuildingLevel
 
 public static class Temple
 {
-    private static int baseEncounterSpeed = 300;
-
     public readonly static Dictionary<MapId, MapTemple> mapTemples = new Dictionary<MapId, MapTemple>()
     {
-        { MapId.FireWater, new MapTemple(300, 100, 10, 10, 10, 10) },
-        { MapId.WaterAir, new MapTemple(300, 500, 10, 15, 10, 20) },
-        { MapId.EarthFire, new MapTemple(300, 1000, 10, 20, 15, 25) },
+        { MapId.FireWater, new MapTemple(300, 100, 5, 10, 10, 10) },
+        { MapId.WaterAir, new MapTemple(350, 500, 5, 15, 10, 20) },
+        { MapId.EarthFire, new MapTemple(400, 1000, 5, 20, 15, 25) },
     };
 
-    public static MapTemple currentMapTemple { get { return mapTemples[State.Maps.currentMapId]; } }
+    public static MapTemple currentTemple { get { return mapTemples[State.Maps.currentMapId]; } }
+    public static int currentTempleLevel { get { return State.Maps.currentMapProgression.templeLevel; } }
 
     public static IEnumerator StartRoutine()
     {
@@ -50,8 +49,8 @@ public static class Temple
 
     public static int GetEncounterSpeed()
     {
-        float encounterSpeedModifier = GetTotalBuff() / 100;
-        return (int)(baseEncounterSpeed / (1 + encounterSpeedModifier));
+        float encounterSpeedModifier = currentTemple.Interval * (float)GetTotalBuff() / 100;
+        return (int)(currentTemple.Interval - encounterSpeedModifier);
     }
 
     public static int GetSecondsUntilNextEncounter()
@@ -80,7 +79,7 @@ public static class Temple
 
     public static bool IsMaxLevel()
     {
-        return State.Maps.GetCurrentMapProgresion().templeLevel >= mapTemples[State.Maps.currentMapId].MaxLevel;
+        return currentTempleLevel >= mapTemples[State.Maps.currentMapId].MaxLevel;
     }
 
     public static bool LevelUp()
@@ -97,11 +96,6 @@ public static class Temple
         return true;
     }
 
-    public static int GetBoostEffect()
-    {
-        return mapTemples[State.Maps.currentMapId].BoostEffect;
-    }
-
     public static int GetBoostCost()
     {
         return mapTemples[State.Maps.currentMapId].BoostCost;
@@ -116,19 +110,18 @@ public static class Temple
 
     public static int GetTotalBuff()
     {
-        return GetTotalBuffByMap(State.Maps.currentMapId);
+        return currentTemple.BuffBonus * currentTempleLevel;
     }
 
     public static int GetLevelUpCost()
     {
-        MapProgression map = State.Maps.GetCurrentMapProgresion();
         BuildingLevel templeLevel = mapTemples[State.Maps.currentMapId];
-        return (map.templeLevel + 1) * templeLevel.CostModifier;
+        return (currentTempleLevel + 1) * templeLevel.CostModifier;
     }
 
     public static int GetLevelUpBuff()
     {
-        return (State.Maps.GetCurrentMapProgresion().goldMineLevel + 1) * currentMapTemple.BuffBonus;
+        return (State.Maps.GetCurrentMapProgresion().goldMineLevel + 1) * currentTemple.BuffBonus;
     }
 
     private static void ElementalCaught(ElementalId elementalId)
@@ -144,13 +137,5 @@ public static class Temple
             State.Elementals.MarkElementalAsCaught(elementalId);
             State.UpdateOrbs(elemental.orbsGain);
         }
-    }
-
-        private static int GetTotalBuffByMap(MapId mapId)
-    {
-        return Enumerable
-        .Range(1, State.Maps.GetMapProgresion(mapId).templeLevel)
-        .Select(i => i * mapTemples[mapId].BuffBonus)
-        .Sum();
     }
 }

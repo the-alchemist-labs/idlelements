@@ -58,6 +58,6 @@ public class NextEncounter : MonoBehaviour
 
     void UpdateBoostText()
     {
-        boostButtonText.text = $"Boost {Temple.GetBoostEffect()}s/{Temple.GetBoostCost()}";
+        boostButtonText.text = $"Boost {Temple.currentTemple.BoostEffect}s/{Temple.GetBoostCost()}";
     }
 }

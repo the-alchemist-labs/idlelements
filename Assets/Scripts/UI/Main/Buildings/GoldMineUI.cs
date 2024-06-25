@@ -30,7 +30,7 @@ public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             "Gold Mine",
              GoldMine.IsMaxLevel() ? "Next level: 0" : $"Next level: + {GoldMine.GetLevelUpBuff()}",
             $"Total gains: {TextUtil.NumberFormatter(GoldMine.GetTotalBuff())}",
-            $"Collect time: {GoldMine.currentMapGoldMine.interval} sec",
+            $"Collect time: {GoldMine.currentMapGoldMine.Interval} sec",
             "Sprites/Currencies/gold"
         );
     }
