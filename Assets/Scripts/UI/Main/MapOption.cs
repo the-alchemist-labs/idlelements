@@ -10,11 +10,11 @@ public class MapOption : MonoBehaviour
     public Material blackAndWhiteMaterial;
 
     private Material originalMaterial;
-    private Script panelHandler;
+    private DisplayPanel panelHandler;
 
     void Start()
     {
-        panelHandler = FindGameObjectWithTag("MapsPanel").GetComponent<DisplayPanel>();
+        panelHandler = GameObject.FindGameObjectWithTag("MapsPanel").GetComponent<DisplayPanel>();
         GameEvents.OnLevelUp += UpdateUI;
         UpdateUI();
     }

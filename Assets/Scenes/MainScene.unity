@@ -2000,7 +2000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 1605811968}
-  backgroundPanel: {fileID: 0}
+  backgroundPanel: {fileID: 2049617034}
 --- !u!1 &322800123
 GameObject:
   m_ObjectHideFlags: 0
@@ -4525,7 +4525,6 @@ GameObject:
   - component: {fileID: 645862607}
   - component: {fileID: 645862606}
   - component: {fileID: 645862609}
-  - component: {fileID: 645862608}
   m_Layer: 0
   m_Name: Image_Close
   m_TagString: Untagged
@@ -4590,20 +4589,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 645862604}
   m_CullTransparentMesh: 1
---- !u!114 &645862608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 645862604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b775180160c3d4895dd4fad7ae907a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panel: {fileID: 1605811968}
-  backgroundPanel: {fileID: 0}
 --- !u!114 &645862609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4648,7 +4633,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 645862608}
+      - m_Target: {fileID: 1605811973}
         m_TargetAssemblyTypeName: DisplayPanel, Assembly-CSharp
         m_MethodName: ClosePanel
         m_Mode: 1
