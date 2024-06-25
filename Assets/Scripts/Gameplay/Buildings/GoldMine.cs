@@ -39,8 +39,8 @@ public static class GoldMine
         .ToList()
         .Sum(kvp =>
         {
-            MapProgression mapProgression = State.Maps.GetMapProgresion(kvp.Key);
-            State.Maps.GetMapProgresion(kvp.Key);
+            MapProgression mapProgression = State.Maps.GetMapProgression(kvp.Key);
+            State.Maps.GetMapProgression(kvp.Key);
             return mapProgression != null
             ? GetTotalBuffByMap(kvp.Key)
             : 0;
@@ -90,7 +90,7 @@ public static class GoldMine
     private static int GetTotalBuffByMap(MapId mapId)
     {
         return Enumerable
-        .Range(1, State.Maps.GetMapProgresion(mapId).goldMineLevel)
+        .Range(1, State.Maps.GetMapProgression(mapId).goldMineLevel)
         .Select(i => i * mapGoldMine[mapId].BuffBonus)
         .Sum();
     }

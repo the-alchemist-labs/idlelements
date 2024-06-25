@@ -8,11 +8,16 @@ public class MapsData
     public Map currentMap { get; private set; }
     public MapProgression currentMapProgression { get { return progressions.Find(el => el.id == currentMapId); } private set {}}
 
+    public Map GetMap(MapId id)
+    {
+        return all.Find(el => el.id == id);
+    }
+    
     public void UpdateCurrentMap(MapId id)
     {
         currentMapId = id;
         currentMap = all.Find(el => el.id == currentMapId);
-        currentMapProgression = GetMapProgression();
+        currentMapProgression = GetMapProgression(currentMapId);
         GameEvents.MapDataChanged();
     }
 
@@ -22,7 +27,7 @@ public class MapsData
         progressions = mapsProgression ?? new List<MapProgression>();
         this.currentMapId = currentMapId == 0 ? MapId.FireWater : currentMapId;
         currentMap = all.Find(el => el.id == currentMapId);
-        currentMapProgression = GetMapProgression();
+        currentMapProgression = GetMapProgression(currentMapId);
     }
 
     public MapProgression GetCurrentMapProgresion()
@@ -30,14 +35,9 @@ public class MapsData
         return progressions.Find(el => el.id == currentMapId);
     }
 
-    public MapProgression GetMapProgresion(MapId id)
+    public MapProgression GetMapProgression(MapId id)
     {
-        return progressions.Find(el => el.id == id);
-    }
-
-    private MapProgression GetMapProgression()
-    {
-        MapProgression mapProgression = progressions.Find(m => m.id == currentMapId);
+        MapProgression mapProgression = progressions.Find(m => m.id == id);
         if (mapProgression == null)
         {
             mapProgression = new MapProgression() { id = currentMapId };

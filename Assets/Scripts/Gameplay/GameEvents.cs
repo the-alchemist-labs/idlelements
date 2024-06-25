@@ -7,6 +7,8 @@ public static class GameEvents
     public static event Action OnElementalCaught;
     public static event Action OnGoldUpdated;
     public static event Action OnEssenceUpdated;
+    public static event Action OnLevelUp;
+
     
 
     public static void MapDataChanged()
@@ -32,5 +34,10 @@ public static class GameEvents
     public static void EssenceUpdated()
     {
         OnEssenceUpdated?.Invoke();
+    }
+    
+    public static void LevelUp()
+    {
+        OnLevelUp?.Invoke();
     }
 }
