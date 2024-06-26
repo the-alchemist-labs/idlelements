@@ -9,8 +9,6 @@ public static class GameEvents
     public static event Action OnEssenceUpdated;
     public static event Action OnLevelUp;
 
-    
-
     public static void MapDataChanged()
     {
         OnMapDataChanged?.Invoke();

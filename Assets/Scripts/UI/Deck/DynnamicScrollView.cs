@@ -12,7 +12,7 @@ public class DynnamicScrollView : MonoBehaviour
         foreach (Elemental entry in State.Elementals.all)
         {
             GameObject newEntry = Instantiate(rowPrefab, scrollViewContent);
-            if (newEntry.TryGetComponent(out scrollViewDeckEntry item))
+            if (newEntry.TryGetComponent(out DeckEntry item))
             {
                 item.UpdateEntry(entry);
             }
