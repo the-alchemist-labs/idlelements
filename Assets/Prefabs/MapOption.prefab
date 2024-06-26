@@ -329,3 +329,4 @@ MonoBehaviour:
   mapNameText: {fileID: 360703909827134888}
   mapIcon: {fileID: 7860410895230289256}
   blackAndWhiteMaterial: {fileID: 2100000, guid: 23cffb084a1e1c945a6e8ffc5ea8483f, type: 2}
+  selectMapSound: {fileID: 0}

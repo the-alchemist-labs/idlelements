@@ -1228,6 +1228,10 @@ PrefabInstance:
       propertyPath: mapsPanel
       value: 
       objectReference: {fileID: 1605811968}
+    - target: {fileID: 5257837647704212773, guid: 7dae0b319b6fb46488ad2dc343d501d3, type: 3}
+      propertyPath: selectMapSound
+      value: 
+      objectReference: {fileID: 1905634092}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3307,6 +3311,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1605811968}
     - target: {fileID: 5257837647704212773, guid: 7dae0b319b6fb46488ad2dc343d501d3, type: 3}
+      propertyPath: selectMapSound
+      value: 
+      objectReference: {fileID: 1905634092}
+    - target: {fileID: 5257837647704212773, guid: 7dae0b319b6fb46488ad2dc343d501d3, type: 3}
       propertyPath: blackAndWhiteMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 23cffb084a1e1c945a6e8ffc5ea8483f, type: 2}
@@ -4655,6 +4663,10 @@ PrefabInstance:
       propertyPath: mapsPanel
       value: 
       objectReference: {fileID: 1605811968}
+    - target: {fileID: 5257837647704212773, guid: 7dae0b319b6fb46488ad2dc343d501d3, type: 3}
+      propertyPath: selectMapSound
+      value: 
+      objectReference: {fileID: 1905634092}
     - target: {fileID: 5257837647704212773, guid: 7dae0b319b6fb46488ad2dc343d501d3, type: 3}
       propertyPath: blackAndWhiteMaterial
       value: 

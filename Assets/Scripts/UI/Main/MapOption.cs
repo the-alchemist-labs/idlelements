@@ -8,6 +8,7 @@ public class MapOption : MonoBehaviour
     public TMP_Text mapNameText;
     public Image mapIcon;
     public Material blackAndWhiteMaterial;
+    public AudioSource selectMapSound;
 
     private Material originalMaterial;
     private DisplayPanel panelHandler;
@@ -30,6 +31,7 @@ public class MapOption : MonoBehaviour
         if (State.level >= State.Maps.GetMap(mapId).requiredLevel)
         {
             State.Maps.UpdateCurrentMap(mapId);
+            selectMapSound.Play();
             panelHandler.ClosePanel();
         }
     }
