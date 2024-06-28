@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -21,6 +22,8 @@ public class MapInfoPanel : MonoBehaviour
     public void UpdateUI()
     {
         mapNameText.text = State.Maps.currentMap.name;
+
+        encountersContainer.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
         foreach (ElementalEncounter encounter in State.Maps.currentMap.elementalEncounters)
         {

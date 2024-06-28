@@ -9,8 +9,12 @@ public class DeckEntry : MonoBehaviour
     public TMP_Text elementalIdText;
     public TMP_Text elementalName;
     public TMP_Text tokensText;
+    public TMP_Text evolveToText;
+    public TMP_Text essenceEvolveCost;
+    public TMP_Text tokensEvolveCost;
+    public Button evolveButton;
 
-    private ElementalId elementalId;
+    private Elemental elemental;
 
     private Color UnlockedColor = Color.white;
     private Color LockedColor = new Color(.25f, .25f, .25f, 0.8f);
@@ -18,28 +22,29 @@ public class DeckEntry : MonoBehaviour
     void Start()
     {
         LockedColor.a = 0.5f;
-        GameEvents.OnElementalCaught += UpdateCatchImage;
-    }
-
-    void OnDestroy()
-    {
-        GameEvents.OnElementalCaught -= UpdateCatchImage;
     }
 
     public void UpdateEntry(Elemental elemental)
     {
-        elementalId = elemental.id;
+        this.elemental = elemental;
         ElementalEntry entry = State.Elementals.GetElementalEntry(elemental.id);
         elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
         elementalIdText.text = $"#{(int)elemental.id}";
         elementalName.text = elemental.name;
         tokensText.text = $"Tokens: {entry.tokens}";
+
         UpdateCatchImage();
+        UpdateEvolveInfo();
     }
 
-    public void UpdateCatchImage()
+    public void Evolve()
     {
-        if (State.Elementals.GetElementalEntry(elementalId).isCaught)
+        State.Elementals.Evolve(elemental.id);
+    }
+
+    void UpdateCatchImage()
+    {
+        if (State.Elementals.GetElementalEntry(elemental.id).isCaught)
         {
             elementalImage.color = UnlockedColor;
             caughtIndicatorImage.gameObject.SetActive(true);
@@ -49,5 +54,23 @@ public class DeckEntry : MonoBehaviour
             elementalImage.color = LockedColor;
             caughtIndicatorImage.gameObject.SetActive(false);
         }
+    }
+
+    void UpdateEvolveInfo()
+    {
+        if (elemental.evolution != null)
+        {
+            evolveToText.text = $"To {elemental.evolution.evolveTo}";
+            essenceEvolveCost.text = TextUtil.NumberFormatter(elemental.evolution.essenceCost);
+            tokensEvolveCost.text = TextUtil.NumberFormatter(elemental.evolution.tokensCost);
+            evolveButton.interactable = State.Elementals.CanEvolve(elemental.id);
+            evolveButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            evolveToText.text = "None";
+            evolveButton.gameObject.SetActive(false);
+        }
+
     }
 }

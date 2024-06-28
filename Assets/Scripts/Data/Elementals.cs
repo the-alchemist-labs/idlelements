@@ -44,4 +44,37 @@ public class ElementalsData
 
         return elemental;
     }
+
+    public bool CanEvolve(ElementalId id)
+    {
+        ElementalEntry entry = GetElementalEntry(id);
+        Elemental elemental = GetElement(id);
+
+        return elemental.evolution != null
+        && entry.tokens >= elemental.evolution.tokensCost 
+        && State.essence >= elemental.evolution.essenceCost;
+    }
+
+    public void Evolve(ElementalId id)
+    {
+        Elemental elemental = GetElement(id);
+
+        if (!CanEvolve(id))
+        {
+            return;
+        }
+
+        UpdateElementalTokens(id, -elemental.evolution.tokensCost);
+        State.UpdateEssence(-elemental.evolution.essenceCost);
+        UpdateElementalTokens(elemental.evolution.evolveTo, 1);
+
+        GameEvents.EssenceUpdated();
+        GameEvents.TokensUpdated();
+
+        if (!IsElementalRegistered(elemental.evolution.evolveTo))
+        {
+            MarkElementalAsCaught(elemental.evolution.evolveTo);
+            GameEvents.ElementalCaught();
+        }
+    }
 }

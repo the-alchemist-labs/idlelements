@@ -6,17 +6,16 @@ public static class TextUtil
     {
         if (number >= 1000 && number < 1000000)
         {
-            // Format numbers in thousands with a 'K' suffix
-            return (number / 1000.0).ToString("0.0K");
+            double value = number / 1000.0;
+            return (value % 1 == 0 ? value.ToString("0") : value.ToString("0.0")) + "K";
         }
         else if (number >= 1000000)
         {
-            // Format numbers in millions with an 'M' suffix
-            return (number / 1000000.0).ToString("0.00M");
+            double value = number / 1000000.0;
+            return (value % 1 == 0 ? value.ToString("0") : value.ToString("0.00")) + "M";
         }
         else
         {
-            // Format numbers less than 1000 with commas
             return number.ToString("N0");
         }
     }
