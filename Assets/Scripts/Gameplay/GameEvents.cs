@@ -9,6 +9,7 @@ public static class GameEvents
     public static event Action OnEssenceUpdated;
     public static event Action OnLevelUp;
     public static event Action OnTokensUpdated;
+    public static event Action OnPartyUpdated;
 
     public static void MapDataChanged()
     {
@@ -43,5 +44,10 @@ public static class GameEvents
     public static void TokensUpdated()
     {
         OnTokensUpdated?.Invoke();
+    }
+
+    public static void PartyUpdated()
+    {
+        OnPartyUpdated?.Invoke();
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 
 public class ElementalsData
@@ -17,6 +18,16 @@ public class ElementalsData
         return all.Find(el => el.id == id);
     }
 
+
+    public ElementalId[] GetEligiblePartyMembers()
+    {
+        return entries
+            .Where(entry => entry.isCaught)
+            .Select(entry => entry.id)
+            .OrderBy(id => State.party.IsInParty(id))
+            .ToArray();
+    }
+    
     public bool IsElementalRegistered(ElementalId id)
     {
         return entries.Find(e => e.id == id)?.isCaught ?? false;
@@ -51,7 +62,7 @@ public class ElementalsData
         Elemental elemental = GetElement(id);
 
         return elemental.evolution != null
-        && entry.tokens >= elemental.evolution.tokensCost 
+        && entry.tokens >= elemental.evolution.tokensCost
         && State.essence >= elemental.evolution.essenceCost;
     }
 

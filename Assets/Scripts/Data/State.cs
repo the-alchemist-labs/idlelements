@@ -11,7 +11,7 @@ public static class State
     public static int gold { get; private set; }
     public static int orbs { get; private set; }
 
-    public static Elemental[] party { get; }
+    public static Party party { get; }
     public static ElementalId lastCaught { get; private set; }
     public static ElementalsData Elementals { get; }
     public static MapsData Maps { get; }
@@ -42,10 +42,10 @@ public static class State
         essence = gs.essence;
         gold = gs.gold;
         orbs = gs.orbs;
-        party = party;
         lastCaught = lastCaught;
         Elementals = new ElementalsData(allElementals, gs.elementalEnteries);
         Maps = new MapsData(allMaps, gs.mapsProgression, gs.currentMapId);
+        party = gs.party ?? new Party();
     }
 
     public static bool IsMaxLevel()

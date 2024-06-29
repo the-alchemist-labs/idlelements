@@ -40,7 +40,7 @@ public class MapsData
         MapProgression mapProgression = progressions.Find(m => m.id == id);
         if (mapProgression == null)
         {
-            mapProgression = new MapProgression() { id = currentMapId };
+            mapProgression = new MapProgression() { id = id };
             progressions.Add(mapProgression);
         }
 

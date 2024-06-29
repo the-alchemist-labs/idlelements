@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public sealed class DataService
 {
@@ -15,7 +16,7 @@ public sealed class DataService
     private const string KEY = "FAaeKAN0R9eiXi7B2H9mLwUz4qUhOB6x7D2XktjH90U=";
     private const string IV = "G4aMWxXw19wyUVUR9KEpKg==";
 
-    private DataService() {}
+    private DataService() { }
 
     public static DataService Instance
     {
@@ -87,7 +88,12 @@ public sealed class DataService
 
         try
         {
-            return isEncrypted ? ReadEncryptedData<T>(path) : JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter> { new MyEnumConverter() }
+            };
+
+            return isEncrypted ? ReadEncryptedData<T>(path) : JsonConvert.DeserializeObject<T>(File.ReadAllText(path), settings);
         }
         catch (Exception e)
         {
@@ -125,5 +131,40 @@ public sealed class DataService
     private static string GetPath(string fileName, bool isPersistent)
     {
         return Path.Combine(isPersistent ? Application.persistentDataPath : Application.streamingAssetsPath, $"{fileName}.json");
+    }
+}
+
+public class MyEnumConverter : JsonConverter
+{
+    public override bool CanConvert(Type objectType)
+    {
+        return objectType == typeof(ElementalId) || objectType == typeof(ElementalId?);
+    }
+
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    {
+        if (value == null)
+        {
+            writer.WriteNull();
+        }
+        else
+        {
+            writer.WriteValue((int)value);
+        }
+    }
+
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    {
+        if (reader.TokenType == JsonToken.Null)
+        {
+            return null;
+        }
+
+        if (reader.TokenType == JsonToken.Integer)
+        {
+            return (ElementalId)Enum.ToObject(typeof(ElementalId), reader.Value);
+        }
+
+        throw new JsonSerializationException("Unexpected token type: " + reader.TokenType);
     }
 }
