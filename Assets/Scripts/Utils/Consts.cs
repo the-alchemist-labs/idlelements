@@ -51,3 +51,9 @@ public enum MapId
     WaterAir,
     EarthFire
 }
+
+public enum BonusResource
+{
+    Gold,
+    Essence,
+}

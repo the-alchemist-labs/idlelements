@@ -34,7 +34,7 @@ public static class EssenceLab
 
     public static int GetTotalEssenceFromAllMaps()
     {
-        return mapEssenceLab
+        int gain = mapEssenceLab
         .ToList()
         .Sum(kvp =>
         {
@@ -44,6 +44,10 @@ public static class EssenceLab
             ? GetTotalBuffByMap(kvp.Key)
             : 0;
         });
+
+        float partyBonus = State.party.GetPartyBonusMultipier(BonusResource.Essence);
+
+        return (int)(gain + (gain * partyBonus));
     }
 
     public static int GetSecondsSinceLastCollect()

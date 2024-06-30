@@ -88,12 +88,7 @@ public sealed class DataService
 
         try
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                Converters = new List<JsonConverter> { new MyEnumConverter() }
-            };
-
-            return isEncrypted ? ReadEncryptedData<T>(path) : JsonConvert.DeserializeObject<T>(File.ReadAllText(path), settings);
+            return isEncrypted ? ReadEncryptedData<T>(path) : JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
         }
         catch (Exception e)
         {
@@ -131,40 +126,5 @@ public sealed class DataService
     private static string GetPath(string fileName, bool isPersistent)
     {
         return Path.Combine(isPersistent ? Application.persistentDataPath : Application.streamingAssetsPath, $"{fileName}.json");
-    }
-}
-
-public class MyEnumConverter : JsonConverter
-{
-    public override bool CanConvert(Type objectType)
-    {
-        return objectType == typeof(ElementalId) || objectType == typeof(ElementalId?);
-    }
-
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        if (value == null)
-        {
-            writer.WriteNull();
-        }
-        else
-        {
-            writer.WriteValue((int)value);
-        }
-    }
-
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-    {
-        if (reader.TokenType == JsonToken.Null)
-        {
-            return null;
-        }
-
-        if (reader.TokenType == JsonToken.Integer)
-        {
-            return (ElementalId)Enum.ToObject(typeof(ElementalId), reader.Value);
-        }
-
-        throw new JsonSerializationException("Unexpected token type: " + reader.TokenType);
     }
 }

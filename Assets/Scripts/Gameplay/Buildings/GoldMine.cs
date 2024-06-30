@@ -35,7 +35,7 @@ public static class GoldMine
 
     public static int GetTotalGoldFromAllMaps()
     {
-        return mapGoldMine
+        int gain = mapGoldMine
         .ToList()
         .Sum(kvp =>
         {
@@ -45,6 +45,10 @@ public static class GoldMine
             ? GetTotalBuffByMap(kvp.Key)
             : 0;
         });
+        
+        float partyBonus = State.party.GetPartyBonusMultipier(BonusResource.Gold);
+
+        return (int)(gain + (gain * partyBonus));
     }
 
     public static int GetSecondsSinceLastCollect()

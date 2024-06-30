@@ -3,12 +3,16 @@
     "id": 1,
     "name": "Ferine",
     "type": "Fire",
-    "expGain": 1,
-    "orbsGain": 3,
     "evolution": {
       "evolveTo": 2,
       "essenceCost": 300000,
       "tokensCost": 100
+    },
+    "expGain": 1,
+    "orbsGain": 3,
+    "idleBonus": {
+      "resource": "Gold",
+      "amount": 0.1
     }
   },
   {
