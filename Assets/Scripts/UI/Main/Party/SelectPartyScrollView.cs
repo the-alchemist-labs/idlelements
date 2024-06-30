@@ -1,4 +1,5 @@
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class SelectPartyScrollView : MonoBehaviour
     public ScrollRect scrollRect;
     public Transform scrollViewContent;
     public GameObject prefub;
+    public TMP_Text idleBonusText;
     public AudioSource selectSound;
 
     private ElementalId? selectedElemental;
@@ -28,6 +30,7 @@ public class SelectPartyScrollView : MonoBehaviour
 
     void UpdateUI()
     {
+        idleBonusText.text = $"Idle bonus: {GetIdleBonus()}";
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
         foreach (ElementalId entryId in State.Elementals.GetEligiblePartyMembers())
@@ -50,5 +53,18 @@ public class SelectPartyScrollView : MonoBehaviour
         State.party.SetPartyMember(memberSlot, selectedElemental);
         selectSound.Play();
         panel.SetActive(false);
+    }
+
+    string GetIdleBonus()
+    {
+        if (selectedElemental == null)
+        {
+            return "None";
+        }
+        else
+        {
+            Elemental elemental = State.Elementals.GetElement((ElementalId)selectedElemental);
+            return elemental.idleBonus != null ? $"{elemental.idleBonus.amount * 100}% {elemental.idleBonus.resource}" : "None";
+        }
     }
 }

@@ -9,6 +9,7 @@ public class DeckEntry : MonoBehaviour
     public TMP_Text elementalIdText;
     public TMP_Text elementalName;
     public TMP_Text tokensText;
+    public TMP_Text idleBonusText;
     public TMP_Text evolveToText;
     public TMP_Text essenceEvolveCost;
     public TMP_Text tokensEvolveCost;
@@ -34,6 +35,7 @@ public class DeckEntry : MonoBehaviour
         tokensText.text = $"Tokens: {entry.tokens}";
 
         UpdateCatchImage();
+        UpdateIdleBonusInfo();
         UpdateEvolveInfo();
     }
 
@@ -72,5 +74,13 @@ public class DeckEntry : MonoBehaviour
             evolveButton.gameObject.SetActive(false);
         }
 
+    }
+
+    void UpdateIdleBonusInfo()
+    {
+        if (elemental.idleBonus != null)
+        {
+            idleBonusText.text = $"Idle bonus: {elemental.idleBonus.amount * 100}% {elemental.idleBonus.resource}";
+        }
     }
 }
