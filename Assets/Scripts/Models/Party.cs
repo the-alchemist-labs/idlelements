@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.iOS;
 
 [Serializable]
 public class Party
@@ -43,8 +42,9 @@ public class Party
     public float GetPartyBonusMultipier(BonusResource resource)
     {
         return new List<ElementalId?> { First, Second, Third }
+        .Where(e => e != null)
         .Select(id => State.Elementals.GetElement(id.Value))
-        .Where(e => e != null && e.idleBonus != null)
+        .Where(e => e.idleBonus != null)
         .Where(e => e.idleBonus?.resource == resource)
         .Sum(e => e.idleBonus.amount);
     }
