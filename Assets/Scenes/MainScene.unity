@@ -919,6 +919,7 @@ GameObject:
   - component: {fileID: 68249162}
   - component: {fileID: 68249161}
   - component: {fileID: 68249160}
+  - component: {fileID: 68249163}
   m_Layer: 0
   m_Name: Button_Boost
   m_TagString: Untagged
@@ -989,31 +990,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 68249161}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 956913449}
-        m_TargetAssemblyTypeName: NextEncounter, Assembly-CSharp
-        m_MethodName: Boost
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1078473780}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &68249161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1052,6 +1029,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 68249158}
   m_CullTransparentMesh: 1
+--- !u!114 &68249163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68249158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9c9391298c89d49a9b6c613f2f0bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 956913449}
+        m_TargetAssemblyTypeName: NextEncounter, Assembly-CSharp
+        m_MethodName: Boost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  interval: 0.1
 --- !u!1 &78122376
 GameObject:
   m_ObjectHideFlags: 0
@@ -8200,10 +8205,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31d1f0b540cb63e49aede0fbd06eca70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boostButtonText: {fileID: 1328232679}
-  boostButton: {fileID: 68249160}
   encounterSlider: {fileID: 1108074935}
   secondsToEncounterText: {fileID: 282964554}
+  boostButtonText: {fileID: 1328232679}
+  boostButton: {fileID: 68249160}
+  boostSound: {fileID: 1078473780}
 --- !u!1 &960471817
 GameObject:
   m_ObjectHideFlags: 0
@@ -13002,6 +13008,7 @@ GameObject:
   - component: {fileID: 1475147314}
   - component: {fileID: 1475147313}
   - component: {fileID: 1475147316}
+  - component: {fileID: 1475147317}
   m_Layer: 0
   m_Name: Button_EssenceLabUpgrade
   m_TagString: Untagged
@@ -13072,19 +13079,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1475147314}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 63787630}
-        m_TargetAssemblyTypeName: EssenceLabUI, Assembly-CSharp
-        m_MethodName: LevelUp
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1475147314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13219,6 +13214,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1475147317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475147311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9c9391298c89d49a9b6c613f2f0bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 63787630}
+        m_TargetAssemblyTypeName: EssenceLabUI, Assembly-CSharp
+        m_MethodName: LevelUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  interval: 0.2
 --- !u!1001 &1527214227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14109,6 +14132,7 @@ GameObject:
   - component: {fileID: 1671023537}
   - component: {fileID: 1671023536}
   - component: {fileID: 1671023539}
+  - component: {fileID: 1671023540}
   m_Layer: 0
   m_Name: Button_TempleUpgrade
   m_TagString: Untagged
@@ -14179,19 +14203,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1671023537}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1840256821}
-        m_TargetAssemblyTypeName: TempleUI, Assembly-CSharp
-        m_MethodName: LevelUp
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1671023537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14326,6 +14338,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1671023540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671023534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9c9391298c89d49a9b6c613f2f0bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1840256821}
+        m_TargetAssemblyTypeName: TempleUI, Assembly-CSharp
+        m_MethodName: LevelUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  interval: 0.2
 --- !u!1 &1675128372
 GameObject:
   m_ObjectHideFlags: 0
@@ -17322,7 +17362,8 @@ GameObject:
   - component: {fileID: 1983507625}
   - component: {fileID: 1983507624}
   - component: {fileID: 1983507623}
-  - component: {fileID: 1983507626}
+  - component: {fileID: 1983507627}
+  - component: {fileID: 1983507628}
   m_Layer: 0
   m_Name: Button_GoldMineLevelUp
   m_TagString: Untagged
@@ -17377,7 +17418,7 @@ MonoBehaviour:
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0.4745098}
     m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
+    m_FadeDuration: 0.2
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
@@ -17393,19 +17434,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1983507624}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 740434402}
-        m_TargetAssemblyTypeName: GoldMineUI, Assembly-CSharp
-        m_MethodName: LevelUp
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1983507624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17444,7 +17473,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983507621}
   m_CullTransparentMesh: 1
---- !u!82 &1983507626
+--- !u!114 &1983507627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983507621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9c9391298c89d49a9b6c613f2f0bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 740434402}
+        m_TargetAssemblyTypeName: GoldMineUI, Assembly-CSharp
+        m_MethodName: LevelUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  interval: 0.25
+--- !u!82 &1983507628
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class NextEncounter : MonoBehaviour
 {
-    public TMP_Text boostButtonText;
-    public Button boostButton;
     public Slider encounterSlider;
     public TMP_Text secondsToEncounterText;
+    public TMP_Text boostButtonText;
+    public Button boostButton;
+    public AudioSource boostSound;
 
     void Start()
     {
@@ -26,13 +27,6 @@ public class NextEncounter : MonoBehaviour
         GameEvents.OnIdleGainsChanged -= UpdateBoostText;
         GameEvents.OnEssenceUpdated -= UpdateBoostButton;
     }
-
-    public void Boost()
-    {
-        Temple.Boost();
-        UpdateEncounterSliderData();
-    }
-
     IEnumerator UpdateReactiveData()
     {
         while (true)
@@ -49,6 +43,13 @@ public class NextEncounter : MonoBehaviour
         ? "Catch!"
         : $"{Math.Max(secondsUntilNextEncounter, 0)}/{Temple.GetEncounterSpeed()}";
         encounterSlider.value = 1 - ((float)secondsUntilNextEncounter / (float)Temple.GetEncounterSpeed());
+    }
+
+    public void Boost()
+    {
+        Temple.Boost();
+        UpdateEncounterSliderData();
+        boostSound.Play();
     }
 
     void UpdateBoostButton()
