@@ -24,8 +24,21 @@ public class Map
     public int requiredLevel { get; }
     public ElementType[] mapElementalTypes { get; }
     public int catchesToComplete { get; }
+    public BuildingSpecs goldMineSpecs { get; }
+    public BuildingSpecs essenceLabSpecs { get; }
+    public TempleSpecs templeSpecs { get; }
 
-    public Map(MapId id, string name, int requiredLevel, ElementalEncounter[] elementalEncounters, int catchesToComplete, ElementType[] mapElementalTypes)
+    public Map(
+        MapId id,
+        string name,
+        int requiredLevel,
+        ElementalEncounter[] elementalEncounters,
+        int catchesToComplete,
+        ElementType[] mapElementalTypes,
+        BuildingSpecs goldMineSpecs,
+        BuildingSpecs essenceLabSpecs,
+        TempleSpecs templeSpecs
+        )
     {
         this.id = id;
         this.name = name;
@@ -33,6 +46,9 @@ public class Map
         this.elementalEncounters = elementalEncounters;
         this.mapElementalTypes = mapElementalTypes;
         this.catchesToComplete = catchesToComplete;
+        this.goldMineSpecs = goldMineSpecs;
+        this.essenceLabSpecs = essenceLabSpecs;
+        this.templeSpecs = templeSpecs;
     }
 
     public Elemental GetEncounter()

@@ -3,8 +3,28 @@
         "id": 1,
         "name": "Blazing Springs",
         "requiredLevel": 1,
-        "catchesToComplete": 800,
-        "mapElementalTypes": ["Fire", "Water"],
+        "goldMineSpecs": {
+            "BuffBonus": 100,
+            "CostModifier": 500,
+            "MaxLevel": 30
+        },
+        "essenceLabSpecs": {
+            "BuffBonus": 150,
+            "CostModifier": 750,
+            "MaxLevel": 20
+        },
+        "templeSpecs": {
+            "BuffBonus": 5,
+            "CostModifier": 1000,
+            "MaxLevel": 10,
+            "BoostEffect": 10,
+            "BoostCost": 10,
+            "Interval": 300
+        },
+        "mapElementalTypes": [
+            "Fire",
+            "Water"
+        ],
         "elementalEncounters": [
             {
                 "elementalId": 1,
@@ -20,8 +40,28 @@
         "id": 2,
         "name": "Aurora gales",
         "requiredLevel": 5,
-        "catchesToComplete": 1000,
-        "mapElementalTypes": ["Water", "Air"],
+        "goldMineSpecs": {
+            "BuffBonus": 100,
+            "CostModifier": 500,
+            "MaxLevel": 30
+        },
+        "essenceLabSpecs": {
+            "BuffBonus": 150,
+            "CostModifier": 750,
+            "MaxLevel": 20
+        },
+        "templeSpecs": {
+            "BuffBonus": 5,
+            "CostModifier": 1000,
+            "MaxLevel": 10,
+            "BoostEffect": 10,
+            "BoostCost": 10,
+            "Interval": 300
+        },
+        "mapElementalTypes": [
+            "Water",
+            "Air"
+        ],
         "elementalEncounters": [
             {
                 "elementalId": 3,
@@ -37,8 +77,28 @@
         "id": 3,
         "name": "Gaya Volcano",
         "requiredLevel": 100,
-        "catchesToComplete": 2000,
-        "mapElementalTypes": ["Earth", "Fire"],
+        "goldMineSpecs": {
+            "BuffBonus": 100,
+            "CostModifier": 500,
+            "MaxLevel": 30
+        },
+        "essenceLabSpecs": {
+            "BuffBonus": 150,
+            "CostModifier": 750,
+            "MaxLevel": 20
+        },
+        "templeSpecs": {
+            "BuffBonus": 5,
+            "CostModifier": 1000,
+            "MaxLevel": 10,
+            "BoostEffect": 10,
+            "BoostCost": 10,
+            "Interval": 300
+        },
+        "mapElementalTypes": [
+            "Earth",
+            "Fire"
+        ],
         "elementalEncounters": [
             {
                 "elementalId": 2,

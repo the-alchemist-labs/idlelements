@@ -53,8 +53,8 @@ public class TempleUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         int templeLevel = State.Maps.GetCurrentMapProgresion().templeLevel;
 
-        levelText.text = $"{templeLevel}/{Temple.currentTemple.MaxLevel}";
-        costText.text = Temple.IsMaxLevel() ? "Max" : $"{Temple.currentTemple.CostModifier * templeLevel}";
+        levelText.text = $"{templeLevel}/{Temple.currentTempleSpecs.MaxLevel}";
+        costText.text = Temple.IsMaxLevel() ? "Max" : $"{Temple.currentTempleSpecs.CostModifier * templeLevel}";
         levelUpButton.transform.GetChild(0)?.GetComponentInChildren<Image>()?.gameObject?.SetActive(!Temple.IsMaxLevel());
         levelUpButton.GetComponent<Button>().interactable = !Temple.IsMaxLevel() && State.gold >= Temple.GetLevelUpCost();
     }

@@ -30,7 +30,7 @@ public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             "Gold Mine",
              GoldMine.IsMaxLevel() ? "Next level: 0" : $"Next level: + {GoldMine.GetLevelUpBuff()}",
             $"Total gains: {TextUtil.NumberFormatter(GoldMine.GetTotalBuff())}",
-            $"Collect time: {GoldMine.currentMapGoldMine.Interval} sec",
+            $"Collect time: {GoldMine.incomeLoopSeconds} sec",
             "Sprites/Currencies/gold"
         );
     }
@@ -53,8 +53,8 @@ public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         int goldMineLevel = State.Maps.GetCurrentMapProgresion().goldMineLevel;
 
-        levelText.text = $"{goldMineLevel}/{GoldMine.currentMapGoldMine.MaxLevel}";
-        costText.text = GoldMine.IsMaxLevel() ? "Max" : $"{GoldMine.currentMapGoldMine.CostModifier * goldMineLevel}";
+        levelText.text = $"{goldMineLevel}/{GoldMine.currentGoldMineSpecs.MaxLevel}";
+        costText.text = GoldMine.IsMaxLevel() ? "Max" : $"{GoldMine.currentGoldMineSpecs.CostModifier * goldMineLevel}";
         levelUpButton.transform.GetChild(0)?.GetComponentInChildren<Image>()?.gameObject?.SetActive(!GoldMine.IsMaxLevel());
         levelUpButton.GetComponent<Button>().interactable = !GoldMine.IsMaxLevel() && State.gold >= GoldMine.GetLevelUpCost();
     }

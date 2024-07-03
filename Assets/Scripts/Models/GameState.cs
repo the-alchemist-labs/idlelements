@@ -32,4 +32,5 @@ public class MapProgression
     public int templeLevel = 1;
     public int goldMineLevel = 1;
     public int  essenceLabLevel = 1;
+    public bool isUnlocked = false;
 }

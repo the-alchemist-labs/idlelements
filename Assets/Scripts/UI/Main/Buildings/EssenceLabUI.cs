@@ -30,7 +30,7 @@ public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             "Essence Lab",
             EssenceLab.IsMaxLevel() ? "Next level: 0" : $"Next level: + {EssenceLab.GetLevelUpBuff()}",
             $"Total gains: {TextUtil.NumberFormatter(EssenceLab.GetTotalBuff())}",
-            $"Collect time: {EssenceLab.currentMapEssenceLab.Interval} sec",
+            $"Collect time: {EssenceLab.incomeLoopSeconds} sec",
             "Sprites/Currencies/essence"
         );
     }
@@ -53,9 +53,9 @@ public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         int EssenceLabLevel = State.Maps.GetCurrentMapProgresion().essenceLabLevel;
 
-        levelText.text = $"{EssenceLabLevel}/{EssenceLab.currentMapEssenceLab.MaxLevel}";
+        levelText.text = $"{EssenceLabLevel}/{EssenceLab.currentMapEssenceLabSpecs.MaxLevel}";
         levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>().gameObject.SetActive(!EssenceLab.IsMaxLevel());
-        costText.text = EssenceLab.IsMaxLevel() ? "Max" : $"{EssenceLab.currentMapEssenceLab.CostModifier * EssenceLabLevel}";
+        costText.text = EssenceLab.IsMaxLevel() ? "Max" : $"{EssenceLab.currentMapEssenceLabSpecs.CostModifier * EssenceLabLevel}";
         levelUpButton.GetComponent<Button>().interactable = !EssenceLab.IsMaxLevel() && State.gold >= EssenceLab.GetLevelUpCost();
     }
 
