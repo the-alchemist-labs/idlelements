@@ -14,12 +14,12 @@
             "MaxLevel": 15
         },
         "templeSpecs": {
-            "BaseBonus": 5,
-            "BaseCost": 500,
+            "Interval": 200,
             "MaxLevel": 10,
-            "BoostEffect": 15,
+            "BaseCost": 1000,
+            "BaseBonus": 5,
             "BoostCost": 1000,
-            "Interval": 200
+            "BoostEffect": 15
         },
         "mapElementalTypes": [
             "Fire",
@@ -51,12 +51,12 @@
             "MaxLevel": 20
         },
         "templeSpecs": {
-            "BaseBonus": 5,
-            "BaseCost": 1000,
+            "Interval": 200,
             "MaxLevel": 10,
-            "BoostEffect": 10,
-            "BoostCost": 10,
-            "Interval": 200
+            "BaseBonus": 5,
+            "BaseCost": 2000,
+            "BoostCost": 1000,
+            "BoostEffect": 15
         },
         "mapElementalTypes": [
             "Water",
@@ -88,12 +88,12 @@
             "MaxLevel": 25
         },
         "templeSpecs": {
-            "BaseBonus": 5,
-            "BaseCost": 1000,
+            "Interval": 300,
             "MaxLevel": 10,
-            "BoostEffect": 10,
-            "BoostCost": 10,
-            "Interval": 300
+            "BaseCost": 3000,
+            "BaseBonus": 5,
+            "BoostCost": 1000,
+            "BoostEffect": 15
         },
         "mapElementalTypes": [
             "Earth",
@@ -125,12 +125,12 @@
             "MaxLevel": 25
         },
         "templeSpecs": {
-            "BaseBonus": 5,
-            "BaseCost": 1000,
+            "Interval": 300,
             "MaxLevel": 10,
-            "BoostEffect": 10,
-            "BoostCost": 10,
-            "Interval": 300
+            "BaseCost": 4000,
+            "BaseBonus": 5,
+            "BoostCost": 1000,
+            "BoostEffect": 15
         },
         "mapElementalTypes": [
             "Ice",
@@ -153,12 +153,12 @@
             "MaxLevel": 30
         },
         "templeSpecs": {
-            "BaseBonus": 5,
-            "BaseCost": 1000,
+            "Interval": 350,
             "MaxLevel": 10,
-            "BoostEffect": 10,
-            "BoostCost": 10,
-            "Interval": 350
+            "BaseCost": 5000,
+            "BaseBonus": 5,
+            "BoostCost": 1500,
+            "BoostEffect": 15
         },
         "mapElementalTypes": [
             "Lightning",

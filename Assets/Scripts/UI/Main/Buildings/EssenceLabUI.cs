@@ -1,14 +1,12 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class EssenceLabUI : MonoBehaviour
 {
     public TMP_Text levelText;
     public TMP_Text costText;
     public GameObject levelUpButton;
-    public GameObject infoPanel;
 
     private GameObject levelUpImage;
 
@@ -26,22 +24,6 @@ public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         GameEvents.OnMapDataChanged -= ScheduleUpdate;
         GameEvents.OnGoldUpdated -= ScheduleUpdate;
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        infoPanel.GetComponent<BuildingPanel>()?.UpdateUI(
-            "Essence Lab",
-            EssenceLab.IsMaxLevel() ? "Next level: 0" : $"Next level: + {EssenceLab.GetLevelUpGains()}",
-            $"Total gains: {TextUtil.NumberFormatter(EssenceLab.GetEssenceGain())}",
-            $"Collect time: {EssenceLab.incomeLoopSeconds} sec",
-            "Sprites/Currencies/essence"
-        );
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        infoPanel.SetActive(false);
     }
 
     public void LevelUp()

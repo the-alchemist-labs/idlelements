@@ -1,14 +1,12 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class GoldMineUI : MonoBehaviour
 {
     public TMP_Text levelText;
     public TMP_Text costText;
     public GameObject levelUpButton;
-    public GameObject infoPanel;
 
     private GameObject levelUpImage;
 
@@ -26,22 +24,6 @@ public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         GameEvents.OnMapDataChanged -= ScheduleUpdate;
         GameEvents.OnGoldUpdated -= ScheduleUpdate;
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        infoPanel.GetComponent<BuildingPanel>()?.UpdateUI(
-            "Gold Mine",
-             GoldMine.IsMaxLevel() ? "Next level: 0" : $"Next level: + {GoldMine.GetLevelUpGains()}",
-            $"Total gains: {TextUtil.NumberFormatter(GoldMine.GetGoldGain())}",
-            $"Collect time: {GoldMine.incomeLoopSeconds} sec",
-            "Sprites/Currencies/gold"
-        );
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        infoPanel.SetActive(false);
     }
 
     public void LevelUp()

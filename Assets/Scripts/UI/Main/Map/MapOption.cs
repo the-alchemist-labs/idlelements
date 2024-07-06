@@ -11,11 +11,11 @@ public class MapOption : MonoBehaviour
     public AudioSource selectMapSound;
 
     private Material originalMaterial;
-    private DisplayPanel panelHandler;
+    private GameObject allMapsPanel;
 
     void Start()
     {
-        panelHandler = GameObject.FindGameObjectWithTag(Tags.MapsPanel).GetComponent<DisplayPanel>();
+        allMapsPanel = GameObject.FindGameObjectWithTag(Tags.MapsPanel);
         GameEvents.OnLevelUp += UpdateUI;
         UpdateUI();
     }
@@ -32,7 +32,7 @@ public class MapOption : MonoBehaviour
         {
             State.Maps.UpdateCurrentMap(mapId);
             selectMapSound.Play();
-            panelHandler.ClosePanel();
+            allMapsPanel.SetActive(false);
         }
     }
 
