@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
+using UnityEngine;
 
 public class ElementalsData
 {
@@ -59,22 +59,12 @@ public class ElementalsData
     {
         Elemental elemental = GetElemental(id);
 
-        if (!CanEvolve(id))
-        {
-            return;
-        }
-
+        Temple.ElementalCaught(elemental.evolution.evolveTo, false);
         UpdateElementalTokens(id, -elemental.evolution.tokensCost);
         State.UpdateEssence(-elemental.evolution.essenceCost);
         UpdateElementalTokens(elemental.evolution.evolveTo, 1);
 
         GameEvents.EssenceUpdated();
         GameEvents.TokensUpdated();
-
-        if (!IsElementalRegistered(elemental.evolution.evolveTo))
-        {
-            MarkElementalAsCaught(elemental.evolution.evolveTo);
-            GameEvents.ElementalCaught();
-        }
     }
 }

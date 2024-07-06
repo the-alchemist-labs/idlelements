@@ -29,7 +29,8 @@ public class CatchToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         AudioSource newCatchSound = audioSources[1];
 
         int tokens = State.Elementals.GetElementalEntry(elemental.id).tokens;
-        bool isNew = tokens == 1;
+        bool isNew = !State.Elementals.IsElementalRegistered(elemental.id);
+
         elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
         nameText.text = $"You caught {elemental.name}!";
         tokensText.text = $"Tokens: {tokens}";

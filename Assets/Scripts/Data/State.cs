@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class State
 {
@@ -85,12 +86,17 @@ public static class State
         lastEncounterDate = date;
     }
 
-    public static void ElementalCaught(ElementalId elementalId)
+    public static void UpdateElementalCaught(ElementalId elementalId, bool shouldTriggerToast = true)
     {
         lastEncounterDate = DateTime.Now;
-
         lastCaught = elementalId;
+        Debug.Log("Update " + lastEncounterDate);
         GameEvents.ElementalCaught();
+
+        if (shouldTriggerToast)
+        {
+            GameEvents.TriggerElementalToast();
+        }
     }
 
     public static void Save()

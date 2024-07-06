@@ -135,13 +135,13 @@ public static class Temple
         return GetSpeedBuff(currentTempleLevel, GetBaseSpeedBuffByMap(State.Maps.currentMapId));
     }
 
-    private static void ElementalCaught(ElementalId elementalId)
+    public static void ElementalCaught(ElementalId elementalId, bool shouldTriggerToast = true)
     {
         Elemental elemental = State.Elementals.GetElemental(elementalId);
 
-        State.ElementalCaught(elementalId);
-        State.GainExperience(elemental.expGain);
         State.Elementals.UpdateElementalTokens(elementalId, 1);
+        State.GainExperience(elemental.expGain);
+        State.UpdateElementalCaught(elementalId, shouldTriggerToast);
 
         if (!State.Elementals.IsElementalRegistered(elementalId))
         {

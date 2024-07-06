@@ -120,7 +120,7 @@ public class AfkGainsPanel : MonoBehaviour
 
         if (rewards.lastCaught != 0)
         {
-            State.ElementalCaught(rewards.lastCaught);
+            Temple.ElementalCaught(rewards.lastCaught, false);
         }
     }
 

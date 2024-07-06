@@ -7,16 +7,18 @@ public class SpawnCatchToast : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnElementalCaught += DisplayToast;
+        GameEvents.OnTriggerElementalToast += DisplayToast;
     }
 
     void OnDestroy()
     {
-        GameEvents.OnElementalCaught -= DisplayToast;
+        GameEvents.OnTriggerElementalToast -= DisplayToast;
     }
 
     void DisplayToast()
     {
+        print("display time " + State.lastEncounterDate);
+        print( "seconds pass " + (DateTime.Now - State.lastEncounterDate).TotalSeconds);
         // Don't show toast for idle encounter
         if ((DateTime.Now - State.lastEncounterDate).TotalSeconds >= 1) return;
 
