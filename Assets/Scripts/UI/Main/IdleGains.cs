@@ -28,19 +28,20 @@ public class IdleGains : MonoBehaviour
 
     public void UpdateIdleGains()
     {
-        int goldGains = GoldMine.GetTotalGoldFromAllMaps() / GoldMine.incomeLoopSeconds;
-        float goldPartyBonus = State.party.GetPartyBonusMultipier(BonusResource.Gold);
+        float goldPartyBonusMultiplier = State.party.GetPartyBonusMultipier(BonusResource.Gold);
+        int goldGains = GoldMine.GetTotalGoldGains();
+        int goldPartyBonus = Mathf.FloorToInt(goldGains * goldPartyBonusMultiplier);
 
-        goldText.text = $"{TextUtil.NumberFormatter(goldGains)}/s";
-        goldPartyBonusText.text = goldPartyBonus != 0 ? $" (+{TextUtil.NumberFormatter((int)(goldGains * goldPartyBonus))})" : "";
+        goldText.text = $"{TextUtil.NumberFormatter(goldGains - goldPartyBonus)}/s";
+        goldPartyBonusText.text = goldPartyBonusMultiplier != 0 ? $" (+{TextUtil.NumberFormatter(goldPartyBonus)})" : "";
         LayoutRebuilder.ForceRebuildLayoutImmediate(goldContainer.GetComponent<RectTransform>());
 
-        int essenceGains = EssenceLab.GetTotalEssenceFromAllMaps() / EssenceLab.incomeLoopSeconds;
-        float essencePartyBonus = State.party.GetPartyBonusMultipier(BonusResource.Essence);
+        float essencePartyBonusMultiplier = State.party.GetPartyBonusMultipier(BonusResource.Essence);
+        int essenceGains = EssenceLab.GetTotalEssenceFromAllMaps();
+        int essencePartyBonus = Mathf.FloorToInt(essenceGains * essencePartyBonusMultiplier);
 
-        essenceText.text = $"{TextUtil.NumberFormatter(essenceGains)}/s";
-        essencePartyBonusText.text = essencePartyBonus != 0 ? $" (+{TextUtil.NumberFormatter((int)(essenceGains * essencePartyBonus))})" : "";
+        essenceText.text = $"{TextUtil.NumberFormatter(essenceGains - essencePartyBonus)}/s";
+        essencePartyBonusText.text = essencePartyBonus != 0 ? $" (+{TextUtil.NumberFormatter(essencePartyBonus)})" : "";
         LayoutRebuilder.ForceRebuildLayoutImmediate(essenceContainer.GetComponent<RectTransform>());
-
     }
 }

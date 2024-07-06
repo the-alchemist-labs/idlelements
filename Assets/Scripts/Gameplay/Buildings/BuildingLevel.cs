@@ -1,14 +1,13 @@
 public class BuildingSpecs
 {
-
-    public int BuffBonus { get; }
-    public int CostModifier { get;}
+    public int BaseBonus { get; }
+    public int BaseCost { get;}
     public int MaxLevel { get; }
 
-    public BuildingSpecs(int costModifier, int buffBonus, int maxLevel)
+    public BuildingSpecs(int baseCost, int baseBonus, int maxLevel)
     {   
-        BuffBonus = buffBonus;
-        CostModifier = costModifier;
+        BaseBonus = baseBonus;
         MaxLevel = maxLevel;
+        BaseCost = baseCost;
     }
 }

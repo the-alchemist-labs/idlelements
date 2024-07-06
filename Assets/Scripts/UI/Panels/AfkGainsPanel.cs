@@ -154,7 +154,7 @@ public class AfkGainsPanel : MonoBehaviour
         }
 
         rewards.essence = EssenceLab.GetTotalEssenceFromAllMaps() * (int)(elapsedSeconds / EssenceLab.incomeLoopSeconds);
-        rewards.gold = GoldMine.GetTotalGoldFromAllMaps() * (int)(elapsedSeconds / GoldMine.incomeLoopSeconds);
+        rewards.gold = GoldMine.GetTotalGoldGains() * (int)(elapsedSeconds / GoldMine.incomeLoopSeconds);
         rewards.experience = GetTotalExp(encounterIds);
         rewards.lastCaught = encounterIds.Any() ? encounterIds.Last() : 0;
         rewards.IdleTime = TextUtil.FormatSecondsToTimeString(elapsedSeconds);

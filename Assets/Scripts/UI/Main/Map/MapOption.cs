@@ -15,7 +15,7 @@ public class MapOption : MonoBehaviour
 
     void Start()
     {
-        panelHandler = GameObject.FindGameObjectWithTag("MapsPanel").GetComponent<DisplayPanel>();
+        panelHandler = GameObject.FindGameObjectWithTag(Tags.MapsPanel).GetComponent<DisplayPanel>();
         GameEvents.OnLevelUp += UpdateUI;
         UpdateUI();
     }

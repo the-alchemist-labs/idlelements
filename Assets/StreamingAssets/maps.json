@@ -4,22 +4,22 @@
         "name": "Blazing Springs",
         "requiredLevel": 1,
         "goldMineSpecs": {
-            "BuffBonus": 100,
-            "CostModifier": 500,
-            "MaxLevel": 30
+            "BaseBonus": 20,
+            "BaseCost": 50,
+            "MaxLevel": 15
         },
         "essenceLabSpecs": {
-            "BuffBonus": 150,
-            "CostModifier": 750,
-            "MaxLevel": 20
+            "BaseBonus": 10,
+            "BaseCost": 60,
+            "MaxLevel": 15
         },
         "templeSpecs": {
-            "BuffBonus": 5,
-            "CostModifier": 1000,
+            "BaseBonus": 5,
+            "BaseCost": 500,
             "MaxLevel": 10,
-            "BoostEffect": 10,
-            "BoostCost": 10,
-            "Interval": 300
+            "BoostEffect": 15,
+            "BoostCost": 1000,
+            "Interval": 200
         },
         "mapElementalTypes": [
             "Fire",
@@ -41,22 +41,22 @@
         "name": "Aurora gales",
         "requiredLevel": 5,
         "goldMineSpecs": {
-            "BuffBonus": 100,
-            "CostModifier": 500,
-            "MaxLevel": 30
+            "BaseBonus": 50,
+            "BaseCost": 100,
+            "MaxLevel": 20
         },
         "essenceLabSpecs": {
-            "BuffBonus": 150,
-            "CostModifier": 750,
+            "BaseBonus": 15,
+            "BaseCost": 100,
             "MaxLevel": 20
         },
         "templeSpecs": {
-            "BuffBonus": 5,
-            "CostModifier": 1000,
+            "BaseBonus": 5,
+            "BaseCost": 1000,
             "MaxLevel": 10,
             "BoostEffect": 10,
             "BoostCost": 10,
-            "Interval": 300
+            "Interval": 200
         },
         "mapElementalTypes": [
             "Water",
@@ -75,21 +75,21 @@
     },
     {
         "id": 3,
-        "name": "Gaya Volcano",
-        "requiredLevel": 100,
+        "name": "Gaya's Volcano",
+        "requiredLevel": 10,
         "goldMineSpecs": {
-            "BuffBonus": 100,
-            "CostModifier": 500,
-            "MaxLevel": 30
+            "BaseBonus": 75,
+            "BaseCost": 200,
+            "MaxLevel": 25
         },
         "essenceLabSpecs": {
-            "BuffBonus": 150,
-            "CostModifier": 750,
-            "MaxLevel": 20
+            "BaseBonus": 20,
+            "BaseCost": 150,
+            "MaxLevel": 25
         },
         "templeSpecs": {
-            "BuffBonus": 5,
-            "CostModifier": 1000,
+            "BaseBonus": 5,
+            "BaseCost": 1000,
             "MaxLevel": 10,
             "BoostEffect": 10,
             "BoostCost": 10,
@@ -109,5 +109,61 @@
                 "encounterChance": 0.95
             }
         ]
+    },
+    {
+        "id": 4,
+        "name": "The Glaciar",
+        "requiredLevel": 15,
+        "goldMineSpecs": {
+            "BaseBonus": 100,
+            "BaseCost": 250,
+            "MaxLevel": 25
+        },
+        "essenceLabSpecs": {
+            "BaseBonus": 25,
+            "BaseCost": 250,
+            "MaxLevel": 25
+        },
+        "templeSpecs": {
+            "BaseBonus": 5,
+            "BaseCost": 1000,
+            "MaxLevel": 10,
+            "BoostEffect": 10,
+            "BoostCost": 10,
+            "Interval": 300
+        },
+        "mapElementalTypes": [
+            "Ice",
+            "Earth"
+        ],
+        "elementalEncounters": []
+    },
+    {
+        "id": 5,
+        "name": "Shiny Peaks",
+        "requiredLevel": 20,
+        "goldMineSpecs": {
+            "BaseBonus": 150,
+            "BaseCost": 400,
+            "MaxLevel": 30
+        },
+        "essenceLabSpecs": {
+            "BaseBonus": 30,
+            "BaseCost": 500,
+            "MaxLevel": 30
+        },
+        "templeSpecs": {
+            "BaseBonus": 5,
+            "BaseCost": 1000,
+            "MaxLevel": 10,
+            "BoostEffect": 10,
+            "BoostCost": 10,
+            "Interval": 350
+        },
+        "mapElementalTypes": [
+            "Lightning",
+            "Air"
+        ],
+        "elementalEncounters": []
     }
 ]

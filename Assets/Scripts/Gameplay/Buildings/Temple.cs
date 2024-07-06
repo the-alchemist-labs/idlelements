@@ -9,8 +9,8 @@ public class TempleSpecs : BuildingSpecs
     public int BoostCost { get; }
     public int Interval { get; }
 
-    public TempleSpecs(int interval, int costModifier, int buffBonus, int boostEffect, int boostCost, int maxLevel)
-         : base(costModifier, buffBonus, maxLevel)
+    public TempleSpecs(int interval, int baseCost, int buffBonus, int boostEffect, int boostCost, int maxLevel)
+         : base(baseCost, buffBonus, maxLevel)
     {
         BoostEffect = boostEffect;
         BoostCost = boostCost;
@@ -43,7 +43,7 @@ public static class Temple
 
     public static int GetEncounterSpeed()
     {
-        float encounterSpeedModifier = currentTempleSpecs.Interval * (float)GetTotalBuff() / 100;
+        float encounterSpeedModifier = currentTempleSpecs.Interval * (float)GetTotalSpeedBuff() / 100;
         return (int)(currentTempleSpecs.Interval - encounterSpeedModifier);
     }
 
@@ -85,7 +85,7 @@ public static class Temple
 
         int levelUpCost = GetLevelUpCost();
         State.UpdateGold(-levelUpCost);
-        State.Maps.GetCurrentMapProgresion().templeLevel++;
+        State.Maps.currentMapProgression.TempleLevelUp();
         GameEvents.IdleGainsChanged();
         return true;
     }
@@ -101,19 +101,40 @@ public static class Temple
         State.UpdateEssence(-currentTempleSpecs.BoostCost);
     }
 
-    public static int GetTotalBuff()
+    public static int GetTotalSpeedBuff()
     {
-        return currentTempleSpecs.BuffBonus * currentTempleLevel;
+        int gain = State.Maps.all
+        .Select(map => map.id)
+        .Where(mapId => State.Maps.GetMapProgression(mapId).isUnlocked)
+        .ToList()
+        .Sum(mapId =>
+        {
+            MapProgression mapProgression = State.Maps.GetMapProgression(mapId);
+            return mapProgression != null
+            ? GetSpeedBuff(mapProgression.templeLevel, GetBaseSpeedBuffByMap(mapId))
+            : 0;
+        });
+
+        float partyBonus = State.party.GetPartyBonusMultipier(BonusResource.EncounterSpeed);
+
+        return (int)(gain + (gain * partyBonus));
     }
 
     public static int GetLevelUpCost()
     {
-        return (currentTempleLevel + 1) * currentTempleSpecs.CostModifier;
+        int cost = currentTempleLevel * currentTempleSpecs.BaseCost;
+        float levelModifierExtraCost = currentTempleLevel * 0.5f;
+        return (int)(cost + (cost * levelModifierExtraCost));
     }
 
-    public static int GetLevelUpBuff()
+    public static int GetLevelUpSpeedBuff()
     {
-        return (currentTempleLevel + 1) * currentTempleSpecs.BuffBonus;
+        return (currentTempleLevel + 1) * currentTempleSpecs.BaseBonus;
+    }
+
+    public static int GetCurrentMapSpeedGain()
+    {
+        return GetSpeedBuff(currentTempleLevel, GetBaseSpeedBuffByMap(State.Maps.currentMapId));
     }
 
     private static void ElementalCaught(ElementalId elementalId)
@@ -129,5 +150,16 @@ public static class Temple
             State.Elementals.MarkElementalAsCaught(elementalId);
             State.UpdateOrbs(elemental.orbsGain);
         }
+    }
+
+    private static int GetSpeedBuff(int templeLevel, int baseBonus)
+    {
+        int levelBonus = (int)((templeLevel - 1) * baseBonus * 0.3f);
+        return baseBonus + levelBonus;
+    }
+
+    private static int GetBaseSpeedBuffByMap(MapId mapId)
+    {
+        return State.Maps.GetMap(mapId).templeSpecs.BaseBonus;
     }
 }

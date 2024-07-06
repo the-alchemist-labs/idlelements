@@ -7,7 +7,7 @@ public static class FileName
 
 public static class Tags
 {
-    public const string MapInfo = "MapInfo";
+    public const string MapsPanel = "MapsPanel";
 }
 
 public static class Conts
@@ -49,11 +49,13 @@ public enum MapId
 {
     FireWater = 1,
     WaterAir,
-    EarthFire
+    EarthFire,
 }
 
 public enum BonusResource
 {
     Gold,
     Essence,
+    EncounterSpeed,
+    Exeperience,
 }

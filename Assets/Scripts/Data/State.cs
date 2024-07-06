@@ -62,18 +62,11 @@ public static class State
     {
         experience += exp;
 
-        while (true)
+        while (ShouldToLevelUp() && !IsMaxLevel())
         {
-            if (ShouldToLevelUp() && !IsMaxLevel())
-            {
-                experience -= requiredExpToLevelUp[level];
-                level++;
-                // TODO: trigger levelup behavior
-            }
-            else
-            {
-                break;
-            }
+            experience -= requiredExpToLevelUp[level];
+            level++;
+            GameEvents.LevelUp();
         }
     }
 

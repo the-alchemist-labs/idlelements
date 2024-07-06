@@ -10,8 +10,12 @@ public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public GameObject levelUpButton;
     public GameObject infoPanel;
 
+    private GameObject levelUpImage;
+
     void Start()
     {
+        levelUpImage = levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>()?.gameObject;
+
         GameEvents.OnMapDataChanged += ScheduleUpdate;
         GameEvents.OnGoldUpdated += ScheduleUpdate;
 
@@ -28,8 +32,8 @@ public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         infoPanel.GetComponent<BuildingPanel>()?.UpdateUI(
             "Essence Lab",
-            EssenceLab.IsMaxLevel() ? "Next level: 0" : $"Next level: + {EssenceLab.GetLevelUpBuff()}",
-            $"Total gains: {TextUtil.NumberFormatter(EssenceLab.GetTotalBuff())}",
+            EssenceLab.IsMaxLevel() ? "Next level: 0" : $"Next level: + {EssenceLab.GetLevelUpGains()}",
+            $"Total gains: {TextUtil.NumberFormatter(EssenceLab.GetEssenceGain())}",
             $"Collect time: {EssenceLab.incomeLoopSeconds} sec",
             "Sprites/Currencies/essence"
         );
@@ -51,11 +55,11 @@ public class EssenceLabUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void UpdateUI()
     {
-        int EssenceLabLevel = State.Maps.GetCurrentMapProgresion().essenceLabLevel;
+        int EssenceLabLevel = State.Maps.currentMapProgression.essenceLabLevel;
 
         levelText.text = $"{EssenceLabLevel}/{EssenceLab.currentMapEssenceLabSpecs.MaxLevel}";
-        levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>().gameObject.SetActive(!EssenceLab.IsMaxLevel());
-        costText.text = EssenceLab.IsMaxLevel() ? "Max" : $"{EssenceLab.currentMapEssenceLabSpecs.CostModifier * EssenceLabLevel}";
+        levelUpImage?.SetActive(!EssenceLab.IsMaxLevel());
+        costText.text = EssenceLab.IsMaxLevel() ? "Max" : $"{TextUtil.NumberFormatter(EssenceLab.GetLevelUpCost())}";
         levelUpButton.GetComponent<Button>().interactable = !EssenceLab.IsMaxLevel() && State.gold >= EssenceLab.GetLevelUpCost();
     }
 

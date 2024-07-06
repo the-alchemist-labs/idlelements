@@ -10,8 +10,12 @@ public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public GameObject levelUpButton;
     public GameObject infoPanel;
 
+    private GameObject levelUpImage;
+
     void Start()
     {
+        levelUpImage = levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>()?.gameObject;
+
         GameEvents.OnMapDataChanged += ScheduleUpdate;
         GameEvents.OnGoldUpdated += ScheduleUpdate;
 
@@ -28,8 +32,8 @@ public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         infoPanel.GetComponent<BuildingPanel>()?.UpdateUI(
             "Gold Mine",
-             GoldMine.IsMaxLevel() ? "Next level: 0" : $"Next level: + {GoldMine.GetLevelUpBuff()}",
-            $"Total gains: {TextUtil.NumberFormatter(GoldMine.GetTotalBuff())}",
+             GoldMine.IsMaxLevel() ? "Next level: 0" : $"Next level: + {GoldMine.GetLevelUpGains()}",
+            $"Total gains: {TextUtil.NumberFormatter(GoldMine.GetGoldGain())}",
             $"Collect time: {GoldMine.incomeLoopSeconds} sec",
             "Sprites/Currencies/gold"
         );
@@ -51,11 +55,11 @@ public class GoldMineUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void UpdateUI()
     {
-        int goldMineLevel = State.Maps.GetCurrentMapProgresion().goldMineLevel;
+        int goldMineLevel = State.Maps.currentMapProgression.goldMineLevel;
 
         levelText.text = $"{goldMineLevel}/{GoldMine.currentGoldMineSpecs.MaxLevel}";
-        costText.text = GoldMine.IsMaxLevel() ? "Max" : $"{GoldMine.currentGoldMineSpecs.CostModifier * goldMineLevel}";
-        levelUpButton.transform.GetChild(0)?.GetComponentInChildren<Image>()?.gameObject?.SetActive(!GoldMine.IsMaxLevel());
+        costText.text = GoldMine.IsMaxLevel() ? "Max" : $"{TextUtil.NumberFormatter(GoldMine.GetLevelUpCost())}";
+        levelUpImage?.SetActive(!GoldMine.IsMaxLevel());
         levelUpButton.GetComponent<Button>().interactable = !GoldMine.IsMaxLevel() && State.gold >= GoldMine.GetLevelUpCost();
     }
 

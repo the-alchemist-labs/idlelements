@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public static class EssenceLab
 {
     public static DateTime lastCollectDate { get; private set; }
-    public static int incomeLoopSeconds { get { return 5; } }
+    public static int incomeLoopSeconds { get { return 60; } }
 
     public static BuildingSpecs currentMapEssenceLabSpecs { get { return State.Maps.GetMap(State.Maps.currentMapId).essenceLabSpecs; } }
     public static int currentEssenceLabLevel { get { return State.Maps.currentMapProgression.essenceLabLevel; } }
@@ -36,7 +36,7 @@ public static class EssenceLab
         {
             MapProgression mapProgression = State.Maps.GetMapProgression(mapId);
             return mapProgression != null
-            ? GetTotalBuffByMap(mapId)
+            ? CalculateEssenceGain(mapProgression.essenceLabLevel, GetBaseBonusByMap(mapId))
             : 0;
         });
 
@@ -64,33 +64,37 @@ public static class EssenceLab
 
         int levelUpCost = GetLevelUpCost();
         State.UpdateGold(-levelUpCost);
-        State.Maps.GetCurrentMapProgresion().essenceLabLevel++;
+        State.Maps.currentMapProgression.EssenceLabLevelUp();
         GameEvents.IdleGainsChanged();
 
         return true;
     }
 
-    public static int GetTotalBuff()
+    public static int GetEssenceGain()
     {
-        return GetTotalBuffByMap(State.Maps.currentMapId);
+        return CalculateEssenceGain(currentEssenceLabLevel, GetBaseBonusByMap(State.Maps.currentMapId));
     }
 
     public static int GetLevelUpCost()
     {
-        MapProgression map = State.Maps.GetCurrentMapProgresion();
-        return (map.essenceLabLevel + 1) * currentMapEssenceLabSpecs.CostModifier;
+        int cost = currentEssenceLabLevel * currentMapEssenceLabSpecs.BaseCost;
+        float levelModifierExtraCost = (currentEssenceLabLevel - 1) * 0.1f;
+        return (int)(cost + (cost * levelModifierExtraCost));
     }
 
-    public static int GetLevelUpBuff()
+    public static int GetLevelUpGains()
     {
-        return (currentEssenceLabLevel + 1) * currentMapEssenceLabSpecs.BuffBonus;
+        return (currentEssenceLabLevel + 1) * currentMapEssenceLabSpecs.BaseBonus;
     }
 
-    private static int GetTotalBuffByMap(MapId mapId)
+    private static int CalculateEssenceGain(int essenceLabLevel, int baseBonus)
     {
-        return Enumerable
-        .Range(1, State.Maps.GetMapProgression(mapId).essenceLabLevel)
-        .Select(i => i * currentMapEssenceLabSpecs.BuffBonus)
-        .Sum();
+        int levelBonus = (int)((essenceLabLevel - 1) * baseBonus * 0.3f);
+        return baseBonus + levelBonus;
+    }
+
+    private static int GetBaseBonusByMap(MapId mapId)
+    {
+        return State.Maps.GetMap(mapId).essenceLabSpecs.BaseBonus;
     }
 }
