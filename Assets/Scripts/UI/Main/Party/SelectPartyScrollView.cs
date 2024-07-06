@@ -33,7 +33,7 @@ public class SelectPartyScrollView : MonoBehaviour
         idleBonusText.text = $"Idle bonus: {GetIdleBonus()}";
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
-        foreach (ElementalId entryId in State.Elementals.GetEligiblePartyMembers())
+        foreach (ElementalId entryId in State.party.GetEligiblePartyMembers())
         {
             GameObject newEntry = Instantiate(prefub, scrollViewContent);
             if (newEntry.TryGetComponent(out AvailablePartyMemberPrefub item))

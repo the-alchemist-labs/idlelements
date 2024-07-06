@@ -39,6 +39,15 @@ public class Party
         GameEvents.PartyUpdated();
     }
 
+    public ElementalId[] GetEligiblePartyMembers()
+    {
+        return State.Elementals.entries
+            .Where(entry => entry.isCaught)
+            .Select(entry => entry.id)
+            .OrderBy(id => State.party.IsInParty(id))
+            .ToArray();
+    }
+
     public float GetPartyBonusMultipier(BonusResource resource)
     {
         return new List<ElementalId?> { First, Second, Third }

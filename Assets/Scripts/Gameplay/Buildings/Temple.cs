@@ -33,8 +33,6 @@ public static class Temple
             {
                 ElementalId elementalId = GetEncounter(State.Maps.currentMap.elementalEncounters);
                 ElementalCaught(elementalId);
-                State.UpdatelastEncounterDate(DateTime.Now);
-                Debug.Log("gottcha");
             }
 
             yield return new WaitForSeconds(1);
@@ -141,7 +139,7 @@ public static class Temple
     {
         Elemental elemental = State.Elementals.GetElemental(elementalId);
 
-        State.UpdateLastCatch(elementalId);
+        State.ElementalCaught(elementalId);
         State.GainExperience(elemental.expGain);
         State.Elementals.UpdateElementalTokens(elementalId, 1);
 

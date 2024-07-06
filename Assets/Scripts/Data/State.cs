@@ -85,8 +85,10 @@ public static class State
         lastEncounterDate = date;
     }
 
-    public static void UpdateLastCatch(ElementalId elementalId)
+    public static void ElementalCaught(ElementalId elementalId)
     {
+        lastEncounterDate = DateTime.Now;
+
         lastCaught = elementalId;
         GameEvents.ElementalCaught();
     }

@@ -28,7 +28,7 @@ public class DeckEntry : MonoBehaviour
         this.elemental = elemental;
         this.evolvePanel = evolvePanel;
 
-        ElementalEntry entry = State.Elementals.GetElementalalEntry(elemental.id);
+        ElementalEntry entry = State.Elementals.GetElementalEntry(elemental.id);
         elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
         elementalIdText.text = $"#{(int)elemental.id}";
         elementalName.text = elemental.name;
@@ -47,7 +47,7 @@ public class DeckEntry : MonoBehaviour
 
     void UpdateCatchImage()
     {
-        if (State.Elementals.GetElementalalEntry(elemental.id).isCaught)
+        if (State.Elementals.GetElementalEntry(elemental.id).isCaught)
         {
             elementalImage.color = UnlockedColor;
             caughtIndicatorImage.gameObject.SetActive(true);

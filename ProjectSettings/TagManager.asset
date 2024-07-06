@@ -7,6 +7,7 @@ TagManager:
   - Panel
   - MapInfo
   - MapsPanel
+  - CatchToastLocation
   layers:
   - Default
   - TransparentFX

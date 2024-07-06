@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 
 public class ElementalsData
 {
@@ -17,16 +16,6 @@ public class ElementalsData
     {
         return all.Find(el => el.id == id);
     }
-
-
-    public ElementalId[] GetEligiblePartyMembers()
-    {
-        return entries
-            .Where(entry => entry.isCaught)
-            .Select(entry => entry.id)
-            .OrderBy(id => State.party.IsInParty(id))
-            .ToArray();
-    }
     
     public bool IsElementalRegistered(ElementalId id)
     {
@@ -35,16 +24,16 @@ public class ElementalsData
 
     public void MarkElementalAsCaught(ElementalId id)
     {
-        GetElementalalEntry(id).isCaught = true;
+        GetElementalEntry(id).isCaught = true;
     }
 
     public void UpdateElementalTokens(ElementalId id, int updateBy)
     {
-        int tokens = GetElementalalEntry(id).tokens;
-        GetElementalalEntry(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
+        int tokens = GetElementalEntry(id).tokens;
+        GetElementalEntry(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
     }
 
-    public ElementalEntry GetElementalalEntry(ElementalId id)
+    public ElementalEntry GetElementalEntry(ElementalId id)
     {
         ElementalEntry elemental = entries.Find(e => e.id == id);
         if (elemental == null)
@@ -58,7 +47,7 @@ public class ElementalsData
 
     public bool CanEvolve(ElementalId id)
     {
-        ElementalEntry entry = GetElementalalEntry(id);
+        ElementalEntry entry = GetElementalEntry(id);
         Elemental elemental = GetElemental(id);
 
         return elemental.evolution != null

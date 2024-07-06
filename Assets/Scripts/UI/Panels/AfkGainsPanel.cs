@@ -120,7 +120,7 @@ public class AfkGainsPanel : MonoBehaviour
 
         if (rewards.lastCaught != 0)
         {
-            State.UpdateLastCatch(rewards.lastCaught);
+            State.ElementalCaught(rewards.lastCaught);
         }
     }
 
