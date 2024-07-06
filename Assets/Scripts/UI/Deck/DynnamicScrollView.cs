@@ -7,6 +7,7 @@ public class DynnamicScrollView : MonoBehaviour
     public ScrollRect scrollRect;
     public Transform scrollViewContent;
     public GameObject rowPrefab;
+    public EvolvePanel evolvePanel;
 
     void Start()
     {
@@ -32,7 +33,7 @@ public class DynnamicScrollView : MonoBehaviour
             GameObject newEntry = Instantiate(rowPrefab, scrollViewContent);
             if (newEntry.TryGetComponent(out DeckEntry item))
             {
-                item.UpdateEntry(entry);
+                item.UpdateEntry(entry, evolvePanel);
             }
         }
 

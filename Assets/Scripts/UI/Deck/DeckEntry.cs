@@ -10,12 +10,10 @@ public class DeckEntry : MonoBehaviour
     public TMP_Text elementalName;
     public TMP_Text tokensText;
     public TMP_Text idleBonusText;
-    public TMP_Text evolveToText;
-    public TMP_Text essenceEvolveCost;
-    public TMP_Text tokensEvolveCost;
-    public Button evolveButton;
+    public Button evolveButtonInfo;
 
     private Elemental elemental;
+    private EvolvePanel evolvePanel;
 
     private Color UnlockedColor = Color.white;
     private Color LockedColor = new Color(.25f, .25f, .25f, 0.8f);
@@ -25,28 +23,31 @@ public class DeckEntry : MonoBehaviour
         LockedColor.a = 0.5f;
     }
 
-    public void UpdateEntry(Elemental elemental)
+    public void UpdateEntry(Elemental elemental, EvolvePanel evolvePanel)
     {
         this.elemental = elemental;
-        ElementalEntry entry = State.Elementals.GetElementalEntry(elemental.id);
+        this.evolvePanel = evolvePanel;
+
+        ElementalEntry entry = State.Elementals.GetElementalalEntry(elemental.id);
         elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
         elementalIdText.text = $"#{(int)elemental.id}";
         elementalName.text = elemental.name;
         tokensText.text = $"Tokens: {entry.tokens}";
+        evolveButtonInfo.gameObject.SetActive(elemental.evolution != null);
+        evolveButtonInfo.GetComponent<Image>().color = State.Elementals.CanEvolve(elemental.id) ? Color.white : Color.gray;
 
         UpdateCatchImage();
         UpdateIdleBonusInfo();
-        UpdateEvolveInfo();
     }
 
-    public void Evolve()
+    public void EvolveInfoClicked()
     {
-        State.Elementals.Evolve(elemental.id);
+        evolvePanel.DisplayPanel(elemental);
     }
 
     void UpdateCatchImage()
     {
-        if (State.Elementals.GetElementalEntry(elemental.id).isCaught)
+        if (State.Elementals.GetElementalalEntry(elemental.id).isCaught)
         {
             elementalImage.color = UnlockedColor;
             caughtIndicatorImage.gameObject.SetActive(true);
@@ -56,24 +57,6 @@ public class DeckEntry : MonoBehaviour
             elementalImage.color = LockedColor;
             caughtIndicatorImage.gameObject.SetActive(false);
         }
-    }
-
-    void UpdateEvolveInfo()
-    {
-        if (elemental.evolution != null)
-        {
-            evolveToText.text = $"To {elemental.evolution.evolveTo}";
-            essenceEvolveCost.text = TextUtil.NumberFormatter(elemental.evolution.essenceCost);
-            tokensEvolveCost.text = TextUtil.NumberFormatter(elemental.evolution.tokensCost);
-            evolveButton.interactable = State.Elementals.CanEvolve(elemental.id);
-            evolveButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            evolveToText.text = "None";
-            evolveButton.gameObject.SetActive(false);
-        }
-
     }
 
     void UpdateIdleBonusInfo()

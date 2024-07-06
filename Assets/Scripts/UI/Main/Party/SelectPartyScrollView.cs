@@ -63,7 +63,7 @@ public class SelectPartyScrollView : MonoBehaviour
         }
         else
         {
-            Elemental elemental = State.Elementals.GetElement((ElementalId)selectedElemental);
+            Elemental elemental = State.Elementals.GetElemental((ElementalId)selectedElemental);
             return elemental.idleBonus != null ? $"{elemental.idleBonus.amount * 100}% {elemental.idleBonus.resource}" : "None";
         }
     }

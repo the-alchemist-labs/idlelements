@@ -8,6 +8,7 @@ public static class FileName
 public static class Tags
 {
     public const string MapsPanel = "MapsPanel";
+    public const string EvolvePanel = "EvolvePanel";
 }
 
 public static class Conts

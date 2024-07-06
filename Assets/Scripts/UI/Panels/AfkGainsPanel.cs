@@ -170,7 +170,7 @@ public class AfkGainsPanel : MonoBehaviour
         {
             if (!expCache.TryGetValue(elementalId, out int exp))
             {
-                exp = State.Elementals.GetElement(elementalId).expGain;
+                exp = State.Elementals.GetElemental(elementalId).expGain;
                 expCache[elementalId] = exp;
             }
             totalExp += exp;

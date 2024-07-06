@@ -13,7 +13,7 @@ public class ElementalsData
         entries = elementalEntries ?? new List<ElementalEntry>();
     }
 
-    public Elemental GetElement(ElementalId id)
+    public Elemental GetElemental(ElementalId id)
     {
         return all.Find(el => el.id == id);
     }
@@ -35,16 +35,16 @@ public class ElementalsData
 
     public void MarkElementalAsCaught(ElementalId id)
     {
-        GetElementalEntry(id).isCaught = true;
+        GetElementalalEntry(id).isCaught = true;
     }
 
     public void UpdateElementalTokens(ElementalId id, int updateBy)
     {
-        int tokens = GetElementalEntry(id).tokens;
-        GetElementalEntry(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
+        int tokens = GetElementalalEntry(id).tokens;
+        GetElementalalEntry(id).tokens = (tokens + updateBy >= 0) ? tokens + updateBy : 0;
     }
 
-    public ElementalEntry GetElementalEntry(ElementalId id)
+    public ElementalEntry GetElementalalEntry(ElementalId id)
     {
         ElementalEntry elemental = entries.Find(e => e.id == id);
         if (elemental == null)
@@ -58,8 +58,8 @@ public class ElementalsData
 
     public bool CanEvolve(ElementalId id)
     {
-        ElementalEntry entry = GetElementalEntry(id);
-        Elemental elemental = GetElement(id);
+        ElementalEntry entry = GetElementalalEntry(id);
+        Elemental elemental = GetElemental(id);
 
         return elemental.evolution != null
         && entry.tokens >= elemental.evolution.tokensCost
@@ -68,7 +68,7 @@ public class ElementalsData
 
     public void Evolve(ElementalId id)
     {
-        Elemental elemental = GetElement(id);
+        Elemental elemental = GetElemental(id);
 
         if (!CanEvolve(id))
         {

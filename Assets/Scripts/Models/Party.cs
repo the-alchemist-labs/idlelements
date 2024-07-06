@@ -43,7 +43,7 @@ public class Party
     {
         return new List<ElementalId?> { First, Second, Third }
         .Where(e => e != null)
-        .Select(id => State.Elementals.GetElement(id.Value))
+        .Select(id => State.Elementals.GetElemental(id.Value))
         .Where(e => e.idleBonus != null)
         .Where(e => e.idleBonus?.resource == resource)
         .Sum(e => e.idleBonus.amount);

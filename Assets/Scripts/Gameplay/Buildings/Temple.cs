@@ -139,7 +139,7 @@ public static class Temple
 
     private static void ElementalCaught(ElementalId elementalId)
     {
-        Elemental elemental = State.Elementals.GetElement(elementalId);
+        Elemental elemental = State.Elementals.GetElemental(elementalId);
 
         State.UpdateLastCatch(elementalId);
         State.GainExperience(elemental.expGain);

@@ -30,8 +30,8 @@ public class MapInfoPanel : MonoBehaviour
             GameObject newEntry = Instantiate(encounterPrefub, encountersContainer);
             if (newEntry.TryGetComponent(out EncounterPrefub item))
             {   
-                Elemental elemental = State.Elementals.GetElement(encounter.elementalId);
-                ElementalEntry entry = State.Elementals.GetElementalEntry(encounter.elementalId);
+                Elemental elemental = State.Elementals.GetElemental(encounter.elementalId);
+                ElementalEntry entry = State.Elementals.GetElementalalEntry(encounter.elementalId);
                 item.UpdateIU(encounter.elementalId, elemental.type,  elemental.name, encounter.encounterChance, entry.tokens);
             }
         }
