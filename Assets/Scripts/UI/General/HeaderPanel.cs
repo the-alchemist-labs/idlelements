@@ -29,12 +29,16 @@ public class HeaderBannerManager : MonoBehaviour
     void Start()
     {
         GameEvents.OnElementalCaught += UpdateUI;
+        GameEvents.OnGoldUpdated += UpdateUI;
+        GameEvents.OnEssenceUpdated += UpdateUI;
         UpdateUI();
     }
 
     void OnDestroy()
     {
         GameEvents.OnElementalCaught -= UpdateUI;
+        GameEvents.OnGoldUpdated -= UpdateUI;
+        GameEvents.OnEssenceUpdated -= UpdateUI;
     }
 
     void UpdateUI()

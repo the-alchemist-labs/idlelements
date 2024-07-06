@@ -47,9 +47,12 @@ public class NextEncounter : MonoBehaviour
 
     public void Boost()
     {
-        Temple.Boost();
-        UpdateEncounterSliderData();
-        boostSound.Play();
+        if (State.essence >= Temple.GetBoostCost())
+        {
+            Temple.Boost();
+            UpdateEncounterSliderData();
+            boostSound.Play();
+        }
     }
 
     void UpdateBoostButton()
