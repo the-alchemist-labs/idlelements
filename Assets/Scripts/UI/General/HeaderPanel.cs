@@ -26,7 +26,18 @@ public class HeaderBannerManager : MonoBehaviour
         }
     }
 
-    void Update()
+    void Start()
+    {
+        GameEvents.OnElementalCaught += UpdateUI;
+        UpdateUI();
+    }
+
+    void OnDestroy()
+    {
+        GameEvents.OnElementalCaught -= UpdateUI;
+    }
+    
+    void UpdateUI()
     {
         levelText.text = TextUtil.NumberFormatter(State.level);
         expSlider.value = GetExpPercent();
@@ -39,7 +50,7 @@ public class HeaderBannerManager : MonoBehaviour
     {
         if (State.IsMaxLevel()) return 1;
         if (State.experience == 0) return 0;
-        return State.experience / State.requiredExpToLevelUp[State.level];
+        return (float)State.experience / State.requiredExpToLevelUp[State.level];
     }
 
     private static string GetExpDisplay()
