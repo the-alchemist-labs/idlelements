@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public static class State
 {
+    private static int MAX_LEVEL = 30;
     public static DateTime lastEncounterDate { get; private set; }
 
     public static int level { get; private set; }
@@ -15,20 +16,6 @@ public static class State
     public static ElementalId lastCaught { get; private set; }
     public static ElementalsData Elementals { get; }
     public static MapsData Maps { get; }
-
-    public readonly static Dictionary<int, int> requiredExpToLevelUp = new Dictionary<int, int>()
-    {
-        { 1, 250 },
-        { 2, 600 },
-        { 3, 1000 },
-        { 4, 2000 },
-        { 5, 3500 },
-        { 6, 5000 },
-        { 7, 8000 },
-        { 8, 10000 },
-        { 9, 16000 },
-        { 10, 20000 },
-    };
 
     static State()
     {
@@ -50,12 +37,17 @@ public static class State
 
     public static bool IsMaxLevel()
     {
-        return level == requiredExpToLevelUp.Count;
+        return level == MAX_LEVEL;
+    }
+
+    public static int ExpToLevelUp(int level)
+    {
+        return (int)(Math.Round((Math.Pow(level, 3) + level * 200) / 100.0) * 100);
     }
 
     private static bool ShouldToLevelUp()
     {
-        return experience >= requiredExpToLevelUp[level];
+        return experience >= ExpToLevelUp(level);
     }
 
     public static void GainExperience(int exp)
@@ -64,7 +56,7 @@ public static class State
 
         while (ShouldToLevelUp() && !IsMaxLevel())
         {
-            experience -= requiredExpToLevelUp[level];
+            experience -= ExpToLevelUp(level);
             level++;
             GameEvents.LevelUp();
         }

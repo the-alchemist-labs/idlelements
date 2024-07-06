@@ -8,7 +8,7 @@
       "essenceCost": 300000,
       "tokensCost": 100
     },
-    "expGain": 1,
+    "expGain": 10,
     "orbsGain": 3,
     "idleBonus": {
       "resource": "Gold",
@@ -19,42 +19,66 @@
     "id": 2,
     "name": "Ferion",
     "type": "Fire",
-    "expGain": 10,
-    "orbsGain": 30
+    "expGain": 80,
+    "orbsGain": 30,
+    "idleBonus": {
+      "resource": "Gold",
+      "amount": 0.25
+    }
   },
   {
     "id": 3,
     "name": "Wizo",
     "type": "Water",
-    "expGain": 1,
-    "orbsGain": 3
+    "expGain": 12,
+    "orbsGain": 3,
+    "idleBonus": {
+      "resource": "Essence",
+      "amount": 0.05
+    }
   },
   {
     "id": 4,
     "name": "Wizar",
     "type": "Water",
-    "expGain": 10,
-    "orbsGain": 30
+    "expGain": 100,
+    "orbsGain": 30,
+    "idleBonus": {
+      "resource": "Essence",
+      "amount": 0.75
+    }
   },
   {
     "id": 5,
     "name": "Bolli",
     "type": "Earth",
-    "expGain": 2,
-    "orbsGain": 5
+    "expGain": 15,
+    "orbsGain": 5,
+    "idleBonus": {
+      "resource": "Exeperience",
+      "amount": 0.075
+    }
   },
   {
     "id": 6,
     "name": "Bulldo",
     "type": "Earth",
-    "expGain": 20,
-    "orbsGain": 50
+    "expGain": 130,
+    "orbsGain": 50,
+    "idleBonus": {
+      "resource": "Exeperience",
+      "amount": 0.1
+    }
   },
   {
     "id": 7,
     "name": "Seria",
     "type": "Air",
-    "expGain": 25,
-    "orbsGain": 70
+    "expGain": 20,
+    "orbsGain": 70,
+    "idleBonus": {
+      "resource": "Exeperience",
+      "amount": 0.1
+    }
   }
 ]

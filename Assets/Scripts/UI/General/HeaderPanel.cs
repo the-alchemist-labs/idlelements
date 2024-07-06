@@ -36,7 +36,7 @@ public class HeaderBannerManager : MonoBehaviour
     {
         GameEvents.OnElementalCaught -= UpdateUI;
     }
-    
+
     void UpdateUI()
     {
         levelText.text = TextUtil.NumberFormatter(State.level);
@@ -50,14 +50,13 @@ public class HeaderBannerManager : MonoBehaviour
     {
         if (State.IsMaxLevel()) return 1;
         if (State.experience == 0) return 0;
-        return (float)State.experience / State.requiredExpToLevelUp[State.level];
+        return (float)State.experience / State.ExpToLevelUp(State.level);
     }
 
     private static string GetExpDisplay()
     {
         return State.IsMaxLevel()
         ? "Max Level"
-        : $"{TextUtil.NumberFormatter(State.experience)}/{TextUtil.NumberFormatter(State.requiredExpToLevelUp[State.level])}";
+        : $"{TextUtil.NumberFormatter(State.experience)}/{TextUtil.NumberFormatter(State.ExpToLevelUp(State.level))}";
     }
 }
-
