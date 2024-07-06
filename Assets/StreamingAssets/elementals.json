@@ -75,10 +75,6 @@
     "name": "Seria",
     "type": "Air",
     "expGain": 20,
-    "orbsGain": 70,
-    "idleBonus": {
-      "resource": "Exeperience",
-      "amount": 0.1
-    }
+    "orbsGain": 70
   }
 ]
