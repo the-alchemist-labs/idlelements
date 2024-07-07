@@ -12,27 +12,42 @@ public class NextEncounter : MonoBehaviour
     public Button boostButton;
     public AudioSource boostSound;
 
+    private Coroutine sliderCoroutine;
+
     void Start()
     {
-        StartCoroutine(UpdateReactiveData());
+        sliderCoroutine = StartCoroutine(UpdateReactiveData());
         GameEvents.OnMapDataChanged += UpdateBoostText;
         GameEvents.OnIdleGainsChanged += UpdateBoostText;
         GameEvents.OnEssenceUpdated += UpdateBoostButton;
         UpdateBoostText();
     }
 
+    void OnEnable()
+    {
+        sliderCoroutine = StartCoroutine(UpdateReactiveData());
+    }
+
+    void OnDisable()
+    {
+        if (sliderCoroutine != null)
+        {
+            StopCoroutine(sliderCoroutine);
+        }
+    }
     void OnDestroy()
     {
         GameEvents.OnMapDataChanged -= UpdateBoostText;
         GameEvents.OnIdleGainsChanged -= UpdateBoostText;
         GameEvents.OnEssenceUpdated -= UpdateBoostButton;
     }
+
     IEnumerator UpdateReactiveData()
     {
         while (true)
         {
             Invoke("UpdateEncounterSliderData", 0.1f);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
