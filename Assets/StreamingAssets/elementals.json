@@ -9,7 +9,7 @@
       "tokensCost": 100
     },
     "expGain": 10,
-    "orbsGain": 3,
+    "orbsGain": 50,
     "idleBonus": {
       "resource": "Gold",
       "amount": 0.1
@@ -20,7 +20,7 @@
     "name": "Ferion",
     "type": "Fire",
     "expGain": 80,
-    "orbsGain": 30,
+    "orbsGain": 200,
     "idleBonus": {
       "resource": "Gold",
       "amount": 0.25
@@ -31,7 +31,7 @@
     "name": "Wizo",
     "type": "Water",
     "expGain": 12,
-    "orbsGain": 3,
+    "orbsGain": 50,
     "idleBonus": {
       "resource": "Essence",
       "amount": 0.05
@@ -42,7 +42,7 @@
     "name": "Wizar",
     "type": "Water",
     "expGain": 100,
-    "orbsGain": 30,
+    "orbsGain": 200,
     "idleBonus": {
       "resource": "Essence",
       "amount": 0.75
@@ -53,7 +53,7 @@
     "name": "Bolli",
     "type": "Earth",
     "expGain": 15,
-    "orbsGain": 5,
+    "orbsGain": 50,
     "idleBonus": {
       "resource": "Exeperience",
       "amount": 0.075
@@ -64,7 +64,7 @@
     "name": "Bulldo",
     "type": "Earth",
     "expGain": 130,
-    "orbsGain": 50,
+    "orbsGain": 200,
     "idleBonus": {
       "resource": "Exeperience",
       "amount": 0.1
@@ -75,6 +75,6 @@
     "name": "Seria",
     "type": "Air",
     "expGain": 20,
-    "orbsGain": 70
+    "orbsGain": 100
   }
 ]
