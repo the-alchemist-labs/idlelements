@@ -31,7 +31,7 @@ public static class GoldMine
     {
         int gain = State.Maps.all
         .Select(map => map.id)
-        .Where(mapId => State.Maps.GetMapProgression(mapId).isUnlocked)
+        .Where(mapId => State.level >= State.Maps.GetMap(mapId).requiredLevel)
         .ToList()
         .Sum(mapId =>
         {

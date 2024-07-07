@@ -12,7 +12,6 @@ public static class EssenceLab
 
     static EssenceLab()
     {
-        // TODO: register to map change and set the mapEssenceLab of the relevant map
         _ = Collect();
     }
 
@@ -30,7 +29,7 @@ public static class EssenceLab
     {
         int gain = State.Maps.all
         .Select(map => map.id)
-        .Where(mapId => State.Maps.GetMapProgression(mapId).isUnlocked)
+        .Where(mapId => State.level >= State.Maps.GetMap(mapId).requiredLevel)
         .ToList()
         .Sum(mapId =>
         {

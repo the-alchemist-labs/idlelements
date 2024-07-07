@@ -17,8 +17,6 @@ public class SpawnCatchToast : MonoBehaviour
 
     void DisplayToast()
     {
-        print("display time " + State.lastEncounterDate);
-        print( "seconds pass " + (DateTime.Now - State.lastEncounterDate).TotalSeconds);
         // Don't show toast for idle encounter
         if ((DateTime.Now - State.lastEncounterDate).TotalSeconds >= 1) return;
 

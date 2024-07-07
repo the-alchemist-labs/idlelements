@@ -9,8 +9,8 @@ public class TempleSpecs : BuildingSpecs
     public int BoostCost { get; }
     public int Interval { get; }
 
-    public TempleSpecs(int interval, int baseCost, int buffBonus, int boostEffect, int boostCost, int maxLevel)
-         : base(baseCost, buffBonus, maxLevel)
+    public TempleSpecs(int interval, int baseCost, int baseBonus, int boostEffect, int boostCost, int maxLevel)
+         : base(baseCost, baseBonus, maxLevel)
     {
         BoostEffect = boostEffect;
         BoostCost = boostCost;
@@ -103,7 +103,7 @@ public static class Temple
     {
         int gain = State.Maps.all
         .Select(map => map.id)
-        .Where(mapId => State.Maps.GetMapProgression(mapId).isUnlocked)
+        .Where(mapId => State.level >= State.Maps.GetMap(mapId).requiredLevel)
         .ToList()
         .Sum(mapId =>
         {

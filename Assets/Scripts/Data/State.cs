@@ -90,7 +90,6 @@ public static class State
     {
         lastEncounterDate = DateTime.Now;
         lastCaught = elementalId;
-        Debug.Log("Update " + lastEncounterDate);
         GameEvents.ElementalCaught();
 
         if (shouldTriggerToast)
