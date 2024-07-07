@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 120;
+        QualitySettings.vSyncCount = 0; 
+
         afkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
         StartCoroutine(Temple.StartRoutine());
         StartCoroutine(Backup());
