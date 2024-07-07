@@ -86,14 +86,14 @@ public static class State
         lastEncounterDate = date;
     }
 
-    public static void UpdateElementalCaught(ElementalId elementalId, bool shouldTriggerToast = true)
+    public static void UpdateElementalCaught(ElementalId elementalId, bool isNaturalEncounter = true)
     {
-        lastEncounterDate = DateTime.Now;
         lastCaught = elementalId;
         GameEvents.ElementalCaught();
 
-        if (shouldTriggerToast)
+        if (isNaturalEncounter)
         {
+            lastEncounterDate = DateTime.Now;
             GameEvents.TriggerElementalToast();
         }
     }
