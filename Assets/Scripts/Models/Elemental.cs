@@ -34,10 +34,10 @@ public class Elemental
     public ElementalId id { get; }
     public string name { get; }
     public ElementType type { get; }
-    public Evolution evolution { get; }
+    public Evolution? evolution { get; }
     public int expGain { get; }
     public int orbsGain { get; }
-    public IdleBonus idleBonus { get; }
+    public IdleBonus? idleBonus { get; }
 
 
     public Elemental(ElementalId id, string name, Evolution evolution, ElementType type, int expGain, int orbsGain, IdleBonus idleBonus)

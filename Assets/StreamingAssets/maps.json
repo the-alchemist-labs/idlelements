@@ -65,11 +65,11 @@
         "elementalEncounters": [
             {
                 "elementalId": 3,
-                "encounterChance": 0.3
+                "encounterChance": 0.7
             },
             {
-                "elementalId": 7,
-                "encounterChance": 0.7
+                "elementalId": 8,
+                "encounterChance": 0.3
             }
         ]
     },
@@ -102,11 +102,15 @@
         "elementalEncounters": [
             {
                 "elementalId": 2,
-                "encounterChance": 0.05
+                "encounterChance": 0.15
             },
             {
                 "elementalId": 5,
-                "encounterChance": 0.95
+                "encounterChance": 0.8
+            },
+            {
+                "elementalId": 6,
+                "encounterChance": 0.05
             }
         ]
     },
@@ -136,11 +140,24 @@
             "Ice",
             "Earth"
         ],
-        "elementalEncounters": []
+        "elementalEncounters": [
+            {
+                "elementalId": 5,
+                "encounterChance": 0.65
+            },
+            {
+                "elementalId": 6,
+                "encounterChance": 0.1
+            },
+            {
+                "elementalId": 10,
+                "encounterChance": 0.25
+            }
+        ]
     },
     {
         "id": 5,
-        "name": "Shiny Peaks",
+        "name": "Dazzling Peaks",
         "requiredLevel": 20,
         "goldMineSpecs": {
             "BaseBonus": 150,
@@ -164,6 +181,23 @@
             "Lightning",
             "Air"
         ],
-        "elementalEncounters": []
+        "elementalEncounters": [
+            {
+                "elementalId": 11,
+                "encounterChance": 0.47
+            },
+            {
+                "elementalId": 12,
+                "encounterChance": 0.47
+            },
+            {
+                "elementalId": 9,
+                "encounterChance": 0.05
+            },
+            {
+                "elementalId": 13,
+                "encounterChance": 0.01
+            }
+        ]
     }
 ]

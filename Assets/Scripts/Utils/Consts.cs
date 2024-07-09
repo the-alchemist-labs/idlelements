@@ -44,8 +44,14 @@ public enum ElementalId
     Wizo,
     Wizar,
     Bolli,
+    Bider,
     Bulldo,
-    Seria
+    Seria,
+    Galeria,
+    Freezion,
+    Stromeon,
+    Zapeon,
+    Volx,
 }
 
 public enum MapId
@@ -54,6 +60,8 @@ public enum MapId
     FireWater,
     WaterAir,
     EarthFire,
+    IceEarth,
+    LightningAir,
 }
 
 public enum BonusResource
@@ -61,5 +69,5 @@ public enum BonusResource
     Gold,
     Essence,
     EncounterSpeed,
-    Exeperience,
+    Experience,
 }

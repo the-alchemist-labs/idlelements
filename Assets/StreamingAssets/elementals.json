@@ -30,6 +30,11 @@
     "id": 3,
     "name": "Wizo",
     "type": "Water",
+    "evolution": {
+      "evolveTo": 4,
+      "essenceCost": 300000,
+      "tokensCost": 100
+    },
     "expGain": 12,
     "orbsGain": 50,
     "idleBonus": {
@@ -52,29 +57,106 @@
     "id": 5,
     "name": "Bolli",
     "type": "Earth",
+    "evolution": {
+      "evolveTo": 6,
+      "essenceCost": 300000,
+      "tokensCost": 100
+    },
     "expGain": 15,
     "orbsGain": 50,
     "idleBonus": {
-      "resource": "Exeperience",
+      "resource": "Experience",
       "amount": 0.075
     }
   },
   {
     "id": 6,
-    "name": "Bulldo",
+    "name": "Bider",
     "type": "Earth",
-    "expGain": 130,
-    "orbsGain": 200,
+    "evolution": {
+      "evolveTo": 2,
+      "essenceCost": 800000,
+      "tokensCost": 250
+    },
+    "expGain": 120,
+    "orbsGain": 150,
     "idleBonus": {
-      "resource": "Exeperience",
+      "resource": "Experience",
       "amount": 0.1
     }
   },
   {
     "id": 7,
+    "name": "Bulldo",
+    "type": "Earth",
+    "expGain": 800,
+    "orbsGain": 300,
+    "idleBonus": {
+      "resource": "Experience",
+      "amount": 0.2
+    }
+  },
+  {
+    "id": 8,
     "name": "Seria",
     "type": "Air",
+    "evolution": {
+      "evolveTo": 9,
+      "essenceCost": 500000,
+      "tokensCost": 180
+    },
     "expGain": 20,
-    "orbsGain": 100
+    "orbsGain": 100,
+    "idleBonus": {
+      "resource": "Essence",
+      "amount": 0.065
+    }
+  },
+  {
+    "id": 9,
+    "name": "Galeria",
+    "type": "Ice",
+    "expGain": 700,
+    "orbsGain": 280,
+    "idleBonus": {
+      "resource": "Essence",
+      "amount": 0.15
+    }
+  },
+  {
+    "id": 10,
+    "name": "Freezion",
+    "type": "Ice",
+    "expGain": 100,
+    "orbsGain": 180,
+    "evolution": null,
+    "idleBonus": null
+  },
+  {
+    "id": 11,
+    "name": "Stromeon",
+    "type": "Air",
+    "expGain": 100,
+    "orbsGain": 180,
+    "evolution": null,
+    "idleBonus": null
+  },
+  {
+    "id": 12,
+    "name": "Zapeon",
+    "type": "Lightning",
+    "expGain": 100,
+    "orbsGain": 180,
+    "evolution": null,
+    "idleBonus": null
+  },
+  {
+    "id": 13,
+    "name": "Volx",
+    "type": "Lightning",
+    "expGain": 200,
+    "orbsGain": 300,
+    "evolution": null,
+    "idleBonus": null
   }
 ]
