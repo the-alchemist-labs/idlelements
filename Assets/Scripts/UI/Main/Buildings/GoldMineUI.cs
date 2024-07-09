@@ -7,6 +7,7 @@ public class GoldMineUI : MonoBehaviour
     public TMP_Text levelText;
     public TMP_Text costText;
     public GameObject levelUpButton;
+    public AudioSource levelUpSound;
 
     private GameObject levelUpImage;
 
@@ -31,7 +32,7 @@ public class GoldMineUI : MonoBehaviour
         bool didLevelUp = GoldMine.LevelUp();
         if (didLevelUp)
         {
-            levelUpButton.GetComponent<AudioSource>().Play();
+            levelUpSound.Play();
         }
     }
 

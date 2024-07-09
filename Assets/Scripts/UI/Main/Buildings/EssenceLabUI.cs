@@ -7,7 +7,8 @@ public class EssenceLabUI : MonoBehaviour
     public TMP_Text levelText;
     public TMP_Text costText;
     public GameObject levelUpButton;
-
+    public AudioSource levelUpSound;
+    
     private GameObject levelUpImage;
 
     void Start()
@@ -31,7 +32,7 @@ public class EssenceLabUI : MonoBehaviour
         bool didLevelUp = EssenceLab.LevelUp();
         if (didLevelUp)
         {
-            levelUpButton.GetComponent<AudioSource>().Play();
+            levelUpSound.Play();
         }
     }
 
