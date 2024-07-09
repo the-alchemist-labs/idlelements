@@ -54,7 +54,7 @@ public static class Temple
     public static int GetSecondsSincelastEncounterDate(DateTime date)
     {
         TimeSpan diff = DateTime.Now - date;
-        return Math.Min((int)diff.TotalSeconds, Conts.MaxIdleSecond);
+        return Math.Min((int)diff.TotalSeconds, Consts.MaxIdleSecond);
     }
 
     public static ElementalId GetEncounter(ElementalEncounter[] elementalEncounters)

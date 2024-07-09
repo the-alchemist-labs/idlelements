@@ -590,7 +590,7 @@ GameObject:
   - component: {fileID: 789501702884689949}
   - component: {fileID: 6939576777657150524}
   m_Layer: 0
-  m_Name: Panel_CatchToast
+  m_Name: CatchToast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,10 +11,11 @@ public static class Tags
     public const string CatchToastLocation = "CatchToastLocation";
 }
 
-public static class Conts
+public static class Consts
 {
     public const bool IsEncrypted = false;
     public const int MaxIdleSecond = 43200; // 12h
+    public const int LevelUpOrbsGain = 200;
 }
 
 public static class SceneNames
@@ -37,7 +38,8 @@ public enum ElementType
 
 public enum ElementalId
 {
-    Ferine = 1,
+    None,
+    Ferine,
     Ferion,
     Wizo,
     Wizar,
@@ -48,7 +50,8 @@ public enum ElementalId
 
 public enum MapId
 {
-    FireWater = 1,
+    None,
+    FireWater,
     WaterAir,
     EarthFire,
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 public class MapsData
 {
@@ -6,14 +7,14 @@ public class MapsData
     public List<MapProgression> progressions { get; private set; }
     public MapId currentMapId { get; private set; }
 
-    public Map currentMap { get { return all.Find(el => el.id == currentMapId); } private set {}}
-    public MapProgression currentMapProgression { get { return progressions.Find(map => map.id == currentMapId); } private set {}}
+    public Map currentMap { get { return all.Find(el => el.id == currentMapId); } private set { } }
+    public MapProgression currentMapProgression { get { return progressions.Find(map => map.id == currentMapId); } private set { } }
 
     public Map GetMap(MapId id)
     {
         return all.Find(el => el.id == id);
     }
-    
+
     public void UpdateCurrentMap(MapId id)
     {
         currentMapId = id;
@@ -40,5 +41,10 @@ public class MapsData
         }
 
         return mapProgression;
+    }
+
+    public Map GetUnlockedMapByLevel(int level)
+    {
+        return all.Where(m => m.requiredLevel == level).FirstOrDefault();
     }
 }

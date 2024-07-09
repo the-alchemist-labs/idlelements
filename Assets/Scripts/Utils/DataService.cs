@@ -10,7 +10,7 @@ public sealed class DataService
 {
     private static DataService instance = null;
     private static readonly object padlock = new object();
-    private static bool isEncrypted = Conts.IsEncrypted;
+    private static bool isEncrypted = Consts.IsEncrypted;
 
     // move to safe place
     private const string KEY = "FAaeKAN0R9eiXi7B2H9mLwUz4qUhOB6x7D2XktjH90U=";
