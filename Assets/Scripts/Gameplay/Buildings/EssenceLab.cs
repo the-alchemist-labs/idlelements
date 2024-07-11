@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine.Analytics;
 
 public static class EssenceLab
 {
@@ -65,6 +67,9 @@ public static class EssenceLab
         State.UpdateGold(-levelUpCost);
         State.Maps.currentMapProgression.EssenceLabLevelUp();
         GameEvents.IdleGainsChanged();
+
+        if (IsMaxLevel())
+            Analytics.CustomEvent("EssenceLabMaxLevel", new Dictionary<string, object> { { "map", State.Maps.currentMapId } });
 
         return true;
     }

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public static class GoldMine
 {
@@ -67,6 +69,10 @@ public static class GoldMine
         State.UpdateGold(-levelUpCost);
         State.Maps.currentMapProgression.GoldMineLevelUp();
         GameEvents.IdleGainsChanged();
+
+        if (IsMaxLevel())
+            Analytics.CustomEvent("GoldMineMaxLevel", new Dictionary<string, object> { { "map", State.Maps.currentMapId } });
+
         return true;
     }
 
@@ -89,7 +95,7 @@ public static class GoldMine
 
     private static int CalculateGoldGain(int goldMineLevel, int baseBonus)
     {
-        int levelBonus = (int)((goldMineLevel - 1) * baseBonus  * 0.35f);
+        int levelBonus = (int)((goldMineLevel - 1) * baseBonus * 0.35f);
         return baseBonus + levelBonus;
     }
 

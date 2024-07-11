@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class TempleSpecs : BuildingSpecs
 {
@@ -85,6 +87,10 @@ public static class Temple
         State.UpdateGold(-levelUpCost);
         State.Maps.currentMapProgression.TempleLevelUp();
         GameEvents.IdleGainsChanged();
+
+        if (IsMaxLevel())
+            Analytics.CustomEvent("GoldMineMaxLevel", new Dictionary<string, object> { { "map", State.Maps.currentMapId } });
+
         return true;
     }
 
@@ -147,6 +153,7 @@ public static class Temple
         {
             State.Elementals.MarkElementalAsCaught(elementalId);
             State.UpdateOrbs(elemental.orbsGain);
+            Analytics.CustomEvent("ElementalCaught", new Dictionary<string, object> { { "id", elementalId } });
         }
     }
 

@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,8 +24,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if (IsFirstTimePlaying())
+        {
+            SendFirstTimePlayingEvent();
+            SetFirstTimePlayingFlag();
+        }
+
         Application.targetFrameRate = 120;
-        QualitySettings.vSyncCount = 0; 
+        QualitySettings.vSyncCount = 0;
 
         afkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
         StartCoroutine(Temple.StartRoutine());
@@ -41,7 +49,24 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
     }
 
+    bool IsFirstTimePlaying()
+    {
+        return !PlayerPrefs.HasKey(PlayerPrefKeys.FirstTimePlaying);
+    }
 
+    void SetFirstTimePlayingFlag()
+    {
+        PlayerPrefs.SetInt(PlayerPrefKeys.FirstTimePlaying, 1);
+        PlayerPrefs.Save();
+    }
+
+    void SendFirstTimePlayingEvent()
+    {
+        Analytics.CustomEvent(PlayerPrefKeys.FirstTimePlaying, new Dictionary<string, object>
+        {
+            { "time", System.DateTime.Now.ToString() }
+        });
+    }
 
 
 }

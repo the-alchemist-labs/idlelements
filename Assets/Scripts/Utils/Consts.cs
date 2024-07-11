@@ -11,6 +11,11 @@ public static class Tags
     public const string CatchToastLocation = "CatchToastLocation";
 }
 
+public static class PlayerPrefKeys
+{
+    public const string FirstTimePlaying = "FirstTimePlayingKey";
+}
+
 public static class Consts
 {
     public const bool IsEncrypted = false;

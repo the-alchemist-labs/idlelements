@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using UnityEngine.Analytics;
 
 public static class GameEvents
 {
@@ -25,6 +27,7 @@ public static class GameEvents
     public static void ElementalCaught()
     {
         OnElementalCaught?.Invoke();
+
     }
 
     public static void TriggerElementalToast()
@@ -45,6 +48,7 @@ public static class GameEvents
     public static void LevelUp()
     {
         OnLevelUp?.Invoke();
+        Analytics.CustomEvent("LeveledUp", new Dictionary<string, object> { { "level", State.level } });
     }
 
     public static void TokensUpdated()
