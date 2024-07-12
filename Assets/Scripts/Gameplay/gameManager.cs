@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        new InitializeUnityServices();
+
         if (IsFirstTimePlaying())
         {
             SendFirstTimePlayingEvent();
@@ -67,6 +69,4 @@ public class GameManager : MonoBehaviour
             { "time", System.DateTime.Now.ToString() }
         });
     }
-
-
 }
