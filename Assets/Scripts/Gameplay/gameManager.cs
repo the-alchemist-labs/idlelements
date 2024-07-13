@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Services.Authentication;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,12 +24,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         new InitializeUnityServices();
-
-        if (IsFirstTimePlaying())
-        {
-            SendFirstTimePlayingEvent();
-            SetFirstTimePlayingFlag();
-        }
+        SocketIO.Instance.Initialize(AuthenticationService.Instance.PlayerId);
 
         Application.targetFrameRate = 120;
         QualitySettings.vSyncCount = 0;
@@ -49,24 +43,5 @@ public class GameManager : MonoBehaviour
     {
         State.Save();
         yield return new WaitForSeconds(1);
-    }
-
-    bool IsFirstTimePlaying()
-    {
-        return !PlayerPrefs.HasKey(PlayerPrefKeys.FirstTimePlaying);
-    }
-
-    void SetFirstTimePlayingFlag()
-    {
-        PlayerPrefs.SetInt(PlayerPrefKeys.FirstTimePlaying, 1);
-        PlayerPrefs.Save();
-    }
-
-    void SendFirstTimePlayingEvent()
-    {
-        Analytics.CustomEvent(PlayerPrefKeys.FirstTimePlaying, new Dictionary<string, object>
-        {
-            { "time", System.DateTime.Now.ToString() }
-        });
     }
 }
