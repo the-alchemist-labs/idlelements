@@ -21,7 +21,7 @@ public static class Consts
     public const bool IsEncrypted = false;
     public const int MaxIdleSecond = 43200; // 12h
     public const int LevelUpOrbsGain = 200;
-    public const string SocketUri = "ws://localhost:3000";
+    public const string SocketUri = "ws://192.168.1.223:3000";
     public const string DiscordUrl ="https://discord.gg/QQJmPV6s";
 }
 

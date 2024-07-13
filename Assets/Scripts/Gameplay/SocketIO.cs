@@ -25,8 +25,8 @@ public class SocketIO
         }
     }
 
-    public async void Initialize(string playerId)
-    {
+    public void Initialize(string playerId)
+    { 
         if (isInitialized)
         {
             return;
