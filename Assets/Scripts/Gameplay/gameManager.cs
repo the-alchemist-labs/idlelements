@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -21,9 +23,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
+    async void Start()
     {
-        new InitializeUnityServices();
+        await InitializeUnityServices();
         SocketIO.Instance.Initialize(AuthenticationService.Instance.PlayerId);
 
         Application.targetFrameRate = 120;
@@ -43,5 +45,23 @@ public class GameManager : MonoBehaviour
     {
         State.Save();
         yield return new WaitForSeconds(1);
+    }
+
+    private async Task InitializeUnityServices()
+    {
+        try
+        {
+            await UnityServices.InitializeAsync();
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            Debug.Log($"Player ID: {AuthenticationService.Instance.PlayerId}");
+        }
+        catch (AuthenticationException ex)
+        {
+            Debug.LogError($"Failed to sign in anonymously: {ex.Message}");
+        }
+        catch (RequestFailedException ex)
+        {
+            Debug.LogError($"Request failed: {ex.Message}");
+        }
     }
 }

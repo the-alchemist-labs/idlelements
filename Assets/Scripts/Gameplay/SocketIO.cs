@@ -24,11 +24,10 @@ public class SocketIO
         }
     }
 
-    public void Initialize(string playerId)
+    public async void Initialize(string playerId)
     {
         if (isInitialized)
         {
-            Debug.Log("Socket already initialized.");
             return;
         }
 
@@ -49,9 +48,11 @@ public class SocketIO
             Transport = SocketIOClient.Transport.TransportProtocol.WebSocket
         });
 
-        Socket.ConnectAsync();
 
         Socket.OnConnected += OnConnected;
+        Socket.OnReconnectError += OnReconnectError;
+
+        await Socket.ConnectAsync();
 
         // Socket.On("friend_request_response", OnFriendRequestResponse);
 
@@ -62,6 +63,12 @@ public class SocketIO
     {
         Debug.Log("Socket connected");
     }
+    
+    private void OnReconnectError(object sender, Exception e)
+    {
+        Debug.LogError("Socket failed to connect");
+    }
+
 
     // private void OnFriendRequestResponse(SocketIOResponse response)
     // {
