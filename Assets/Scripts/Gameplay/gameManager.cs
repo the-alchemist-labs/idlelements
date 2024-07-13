@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         State.Save();
+        SocketIO.Instance.Disconnect();
     }
 
     IEnumerator Backup()

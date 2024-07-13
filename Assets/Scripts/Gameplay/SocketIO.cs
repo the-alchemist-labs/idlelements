@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SocketIOClient;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class SocketIO
 {
     private static SocketIO _instance;
     private bool isInitialized = false;
-    
+
     public SocketIOUnity Socket { get; private set; }
 
     public static SocketIO Instance
@@ -46,13 +47,14 @@ public class SocketIO
                 {"name", playerId },
             },
             Transport = SocketIOClient.Transport.TransportProtocol.WebSocket
+
         });
 
 
         Socket.OnConnected += OnConnected;
         Socket.OnReconnectError += OnReconnectError;
 
-        await Socket.ConnectAsync();
+        Socket.Connect();
 
         // Socket.On("friend_request_response", OnFriendRequestResponse);
 
@@ -63,15 +65,20 @@ public class SocketIO
     {
         Debug.Log("Socket connected");
     }
-    
+
     private void OnReconnectError(object sender, Exception e)
     {
         Debug.LogError("Socket failed to connect");
     }
 
-
     // private void OnFriendRequestResponse(SocketIOResponse response)
     // {
     //     Debug.Log($"OnFriendRequestResponse: {response}");
     // }
+
+    public void Disconnect()
+    {
+        Socket.Disconnect();
+        Socket.Dispose();
+    }
 }
