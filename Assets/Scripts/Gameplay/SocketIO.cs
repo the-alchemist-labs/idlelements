@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using SocketIOClient;
-using Unity.Services.Authentication;
 using UnityEngine;
 
 public class SocketIO
@@ -19,20 +17,22 @@ public class SocketIO
             if (_instance == null)
             {
                 _instance = new SocketIO();
-                _instance.Initialize(AuthenticationService.Instance.PlayerId);
+                _instance.Initialize();
             }
             return _instance;
         }
     }
 
-    public void Initialize(string playerId)
-    { 
+    public void Initialize()
+    {
         if (isInitialized)
         {
             return;
         }
 
-        Uri uri = new Uri(Consts.SocketUri);
+
+        Uri uri = new Uri($"ws://{Consts.ServerURI}");
+        string playerId = Player.Instance.Id;
 
         if (string.IsNullOrEmpty(playerId))
         {
@@ -41,11 +41,7 @@ public class SocketIO
 
         Socket = new SocketIOUnity(uri, new SocketIOOptions
         {
-            Query = new Dictionary<string, string>
-            {
-                {"id", playerId },
-                {"name", playerId },
-            },
+            Query = new Dictionary<string, string> { { "playerId", playerId } },
             Transport = SocketIOClient.Transport.TransportProtocol.WebSocket
 
         });
@@ -55,8 +51,6 @@ public class SocketIO
         Socket.OnReconnectError += OnReconnectError;
 
         Socket.Connect();
-
-        // Socket.On("friend_request_response", OnFriendRequestResponse);
 
         isInitialized = true;
     }
@@ -70,11 +64,6 @@ public class SocketIO
     {
         Debug.LogError("Socket failed to connect");
     }
-
-    // private void OnFriendRequestResponse(SocketIOResponse response)
-    // {
-    //     Debug.Log($"OnFriendRequestResponse: {response}");
-    // }
 
     public void Disconnect()
     {

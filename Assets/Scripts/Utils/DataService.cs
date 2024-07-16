@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 public sealed class DataService
 {
