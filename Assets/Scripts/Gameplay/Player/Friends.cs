@@ -44,13 +44,13 @@ public class Friends
         GameEvents.FriendsUpdated();
     }
 
-    public async Task<Status> FriendRequestRespond(string playerId, Respond respond)
+    public async Task<StatusResponse> FriendRequestRespond(string playerId, Respond respond)
     {
-        Status res = await FriendsApi.RespondToFriendRequest(playerId, respond);
-        if (res == Status.Failed)
+        StatusResponse res = await FriendsApi.RespondToFriendRequest(playerId, respond);
+        if (res.status == Status.Failed)
         {
             Debug.LogError($"Failed to {respond} friend request from {playerId}");
-            return Status.Failed;
+            return res;
         }
 
         PendingFriendRequestsList = await FriendsApi.GetPendingFriendRequests(Player.Instance.Id);
@@ -58,10 +58,10 @@ public class Friends
 
         GameEvents.FriendsUpdated();
         Debug.Log($"Succesfully {respond}ed friend request from {playerId}");
-        return Status.Success;
+        return res;
     }
 
-    public async Task<Status> SendFriendRequest(string code)
+    public async Task<StatusResponse> SendFriendRequest(string code)
     {
         return await FriendsApi.SendFriendRequest(code);
     }

@@ -17,6 +17,7 @@ public class FriendsResponse
 public class StatusResponse
 {
     public Status status;
+    public string message;
 }
 
 public static class FriendsApi
@@ -33,21 +34,19 @@ public static class FriendsApi
         return res?.friends;
     }
 
-    public async static Task<Status> RespondToFriendRequest(string requestFrom, Respond respond)
+    public async static Task<StatusResponse> RespondToFriendRequest(string requestFrom, Respond respond)
     {
-        StatusResponse res = await Http.Post<StatusResponse>(
+        return await Http.Post<StatusResponse>(
             $"{Consts.ServerURI}/friends/requests/respond/{Player.Instance.Id}",
             new { requestFrom = requestFrom, respond = respond }
         );
-        return res?.status ?? Status.Failed;
     }
 
-    public async static Task<Status> SendFriendRequest(string friendCode)
+    public async static Task<StatusResponse> SendFriendRequest(string friendCode)
     {
-        StatusResponse res = await Http.Post<StatusResponse>(
+        return await Http.Post<StatusResponse>(
             $"{Consts.ServerURI}/friends/requests/send/{Player.Instance.Id}",
             new { friendCode = friendCode }
         );
-        return res?.status ?? Status.Failed;
     }
 }

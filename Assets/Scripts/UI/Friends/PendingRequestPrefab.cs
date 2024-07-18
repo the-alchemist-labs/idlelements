@@ -15,12 +15,11 @@ public class PendingRequestPrefab : MonoBehaviour
 
     public async void AcceptRequest()
     {
-        Status res = await Player.Instance.Friends.FriendRequestRespond(requestingPlayer.id, Respond.Accept);
-        // display status
+        await Player.Instance.Friends.FriendRequestRespond(requestingPlayer.id, Respond.Accept);
     }
 
     public async void RejectRequest()
     {
-        Status res = await Player.Instance.Friends.FriendRequestRespond(requestingPlayer.id, Respond.Reject);
+        await Player.Instance.Friends.FriendRequestRespond(requestingPlayer.id, Respond.Reject);
     }
 }

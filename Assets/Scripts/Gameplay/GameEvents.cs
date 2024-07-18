@@ -19,7 +19,6 @@ public static class GameEvents
 
     public static void SocketConnected()
     {
-        Debug.Log("we are on!");
         OnSocketConnected?.Invoke();
     }
 

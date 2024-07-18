@@ -5,6 +5,7 @@ public class FriendCode : MonoBehaviour
 {
     public TMP_Text friendCodeText;
     public TMP_InputField friendCodeInput;
+    public GameObject requestResultPanel;
 
     private string inputValue;
     void Start()
@@ -20,8 +21,9 @@ public class FriendCode : MonoBehaviour
 
     public async void SendFriendRequest()
     {
-        Status res = await Player.Instance.Friends.SendFriendRequest(friendCodeInput.text);
-        Debug.Log(res);
+        StatusResponse res = await Player.Instance.Friends.SendFriendRequest(friendCodeInput.text);
+        requestResultPanel.SetActive(true);
+        requestResultPanel.GetComponent<RequestResultPanel>().Init(res);
     }
 
     private void OnInputFriendCodeChanged(string input)
