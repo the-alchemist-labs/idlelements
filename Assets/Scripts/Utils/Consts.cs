@@ -9,6 +9,7 @@ public static class Tags
 {
     public const string MapsPanel = "MapsPanel";
     public const string CatchToastLocation = "CatchToastLocation";
+    public const string GameManager = "GameManager";
 }
 
 public static class PlayerPrefKeys
@@ -29,17 +30,6 @@ public static class SceneNames
 {
     public const string IdleMap = "IdleMapScene";
     public const string Main = "MainScene";
-}
-
-public enum ElementType
-{
-    Fire,
-    Water,
-    Earth,
-    Air,
-    Ice,
-    Lightning,
-    Chaos
 }
 
 public enum ElementalId

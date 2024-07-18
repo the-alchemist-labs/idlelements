@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -10,6 +11,19 @@ public class PlayerInfo
     public string id;
     public string friendCode;
     public string name;
+    public int level;
+    public int elementalsCaught;
+    public List<int> party;
+
+    public PlayerInfo(string id, string friendCode, string name, int level, int elementalsCaught, List<int> party)
+    {
+        this.id = id;
+        this.friendCode = friendCode;
+        this.name = name;
+        this.level = level;
+        this.elementalsCaught = elementalsCaught;
+        this.party = party;
+    }
 }
 
 public class Player
@@ -54,6 +68,21 @@ public class Player
         SocketIO.Instance.Initialize();
 
         GameEvents.OnSocketConnected += InitializeFriends;
+        GameEvents.OnLevelUp += SavePlayerProgress;
+        GameEvents.OnPartyUpdated += SavePlayerProgress;
+        GameEvents.OnElementalCaught += SavePlayerProgress;
+    }
+
+    public PlayerInfo GetPlayerInfo()
+    {
+        return new PlayerInfo(
+            Id,
+            FriendCode,
+            Name,
+            State.level,
+            State.Elementals.elementalCaught,
+            new List<int> { (int)State.party.First, (int)State.party.Second, (int)State.party.Third }
+        );
     }
 
     private void InitializeFriends()
@@ -79,5 +108,11 @@ public class Player
         {
             Debug.LogError($"Request failed: {ex.Message}");
         }
+    }
+
+    private async void SavePlayerProgress()
+    {
+        PlayerInfo playerInfo = GetPlayerInfo();
+        await PlayerApi.UpdatePlayerInfo(playerInfo);
     }
 }

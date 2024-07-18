@@ -7,11 +7,9 @@ public class FriendCode : MonoBehaviour
     public TMP_InputField friendCodeInput;
     public GameObject requestResultPanel;
 
-    private string inputValue;
     void Start()
     {
         GameEvents.OnFriendsUpdated += SetFriendCode;
-        friendCodeInput?.onValueChanged.AddListener(OnInputFriendCodeChanged);
     }
 
     void OnDestroy()
@@ -26,17 +24,8 @@ public class FriendCode : MonoBehaviour
         requestResultPanel.GetComponent<RequestResultPanel>().Init(res);
     }
 
-    private void OnInputFriendCodeChanged(string input)
-    {
-        if (input == inputValue) return;
-
-        inputValue = input.ToUpper();
-        friendCodeInput.text = inputValue;
-    }
-
     private void SetFriendCode()
     {
         friendCodeText.text = $"#{Player.Instance.FriendCode}";
-
     }
 }

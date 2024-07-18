@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject afkGainsPanel;
+    public GameObject playerInfoPanel;
 
     private static GameManager instance;
 

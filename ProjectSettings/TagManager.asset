@@ -8,6 +8,7 @@ TagManager:
   - MapInfo
   - MapsPanel
   - CatchToastLocation
+  - GameManager
   layers:
   - Default
   - TransparentFX

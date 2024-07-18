@@ -2,11 +2,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FriendsScrollView  : MonoBehaviour
+public class FriendsScrollView : MonoBehaviour
 {
     public ScrollRect scrollRect;
     public Transform scrollViewContent;
-    public GameObject rowPrefab;
+    public GameObject friendPrefab;
+    public GameObject pendingRequestPrefab;
 
     void Start()
     {
@@ -21,10 +22,19 @@ public class FriendsScrollView  : MonoBehaviour
     void RenderPendingRequestList()
     {
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
-        if (Player.Instance.Friends.FriendsList == null) return;
+
+        foreach (PlayerInfo request in Player.Instance.Friends.PendingFriendRequestsList)
+        {
+            GameObject newRequest = Instantiate(pendingRequestPrefab, scrollViewContent);
+            if (newRequest.TryGetComponent(out PendingRequestPrefab item))
+            {
+                item.Init(request);
+            }
+        }
+
         foreach (PlayerInfo friend in Player.Instance.Friends.FriendsList)
         {
-            GameObject newRequest = Instantiate(rowPrefab, scrollViewContent);
+            GameObject newRequest = Instantiate(friendPrefab, scrollViewContent);
             if (newRequest.TryGetComponent(out FriendPrefab item))
             {
                 item.Init(friend);

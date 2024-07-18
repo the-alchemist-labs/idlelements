@@ -50,6 +50,13 @@ public class HeaderBannerManager : MonoBehaviour
         goldText.text = TextUtil.NumberFormatter(State.gold);
     }
 
+    public void OpenPlayerPanel()
+    {
+        GameManager gameManger = GameObject.FindGameObjectWithTag(Tags.GameManager).GetComponent<GameManager>();
+        gameManger.playerInfoPanel?.SetActive(true);
+        gameManger.playerInfoPanel?.GetComponent<PlayerInfoPanel>().Init(Player.Instance.GetPlayerInfo());
+    }
+
     private static float GetExpPercent()
     {
         if (State.IsMaxLevel()) return 1;

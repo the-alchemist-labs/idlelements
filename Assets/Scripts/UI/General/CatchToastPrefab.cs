@@ -33,9 +33,9 @@ public class CatchToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         newIndicatorImage.gameObject.SetActive(isNew);
         expText.text = TextUtil.NumberFormatter(elemental.expGain);
 
-        gameObject.GetComponent<AudioSource>()?.Play();
         if (isNew)
         {
+            gameObject.GetComponent<AudioSource>()?.Play();
             orbsText.text = TextUtil.NumberFormatter(elemental.orbsGain);
         }
         else

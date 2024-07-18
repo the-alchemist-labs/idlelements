@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ElementalsData
@@ -12,6 +13,8 @@ public class ElementalsData
         entries = elementalEntries ?? new List<ElementalEntry>();
     }
 
+    public int elementalCaught {get { return entries.Count(entry => entry.isCaught); }}
+    
     public Elemental GetElemental(ElementalId id)
     {
         return all.Find(el => el.id == id);
