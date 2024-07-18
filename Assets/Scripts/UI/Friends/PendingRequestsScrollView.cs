@@ -22,13 +22,14 @@ public class PendingRequestsScrollView : MonoBehaviour
 
     void RenderPendingRequestList()
     {
-        Debug.Log(Player.Instance.PendingFriendRequests?.Count);
+        bool shouldDisplay = Player.Instance.PendingFriendRequests?.Count  > 0;
+
+        gameObject.SetActive(shouldDisplay);
+
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
-        Debug.Log(Player.Instance.PendingFriendRequests?.Count);
         if (Player.Instance.PendingFriendRequests == null) return;
         foreach (PlayerInfo request in Player.Instance.PendingFriendRequests)
         {
-            Debug.Log(request.name);
             GameObject newRequest = Instantiate(rowPrefab, scrollViewContent);
             if (newRequest.TryGetComponent(out PendingRequestPrefab item))
             {
@@ -36,6 +37,5 @@ public class PendingRequestsScrollView : MonoBehaviour
             }
         }
         scrollRect.verticalNormalizedPosition = 1f;
-
     }
 }
