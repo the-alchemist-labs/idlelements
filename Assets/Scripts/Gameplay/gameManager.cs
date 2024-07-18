@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            gameObject.AddComponent<MainThreadDispatcher>();
             DontDestroyOnLoad(gameObject);
         }
         else

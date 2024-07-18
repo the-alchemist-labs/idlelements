@@ -10,8 +10,7 @@ public class FriendCode : MonoBehaviour
     void Start()
     {
         GameEvents.OnPlayerInitilized += SetFriendCode;
-        friendCodeInput.onValueChanged.AddListener(OnInputFriendCodeChanged);
-
+        friendCodeInput?.onValueChanged.AddListener(OnInputFriendCodeChanged);
     }
 
     void OnDestroy()
@@ -21,7 +20,7 @@ public class FriendCode : MonoBehaviour
 
     public async void SendFriendRequest()
     {
-        Status res = await Player.Instance.SendFriendRequest(friendCodeInput.text.ToUpper());
+        Status res = await Player.Instance.SendFriendRequest(friendCodeInput.text);
         Debug.Log(res);
     }
 
@@ -29,8 +28,8 @@ public class FriendCode : MonoBehaviour
     {
         if (input == inputValue) return;
 
-        inputValue = input.ToUpper().Replace("#", "");
-        friendCodeInput.text = $"#{inputValue}";
+        inputValue = input.ToUpper();
+        friendCodeInput.text = inputValue;
     }
 
     private void SetFriendCode()

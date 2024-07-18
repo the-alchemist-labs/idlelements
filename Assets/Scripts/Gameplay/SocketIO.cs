@@ -1,7 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using SocketIOClient;
 using UnityEngine;
+
+public static class SocketEventName
+{
+    public const string FriendRequestaccepted = "friend_request_accepted";
+    public const string FriendRequestReceived = "friend_request_received";
+}
 
 public class SocketIO
 {
@@ -30,7 +38,6 @@ public class SocketIO
             return;
         }
 
-
         Uri uri = new Uri($"ws://{Consts.ServerURI}");
         string playerId = Player.Instance.Id;
 
@@ -43,9 +50,7 @@ public class SocketIO
         {
             Query = new Dictionary<string, string> { { "playerId", playerId } },
             Transport = SocketIOClient.Transport.TransportProtocol.WebSocket
-
         });
-
 
         Socket.OnConnected += OnConnected;
         Socket.OnReconnectError += OnReconnectError;
@@ -69,5 +74,23 @@ public class SocketIO
     {
         Socket.Disconnect();
         Socket.Dispose();
+    }
+
+    public void RegisterEvent<T>(string eventName, Action<T> handler)
+    {
+        Socket.On(eventName, response =>
+        {
+            T parsedResponse = JsonConvert.DeserializeObject<T[]>(response.ToString()).First();
+            MainThreadDispatcher.Enqueue(() => handler(parsedResponse));
+        });
+    }
+
+    public void RegisterEvent(string eventName, Action handler)
+    {
+        Socket.On(eventName, response => MainThreadDispatcher.Enqueue(handler));
+        Socket.On(eventName, response =>
+        {
+            MainThreadDispatcher.Enqueue(() => handler());
+        });
     }
 }
