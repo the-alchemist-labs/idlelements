@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Analytics;
 
 public static class GameEvents
 {
+    public static event Action OnSocketConnected;
     public static event Action OnMapDataChanged;
     public static event Action OnIdleGainsChanged;
     public static event Action OnElementalCaught;
@@ -13,8 +15,13 @@ public static class GameEvents
     public static event Action OnLevelUp;
     public static event Action OnTokensUpdated;
     public static event Action OnPartyUpdated;
-    public static event Action OnPlayerInitilized;
     public static event Action OnFriendsUpdated;
+
+    public static void SocketConnected()
+    {
+        Debug.Log("we are on!");
+        OnSocketConnected?.Invoke();
+    }
 
     public static void MapDataChanged()
     {
@@ -61,11 +68,6 @@ public static class GameEvents
     public static void PartyUpdated()
     {
         OnPartyUpdated?.Invoke();
-    }
-
-    public static void PlayerInitilized()
-    {
-        OnPlayerInitilized?.Invoke();
     }
 
     public static void FriendsUpdated()

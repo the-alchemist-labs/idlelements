@@ -10,25 +10,23 @@ public class PendingRequestsScrollView : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnPlayerInitilized += RenderPendingRequestList;
         GameEvents.OnFriendsUpdated += RenderPendingRequestList;
     }
 
     void OnDestroy()
     {
-        GameEvents.OnPlayerInitilized -= RenderPendingRequestList;
         GameEvents.OnFriendsUpdated -= RenderPendingRequestList;
     }
 
     void RenderPendingRequestList()
     {
-        bool shouldDisplay = Player.Instance.PendingFriendRequests?.Count  > 0;
+        bool shouldDisplay = Player.Instance.Friends.PendingFriendRequestsList?.Count  > 0;
 
         gameObject.SetActive(shouldDisplay);
 
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
-        if (Player.Instance.PendingFriendRequests == null) return;
-        foreach (PlayerInfo request in Player.Instance.PendingFriendRequests)
+        if (Player.Instance.Friends.PendingFriendRequestsList == null) return;
+        foreach (PlayerInfo request in Player.Instance.Friends.PendingFriendRequestsList)
         {
             GameObject newRequest = Instantiate(rowPrefab, scrollViewContent);
             if (newRequest.TryGetComponent(out PendingRequestPrefab item))

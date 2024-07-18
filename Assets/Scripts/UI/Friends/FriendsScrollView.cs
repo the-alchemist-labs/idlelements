@@ -10,21 +10,19 @@ public class FriendsScrollView  : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnPlayerInitilized += RenderPendingRequestList;
         GameEvents.OnFriendsUpdated += RenderPendingRequestList;
     }
 
     void OnDestroy()
     {
-        GameEvents.OnPlayerInitilized -= RenderPendingRequestList;
         GameEvents.OnFriendsUpdated -= RenderPendingRequestList;
     }
 
     void RenderPendingRequestList()
     {
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
-        if (Player.Instance.Friends == null) return;
-        foreach (PlayerInfo friend in Player.Instance.Friends)
+        if (Player.Instance.Friends.FriendsList == null) return;
+        foreach (PlayerInfo friend in Player.Instance.Friends.FriendsList)
         {
             GameObject newRequest = Instantiate(rowPrefab, scrollViewContent);
             if (newRequest.TryGetComponent(out FriendPrefab item))

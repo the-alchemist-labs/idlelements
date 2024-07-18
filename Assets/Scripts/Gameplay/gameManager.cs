@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
     async void Start()
     {
         await Player.Instance.Initialize();
-        SocketIO.Instance.Initialize();
 
         Application.targetFrameRate = 120;
         QualitySettings.vSyncCount = 0;

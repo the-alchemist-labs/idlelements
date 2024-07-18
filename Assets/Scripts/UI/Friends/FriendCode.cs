@@ -9,18 +9,18 @@ public class FriendCode : MonoBehaviour
     private string inputValue;
     void Start()
     {
-        GameEvents.OnPlayerInitilized += SetFriendCode;
+        GameEvents.OnFriendsUpdated += SetFriendCode;
         friendCodeInput?.onValueChanged.AddListener(OnInputFriendCodeChanged);
     }
 
     void OnDestroy()
     {
-        GameEvents.OnPlayerInitilized -= SetFriendCode;
+        GameEvents.OnFriendsUpdated -= SetFriendCode;
     }
 
     public async void SendFriendRequest()
     {
-        Status res = await Player.Instance.SendFriendRequest(friendCodeInput.text);
+        Status res = await Player.Instance.Friends.SendFriendRequest(friendCodeInput.text);
         Debug.Log(res);
     }
 

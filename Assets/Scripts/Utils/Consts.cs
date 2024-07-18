@@ -77,3 +77,15 @@ public enum BonusResource
     EncounterSpeed,
     Experience,
 }
+
+public enum Status
+{
+    Success,
+    Failed
+}
+
+public enum Respond
+{
+    Accept,
+    Reject
+}

@@ -63,6 +63,7 @@ public class SocketIO
     private void OnConnected(object sender, EventArgs e)
     {
         Debug.Log("Socket connected");
+        GameEvents.SocketConnected();
     }
 
     private void OnReconnectError(object sender, Exception e)
