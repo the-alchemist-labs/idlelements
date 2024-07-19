@@ -60,6 +60,8 @@ public class Friends
     private void OnFriendOnlineStatus(FriendOnlineStatusResponse response)
     {
         FriendsList.Where(f => f.id == response.playerId).ToList().ForEach(f => f.isOnline = response.isOnline);
+        FriendsList = FriendsList.OrderByDescending(f => f.isOnline).ToList();
+
         GameEvents.FriendsUpdated();
     }
 
