@@ -22,18 +22,18 @@ public class TempleSpecs : BuildingSpecs
 
 public static class Temple
 {
-    public static TempleSpecs currentTempleSpecs { get { return State.Maps.GetMap(State.Maps.currentMapId).templeSpecs; } }
-    public static int currentTempleLevel { get { return State.Maps.currentMapProgression.templeLevel; } }
+    public static TempleSpecs currentTempleSpecs { get { return MapsData.Instance.GetMap(MapsData.Instance.currentMapId).templeSpecs; } }
+    public static int currentTempleLevel { get { return MapsData.Instance.currentMapProgression.templeLevel; } }
 
     public static IEnumerator StartRoutine()
     {
         while (true)
         {
-            float elapedsSeconds = GetSecondsSincelastEncounterDate(State.lastEncounterDate);
+            float elapedsSeconds = GetSecondsSincelastEncounterDate(ElementalsData.Instance.lastEncounterDate);
 
             if (elapedsSeconds > GetEncounterSpeed())
             {
-                ElementalId elementalId = GetEncounter(State.Maps.currentMap.elementalEncounters);
+                ElementalId elementalId = GetEncounter(MapsData.Instance.currentMap.elementalEncounters);
                 ElementalCaught(elementalId);
             }
 
@@ -49,7 +49,7 @@ public static class Temple
 
     public static int GetSecondsUntilNextEncounter()
     {
-        int secondsSincelastEncounterDate = (int)(DateTime.Now - State.lastEncounterDate).TotalSeconds;
+        int secondsSincelastEncounterDate = (int)(DateTime.Now - ElementalsData.Instance.lastEncounterDate).TotalSeconds;
         return (GetEncounterSpeed() - secondsSincelastEncounterDate) % GetEncounterSpeed();
     }
 
@@ -78,18 +78,18 @@ public static class Temple
 
     public static bool LevelUp()
     {
-        if (IsMaxLevel() || State.gold < GetLevelUpCost())
+        if (IsMaxLevel() || ResourcesData.Instance.Gold < GetLevelUpCost())
         {
             return false;
         }
 
         int levelUpCost = GetLevelUpCost();
-        State.UpdateGold(-levelUpCost);
-        State.Maps.currentMapProgression.TempleLevelUp();
+        ResourcesData.Instance.UpdateGold(-levelUpCost);
+        MapsData.Instance.currentMapProgression.TempleLevelUp();
         GameEvents.IdleGainsChanged();
 
         if (IsMaxLevel())
-            Analytics.CustomEvent("GoldMineMaxLevel", new Dictionary<string, object> { { "map", State.Maps.currentMapId } });
+            Analytics.CustomEvent("GoldMineMaxLevel", new Dictionary<string, object> { { "map", MapsData.Instance.currentMapId } });
 
         return true;
     }
@@ -101,25 +101,25 @@ public static class Temple
 
     public static void Boost()
     {
-        State.UpdatelastEncounterDate(State.lastEncounterDate.AddSeconds(-currentTempleSpecs.BoostEffect));
-        State.UpdateEssence(-currentTempleSpecs.BoostCost);
+        ElementalsData.Instance.UpdatelastEncounterDate(ElementalsData.Instance.lastEncounterDate.AddSeconds(-currentTempleSpecs.BoostEffect));
+        ResourcesData.Instance.UpdateEssence(-currentTempleSpecs.BoostCost);
     }
 
     public static int GetTotalSpeedBuff()
     {
-        int gain = State.Maps.all
+        int gain = MapsData.Instance.all
         .Select(map => map.id)
-        .Where(mapId => State.level >= State.Maps.GetMap(mapId).requiredLevel)
+        .Where(mapId => Player.Instance.Level >= MapsData.Instance.GetMap(mapId).requiredLevel)
         .ToList()
         .Sum(mapId =>
         {
-            MapProgression mapProgression = State.Maps.GetMapProgression(mapId);
+            MapProgression mapProgression = MapsData.Instance.GetMapProgression(mapId);
             return mapProgression != null
             ? GetSpeedBuff(mapProgression.templeLevel, GetBaseSpeedBuffByMap(mapId))
             : 0;
         });
 
-        float partyBonus = State.party.GetPartyBonusMultipier(BonusResource.EncounterSpeed);
+        float partyBonus = Player.Instance.Party.GetPartyBonusMultipier(BonusResource.EncounterSpeed);
 
         return (int)(gain + (gain * partyBonus));
     }
@@ -138,21 +138,21 @@ public static class Temple
 
     public static int GetCurrentMapSpeedGain()
     {
-        return GetSpeedBuff(currentTempleLevel, GetBaseSpeedBuffByMap(State.Maps.currentMapId));
+        return GetSpeedBuff(currentTempleLevel, GetBaseSpeedBuffByMap(MapsData.Instance.currentMapId));
     }
 
     public static void ElementalCaught(ElementalId elementalId, bool isNaturalEncounter = true)
     {
-        Elemental elemental = State.Elementals.GetElemental(elementalId);
+        Elemental elemental = ElementalsData.Instance.GetElemental(elementalId);
 
-        State.Elementals.UpdateElementalTokens(elementalId, 1);
-        State.GainExperience(elemental.expGain);
-        State.UpdateElementalCaught(elementalId, isNaturalEncounter);
+        ElementalsData.Instance.UpdateElementalTokens(elementalId, 1);
+        Player.Instance.GainExperience(elemental.expGain);
+        ElementalsData.Instance.UpdateElementalCaught(elementalId, isNaturalEncounter);
 
-        if (!State.Elementals.IsElementalRegistered(elementalId))
+        if (!ElementalsData.Instance.IsElementalRegistered(elementalId))
         {
-            State.Elementals.MarkElementalAsCaught(elementalId);
-            State.UpdateOrbs(elemental.orbsGain);
+            ElementalsData.Instance.MarkElementalAsCaught(elementalId);
+            ResourcesData.Instance.UpdateOrbs(elemental.orbsGain);
             Analytics.CustomEvent("ElementalCaught", new Dictionary<string, object> { { "id", elementalId } });
         }
     }
@@ -165,6 +165,6 @@ public static class Temple
 
     private static int GetBaseSpeedBuffByMap(MapId mapId)
     {
-        return State.Maps.GetMap(mapId).templeSpecs.BaseBonus;
+        return MapsData.Instance.GetMap(mapId).templeSpecs.BaseBonus;
     }
 }

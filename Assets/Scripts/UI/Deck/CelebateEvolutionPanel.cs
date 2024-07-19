@@ -15,7 +15,7 @@ public class CelebateEvolutionPanel : MonoBehaviour
 
         celebrationSound.Play();
         
-        Elemental evolution = State.Elementals.GetElemental(elemental.evolution.evolveTo);
+        Elemental evolution = ElementalsData.Instance.GetElemental(elemental.evolution.evolveTo);
         IdleBonus idleBonus = evolution.idleBonus;
 
         sprite.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{evolution.id}");

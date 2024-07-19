@@ -62,7 +62,7 @@ public class NextEncounter : MonoBehaviour
 
     public void Boost()
     {
-        if (State.essence >= Temple.GetBoostCost())
+        if (ResourcesData.Instance.Essence >= Temple.GetBoostCost())
         {
             Temple.Boost();
             UpdateEncounterSliderData();
@@ -72,7 +72,7 @@ public class NextEncounter : MonoBehaviour
 
     void UpdateBoostButton()
     {
-        boostButton.interactable = State.essence >= Temple.GetBoostCost();
+        boostButton.interactable = ResourcesData.Instance.Essence >= Temple.GetBoostCost();
     }
 
     void UpdateBoostText()

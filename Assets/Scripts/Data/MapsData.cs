@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-public class MapsData
+public class MapsData : MonoBehaviour
 {
+    public static MapsData Instance { get; private set; }
+
     public List<Map> all { get; private set; }
     public List<MapProgression> progressions { get; private set; }
     public MapId currentMapId { get; private set; }
@@ -10,9 +13,26 @@ public class MapsData
     public Map currentMap { get { return all.Find(el => el.id == currentMapId); } private set { } }
     public MapProgression currentMapProgression { get { return progressions.Find(map => map.id == currentMapId); } private set { } }
 
-    public Map GetMap(MapId id)
+    private void Awake()
     {
-        return all.Find(el => el.id == id);
+        if (Instance == null)
+        {
+            Instance = this;
+            Initialize();
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Initialize()
+    {
+        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State, true);
+        all = DataService.Instance.LoadData<List<Map>>(FileName.Maps, false);
+
+        progressions = gs.mapsProgression ?? new List<MapProgression>();
+        currentMapId = gs.currentMapId == 0 ? MapId.FireWater : gs.currentMapId;
     }
 
     public void UpdateCurrentMap(MapId id)
@@ -22,13 +42,9 @@ public class MapsData
         GameEvents.MapDataChanged();
     }
 
-    public MapsData(List<Map> maps, List<MapProgression> mapsProgression, MapId currentMapId)
+    public Map GetMap(MapId id)
     {
-        all = maps;
-        progressions = mapsProgression ?? new List<MapProgression>();
-        this.currentMapId = currentMapId == 0 ? MapId.FireWater : currentMapId;
-        currentMap = all.Find(el => el.id == currentMapId);
-        currentMapProgression = GetMapProgression(currentMapId);
+        return all.Find(el => el.id == id);
     }
 
     public MapProgression GetMapProgression(MapId id)

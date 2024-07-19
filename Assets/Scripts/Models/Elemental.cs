@@ -52,3 +52,11 @@ public class Elemental
         this.idleBonus = idleBonus;
     }
 }
+
+[Serializable]
+public class ElementalEntry
+{
+    public ElementalId id;
+    public bool isCaught = false;
+    public int tokens = 0;
+}

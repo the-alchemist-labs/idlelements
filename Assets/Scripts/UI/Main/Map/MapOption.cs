@@ -28,9 +28,9 @@ public class MapOption : MonoBehaviour
 
     public void ChooseMap()
     {   
-        if (State.level >= State.Maps.GetMap(mapId).requiredLevel)
+        if (Player.Instance.Level >= MapsData.Instance.GetMap(mapId).requiredLevel)
         {
-            State.Maps.UpdateCurrentMap(mapId);
+            MapsData.Instance.UpdateCurrentMap(mapId);
             selectMapSound.Play();
             allMapsPanel.SetActive(false);
         }
@@ -38,14 +38,14 @@ public class MapOption : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (State.level >= State.Maps.GetMap(mapId).requiredLevel)
+        if (Player.Instance.Level >= MapsData.Instance.GetMap(mapId).requiredLevel)
         {
-            mapNameText.text = State.Maps.GetMap(mapId).name;
+            mapNameText.text = MapsData.Instance.GetMap(mapId).name;
             mapIcon.material = originalMaterial;
         }
         else
         {
-            mapNameText.text = $"Unlock level {State.Maps.GetMap(mapId).requiredLevel}";
+            mapNameText.text = $"Unlock level {MapsData.Instance.GetMap(mapId).requiredLevel}";
             mapIcon.material = blackAndWhiteMaterial;
         }
     }

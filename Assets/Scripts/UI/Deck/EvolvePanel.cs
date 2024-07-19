@@ -34,7 +34,7 @@ public class EvolvePanel : MonoBehaviour
         this.elemental = elemental;
 
         gameObject.SetActive(true);
-        Elemental evolutionElemental = State.Elementals.GetElemental(elemental.evolution.evolveTo);
+        Elemental evolutionElemental = ElementalsData.Instance.GetElemental(elemental.evolution.evolveTo);
         IdleBonus idleBonus = evolutionElemental.idleBonus;
 
         evolveToText.text = $"Evlove to {evolutionElemental.name} (#{evolutionElemental.id})";
@@ -50,12 +50,12 @@ public class EvolvePanel : MonoBehaviour
 
     void UpdateEvolveButton()
     {
-        evolveButton.interactable = State.Elementals.CanEvolve(elemental.id);
+        evolveButton.interactable = ElementalsData.Instance.CanEvolve(elemental.id);
     }
 
     public void Evolve()
     {
-        State.Elementals.Evolve(elemental.id);
+        ElementalsData.Instance.Evolve(elemental.id);
         celebrateEvolutionPanel.DisplayPanel(elemental);
         gameObject.SetActive(false);
     }

@@ -19,7 +19,7 @@ public class Catches : MonoBehaviour
 
     void UpdateCatches()
     {
-        catchesText.text = $"Caught {State.Elementals.elementalCaught}/{State.Elementals.all.Count}";
+        catchesText.text = $"Caught {ElementalsData.Instance.elementalCaught}/{ElementalsData.Instance.all.Count}";
     }
 
 }

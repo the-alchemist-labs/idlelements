@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -22,20 +23,25 @@ public class PlayerInfoPanel : MonoBehaviour
 
         levelText.text = $"{player.level}";
         playerName.text = player.name;
-        deckText.text = $"Deck: {player.elementalsCaught}/{State.Elementals.all.Count}";
+        deckText.text = $"Deck: {player.elementalsCaught}/{ElementalsData.Instance.all.Count}";
         battleTowerText.text = "Battle tower: Unavailable";
 
         partyContainer.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
-        if (player.party != null)
+        ElementalId[] party = new ElementalId[] {
+            Player.Instance.Party.First,
+            Player.Instance.Party.Second,
+            Player.Instance.Party.Third
+        };
+
+        foreach (ElementalId id in party)
         {
-            foreach (ElementalId request in player.party)
+            if (id == ElementalId.None) continue;
+
+            GameObject member = Instantiate(partyMemberPrefub, partyContainer);
+            if (member.TryGetComponent(out PartyMemberPrefab item))
             {
-                GameObject member = Instantiate(partyMemberPrefub, partyContainer);
-                if (member.TryGetComponent(out PartyMemberPrefab item))
-                {
-                    item.Init(request);
-                }
+                item.Init(id);
             }
         }
 

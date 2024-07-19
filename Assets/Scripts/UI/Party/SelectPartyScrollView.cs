@@ -12,17 +12,16 @@ public class SelectPartyScrollView : MonoBehaviour
     public TMP_Text idleBonusText;
     public AudioSource selectSound;
 
-    private ElementalId? selectedElemental;
+    private ElementalId selectedElemental;
     private int memberSlot;
 
-    public void Setup(int slot)
+    public void Init(int slot)
     {
         memberSlot = slot;
-        selectedElemental = State.party.GetPartyMember(slot);
+        selectedElemental = Player.Instance.Party.GetPartyMember(slot);
 
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
         UpdateUI();
-
 
         // Scroll to top of the scrollview
         scrollRect.verticalNormalizedPosition = 1f;
@@ -33,7 +32,7 @@ public class SelectPartyScrollView : MonoBehaviour
         idleBonusText.text = $"Idle bonus: {GetIdleBonus()}";
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
-        foreach (ElementalId entryId in State.party.GetEligiblePartyMembers())
+        foreach (ElementalId entryId in Player.Instance.Party.GetEligiblePartyMembers())
         {
             GameObject newEntry = Instantiate(prefub, scrollViewContent);
             if (newEntry.TryGetComponent(out AvailablePartyMemberPrefub item))
@@ -50,20 +49,20 @@ public class SelectPartyScrollView : MonoBehaviour
 
     public void OnMemberSelected()
     {
-        State.party.SetPartyMember(memberSlot, selectedElemental);
+        Player.Instance.Party.SetPartyMember(memberSlot, selectedElemental);
         selectSound.Play();
         panel.SetActive(false);
     }
 
     string GetIdleBonus()
     {
-        if (selectedElemental == null)
+        if (selectedElemental == ElementalId.None)
         {
             return "None";
         }
         else
         {
-            Elemental elemental = State.Elementals.GetElemental((ElementalId)selectedElemental);
+            Elemental elemental = ElementalsData.Instance.GetElemental((ElementalId)selectedElemental);
             return elemental.idleBonus != null ? $"{elemental.idleBonus.amount * 100}% {elemental.idleBonus.resource}" : "None";
         }
     }

@@ -28,7 +28,7 @@ public class DeckScrollView : MonoBehaviour
     {
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
-        foreach (Elemental entry in State.Elementals.all)
+        foreach (Elemental entry in ElementalsData.Instance.all)
         {
             GameObject newEntry = Instantiate(rowPrefab, scrollViewContent);
             if (newEntry.TryGetComponent(out DeckEntry item))

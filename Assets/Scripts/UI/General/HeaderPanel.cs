@@ -10,22 +10,6 @@ public class HeaderBannerManager : MonoBehaviour
     public TMP_Text essenseText;
     public TMP_Text goldText;
 
-    private static HeaderBannerManager instance;
-    public static HeaderBannerManager Instance { get { return instance; } }
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     void Start()
     {
         GameEvents.OnElementalCaught += UpdateUI;
@@ -43,11 +27,11 @@ public class HeaderBannerManager : MonoBehaviour
 
     void UpdateUI()
     {
-        levelText.text = TextUtil.NumberFormatter(State.level);
+        levelText.text = TextUtil.NumberFormatter(Player.Instance.Level);
         expSlider.value = GetExpPercent();
         expText.text = GetExpDisplay();
-        essenseText.text = TextUtil.NumberFormatter(State.essence);
-        goldText.text = TextUtil.NumberFormatter(State.gold);
+        essenseText.text = TextUtil.NumberFormatter(ResourcesData.Instance.Essence);
+        goldText.text = TextUtil.NumberFormatter(ResourcesData.Instance.Gold);
     }
 
     public void OpenPlayerPanel()
@@ -59,15 +43,15 @@ public class HeaderBannerManager : MonoBehaviour
 
     private static float GetExpPercent()
     {
-        if (State.IsMaxLevel()) return 1;
-        if (State.experience == 0) return 0;
-        return (float)State.experience / State.ExpToLevelUp(State.level);
+        if (Player.Instance.IsMaxLevel()) return 1;
+        if (Player.Instance.Experience == 0) return 0;
+        return (float)Player.Instance.Experience / Player.Instance.ExpToLevelUp(Player.Instance.Level);
     }
 
     private static string GetExpDisplay()
     {
-        return State.IsMaxLevel()
+        return Player.Instance.IsMaxLevel()
         ? "Max Level"
-        : $"{TextUtil.NumberFormatter(State.experience)}/{TextUtil.NumberFormatter(State.ExpToLevelUp(State.level))}";
+        : $"{TextUtil.NumberFormatter(Player.Instance.Experience)}/{TextUtil.NumberFormatter(Player.Instance.ExpToLevelUp(Player.Instance.Level))}";
     }
 }

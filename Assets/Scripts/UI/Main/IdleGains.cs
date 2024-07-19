@@ -28,7 +28,7 @@ public class IdleGains : MonoBehaviour
 
     public void UpdateIdleGains()
     {
-        float goldPartyBonusMultiplier = State.party.GetPartyBonusMultipier(BonusResource.Gold);
+        float goldPartyBonusMultiplier = Player.Instance.Party.GetPartyBonusMultipier(BonusResource.Gold);
         int goldGains = GoldMine.GetTotalGoldGains();
         int goldPartyBonus = Mathf.FloorToInt(goldGains * goldPartyBonusMultiplier);
 
@@ -36,7 +36,7 @@ public class IdleGains : MonoBehaviour
         goldPartyBonusText.text = goldPartyBonusMultiplier != 0 ? $" (+{TextUtil.NumberFormatter(goldPartyBonus)})" : "";
         LayoutRebuilder.ForceRebuildLayoutImmediate(goldContainer.GetComponent<RectTransform>());
 
-        float essencePartyBonusMultiplier = State.party.GetPartyBonusMultipier(BonusResource.Essence);
+        float essencePartyBonusMultiplier = Player.Instance.Party.GetPartyBonusMultipier(BonusResource.Essence);
         int essenceGains = EssenceLab.GetTotalEssenceFromAllMaps();
         int essencePartyBonus = Mathf.FloorToInt(essenceGains * essencePartyBonusMultiplier);
 

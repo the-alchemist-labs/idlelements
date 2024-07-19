@@ -19,16 +19,11 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
         StartCoroutine(CheckIfAnimationFinished());
     }
 
-    public void DisplayToast(Elemental elemental)
+    public void DisplayToast()
     {
-        AudioSource[] audioSources = gameObject.GetComponents<AudioSource>();
-        AudioSource catchSound = audioSources[0];
-        AudioSource newCatchSound = audioSources[1];
-
-
-        levelText.text = $"You are level {State.level}!";
+        levelText.text = $"You are level {Player.Instance.Level}!";
         orbsText.text = $"+{Consts.LevelUpOrbsGain}";
-        Map unlockedMap = State.Maps.GetUnlockedMapByLevel(State.level);
+        Map unlockedMap = MapsData.Instance.GetUnlockedMapByLevel(Player.Instance.Level);
         mapContainer.gameObject.SetActive(unlockedMap != null);
         mapText.text = $"{unlockedMap.name} unlocked";
         gameObject.GetComponent<AudioSource>().Play();

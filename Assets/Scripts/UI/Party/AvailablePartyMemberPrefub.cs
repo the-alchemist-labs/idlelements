@@ -33,6 +33,6 @@ public class AvailablePartyMemberPrefub : MonoBehaviour
 
     public bool ShouldAllowToSelect(int slot, ElementalId id)
     {
-        return !State.party.IsInParty(id) || State.party.GetPartyMember(slot) == id;
+        return !Player.Instance.Party.IsInParty(id) || Player.Instance.Party.GetPartyMember(slot) == id;
     }
 }

@@ -17,13 +17,6 @@ public struct GameState
     public List<MapProgression> mapsProgression;
 }
 
-[Serializable]
-public class ElementalEntry
-{
-    public ElementalId id;
-    public bool isCaught = false;
-    public int tokens = 0;
-}
 
 [Serializable]
 public class MapProgression

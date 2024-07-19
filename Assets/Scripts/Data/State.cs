@@ -1,120 +1,63 @@
-using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
-public static class State
+public class State : MonoBehaviour
 {
-    private static int MAX_LEVEL = 30;
-    public static DateTime lastEncounterDate { get; private set; }
+    public static State Instance { get; private set; }
+    public GameState state { get; private set; }
 
-    public static int level { get; private set; }
-    public static int experience { get; private set; }
-    public static int essence { get; private set; }
-    public static int gold { get; private set; }
-    public static int orbs { get; private set; }
-
-    public static Party party { get; }
-    public static ElementalId lastCaught { get; private set; }
-    public static ElementalsData Elementals { get; }
-    public static MapsData Maps { get; }
-
-    static State()
+    void Awake()
     {
-        List<Elemental> allElementals = DataService.Instance.LoadData<List<Elemental>>(FileName.Elementals, false);
-        List<Map> allMaps = DataService.Instance.LoadData<List<Map>>(FileName.Maps, false);
-        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State, true);
-
-        lastEncounterDate = gs.lastEncounterDate.Year == 1 ? DateTime.Now : gs.lastEncounterDate;
-        level = gs.level == 0 ? 1 : gs.level;
-        experience = gs.experience;
-        essence = gs.essence;
-        gold = gs.gold;
-        orbs = gs.orbs;
-        lastCaught = lastCaught;
-        Elementals = new ElementalsData(allElementals, gs.elementalEnteries);
-        Maps = new MapsData(allMaps, gs.mapsProgression, gs.currentMapId);
-        party = gs.party ?? new Party();
-    }
-
-    public static bool IsMaxLevel()
-    {
-        return level == MAX_LEVEL;
-    }
-
-    public static int ExpToLevelUp(int level)
-    {
-        return (int)(Math.Round((Math.Pow(level, 3) + level * 200) / 100.0) * 100);
-    }
-
-    private static bool ShouldToLevelUp()
-    {
-        return experience >= ExpToLevelUp(level);
-    }
-
-    public static void GainExperience(int exp)
-    {
-        experience += exp;
-
-        while (ShouldToLevelUp() && !IsMaxLevel())
+        if (Instance == null)
         {
-            experience -= ExpToLevelUp(level);
-            level++;
-            GameEvents.LevelUp();
+            Instance = this;
+            Initialize();
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
         }
     }
 
-    public static void UpdateEssence(int amount)
+    void OnDestroy()
     {
-        essence = (essence + amount >= 0) ? essence + amount : 0;
-        GameEvents.EssenceUpdated();
-
+        Save();
     }
 
-    public static void UpdateGold(int amount)
+    private void Initialize()
     {
-        gold = (gold + amount >= 0) ? gold + amount : 0;
-        GameEvents.GoldUpdated();
+        state = DataService.Instance.LoadData<GameState>(FileName.State, true);
+
+        gameObject.AddComponent<MapsData>();
+        gameObject.AddComponent<ElementalsData>();
+        gameObject.AddComponent<ResourcesData>();
+
+        StartCoroutine(Backup());
     }
 
-    public static void UpdateOrbs(int amount)
-    {
-        orbs = (orbs + amount >= 0) ? orbs + amount : 0;
-    }
-
-    public static void UpdatelastEncounterDate(DateTime date)
-    {
-        lastEncounterDate = date;
-    }
-
-    public static void UpdateElementalCaught(ElementalId elementalId, bool isNaturalEncounter = true)
-    {
-        lastCaught = elementalId;
-        GameEvents.ElementalCaught();
-
-        if (isNaturalEncounter)
-        {
-            lastEncounterDate = DateTime.Now;
-            GameEvents.TriggerElementalToast();
-        }
-    }
-
-    public static void Save()
+    private void Save()
     {
         GameState gs = new GameState()
         {
-            lastEncounterDate = lastEncounterDate,
-            currentMapId = Maps.currentMapId,
-            level = level,
-            experience = experience,
-            essence = essence,
-            gold = gold,
-            orbs = orbs,
-            elementalEnteries = Elementals.entries,
-            mapsProgression = Maps.progressions,
-            party = party,
-            lastCaught = lastCaught,
+            lastEncounterDate = ElementalsData.Instance.lastEncounterDate,
+            currentMapId = MapsData.Instance.currentMapId,
+            level = Player.Instance.Level,
+            experience = Player.Instance.Experience,
+            essence = ResourcesData.Instance.Essence,
+            gold = ResourcesData.Instance.Gold,
+            orbs = ResourcesData.Instance.Orbs,
+            elementalEnteries = ElementalsData.Instance.entries,
+            mapsProgression = MapsData.Instance.progressions,
+            party = Player.Instance.Party,
+            lastCaught = ElementalsData.Instance.lastCaught,
         };
 
         DataService.Instance.SaveData(FileName.State, true, gs);
+    }
+
+    private IEnumerator Backup()
+    {
+        Save();
+        yield return new WaitForSeconds(1);
     }
 }

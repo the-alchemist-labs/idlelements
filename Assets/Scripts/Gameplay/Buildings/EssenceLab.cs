@@ -9,8 +9,8 @@ public static class EssenceLab
     public static DateTime lastCollectDate { get; private set; }
     public static int incomeLoopSeconds { get { return 60; } }
 
-    public static BuildingSpecs currentMapEssenceLabSpecs { get { return State.Maps.GetMap(State.Maps.currentMapId).essenceLabSpecs; } }
-    public static int currentEssenceLabLevel { get { return State.Maps.currentMapProgression.essenceLabLevel; } }
+    public static BuildingSpecs currentMapEssenceLabSpecs { get { return MapsData.Instance.GetMap(MapsData.Instance.currentMapId).essenceLabSpecs; } }
+    public static int currentEssenceLabLevel { get { return MapsData.Instance.currentMapProgression.essenceLabLevel; } }
 
     static EssenceLab()
     {
@@ -22,26 +22,26 @@ public static class EssenceLab
         while (true)
         {
             lastCollectDate = DateTime.Now;
-            State.UpdateEssence(GetTotalEssenceFromAllMaps());
+            ResourcesData.Instance.UpdateEssence(GetTotalEssenceFromAllMaps());
             await Task.Delay(incomeLoopSeconds * 1000);
         }
     }
 
     public static int GetTotalEssenceFromAllMaps()
     {
-        int gain = State.Maps.all
+        int gain = MapsData.Instance.all
         .Select(map => map.id)
-        .Where(mapId => State.level >= State.Maps.GetMap(mapId).requiredLevel)
+        .Where(mapId => Player.Instance.Level >= MapsData.Instance.GetMap(mapId).requiredLevel)
         .ToList()
         .Sum(mapId =>
         {
-            MapProgression mapProgression = State.Maps.GetMapProgression(mapId);
+            MapProgression mapProgression = MapsData.Instance.GetMapProgression(mapId);
             return mapProgression != null
             ? CalculateEssenceGain(mapProgression.essenceLabLevel, GetBaseBonusByMap(mapId))
             : 0;
         });
 
-        float partyBonus = State.party.GetPartyBonusMultipier(BonusResource.Essence);
+        float partyBonus = Player.Instance.Party.GetPartyBonusMultipier(BonusResource.Essence);
 
         return (int)(gain + (gain * partyBonus));
     }
@@ -58,25 +58,25 @@ public static class EssenceLab
 
     public static bool LevelUp()
     {
-        if (IsMaxLevel() || State.gold < GetLevelUpCost())
+        if (IsMaxLevel() || ResourcesData.Instance.Gold < GetLevelUpCost())
         {
             return false;
         }
 
         int levelUpCost = GetLevelUpCost();
-        State.UpdateGold(-levelUpCost);
-        State.Maps.currentMapProgression.EssenceLabLevelUp();
+        ResourcesData.Instance.UpdateGold(-levelUpCost);
+        MapsData.Instance.currentMapProgression.EssenceLabLevelUp();
         GameEvents.IdleGainsChanged();
 
         if (IsMaxLevel())
-            Analytics.CustomEvent("EssenceLabMaxLevel", new Dictionary<string, object> { { "map", State.Maps.currentMapId } });
+            Analytics.CustomEvent("EssenceLabMaxLevel", new Dictionary<string, object> { { "map", MapsData.Instance.currentMapId } });
 
         return true;
     }
 
     public static int GetEssenceGain()
     {
-        return CalculateEssenceGain(currentEssenceLabLevel, GetBaseBonusByMap(State.Maps.currentMapId));
+        return CalculateEssenceGain(currentEssenceLabLevel, GetBaseBonusByMap(MapsData.Instance.currentMapId));
     }
 
     public static int GetLevelUpCost()
@@ -99,6 +99,6 @@ public static class EssenceLab
 
     private static int GetBaseBonusByMap(MapId mapId)
     {
-        return State.Maps.GetMap(mapId).essenceLabSpecs.BaseBonus;
+        return MapsData.Instance.GetMap(mapId).essenceLabSpecs.BaseBonus;
     }
 }

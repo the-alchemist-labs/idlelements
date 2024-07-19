@@ -56,7 +56,7 @@ public static class GameEvents
     public static void LevelUp()
     {
         OnLevelUp?.Invoke();
-        Analytics.CustomEvent("LeveledUp", new Dictionary<string, object> { { "level", State.level } });
+        Analytics.CustomEvent("LeveledUp", new Dictionary<string, object> { { "level", Player.Instance.Level } });
     }
 
     public static void TokensUpdated()

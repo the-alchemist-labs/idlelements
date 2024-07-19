@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SocketIOClient;
 using UnityEngine;
@@ -11,33 +12,31 @@ public static class SocketEventName
     public const string FriendRequestReceived = "friend_request_received";
 }
 
-public class SocketIO
+public class SocketIO : MonoBehaviour
 {
-    private static SocketIO _instance;
-    private bool isInitialized = false;
-
+    public static SocketIO Instance { get; private set; }
     public SocketIOUnity Socket { get; private set; }
 
-    public static SocketIO Instance
+    async void Awake()
     {
-        get
+        if (Instance == null)
         {
-            if (_instance == null)
-            {
-                _instance = new SocketIO();
-                _instance.Initialize();
-            }
-            return _instance;
+            Instance = this;
+            await Initialize();
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
         }
     }
 
-    public void Initialize()
+    void OnDestroy()
     {
-        if (isInitialized)
-        {
-            return;
-        }
+        Instance.Disconnect();
+    }
 
+    private async Task Initialize()
+    {
         Uri uri = new Uri($"ws://{Consts.ServerURI}");
         string playerId = Player.Instance.Id;
 
@@ -52,16 +51,10 @@ public class SocketIO
             Transport = SocketIOClient.Transport.TransportProtocol.WebSocket
         });
 
-        Socket.OnConnected += OnConnected;
         Socket.OnReconnectError += OnReconnectError;
 
-        Socket.Connect();
+        await Socket.ConnectAsync();
 
-        isInitialized = true;
-    }
-
-    private void OnConnected(object sender, EventArgs e)
-    {
         Debug.Log("Socket connected");
         GameEvents.SocketConnected();
     }

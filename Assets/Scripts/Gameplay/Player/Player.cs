@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -13,9 +12,9 @@ public class PlayerInfo
     public string name;
     public int level;
     public int elementalsCaught;
-    public List<int> party;
+    public Party party;
 
-    public PlayerInfo(string id, string friendCode, string name, int level, int elementalsCaught, List<int> party)
+    public PlayerInfo(string id, string friendCode, string name, int level, int elementalsCaught, Party party)
     {
         this.id = id;
         this.friendCode = friendCode;
@@ -26,63 +25,53 @@ public class PlayerInfo
     }
 }
 
-public class Player
+public class Player : MonoBehaviour
 {
-    private static Player _instance;
+    private int MAX_LEVEL = 30;
+    public static Player Instance { get; private set; }
 
     public string Id { get; private set; }
     public string FriendCode { get; private set; }
     public string Name { get; private set; }
+    public int Level { get; private set; }
+    public int Experience { get; private set; }
+    public Party Party { get; private set; }
+
     public Friends Friends { get; private set; }
 
-    private Player() { }
-
-    public static Player Instance
+    async void Awake()
     {
-        get
+        if (Instance == null)
         {
-            if (_instance?.Id == null)
-            {
-                _instance = new Player();
-                _ = _instance.Initialize();
-            }
-            return _instance;
+            Instance = this;
+            await Initialize();
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
         }
     }
 
-    public async Task Initialize()
+    private async Task Initialize()
     {
-        if (_instance?.Id != null)
-        {
-            return;
-        }
-
         await InitializeUnityServices();
+        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State, true);
 
         PlayerInfo playerInfo = await PlayerApi.GetPlayer(AuthenticationService.Instance.PlayerId, true);
 
         Id = playerInfo.id;
         FriendCode = playerInfo.friendCode;
         Name = $"Player_{FriendCode?.ToLower()}";
+        Level = gs.level == 0 ? 1 : gs.level;
+        Experience = gs.experience;
+        Party = gs.party ?? new Party();
 
-        SocketIO.Instance.Initialize();
+        gameObject.AddComponent<SocketIO>();
 
         GameEvents.OnSocketConnected += InitializeFriends;
         GameEvents.OnLevelUp += SavePlayerProgress;
         GameEvents.OnPartyUpdated += SavePlayerProgress;
         GameEvents.OnElementalCaught += SavePlayerProgress;
-    }
-
-    public PlayerInfo GetPlayerInfo()
-    {
-        return new PlayerInfo(
-            Id,
-            FriendCode,
-            Name,
-            State.level,
-            State.Elementals.elementalCaught,
-            new List<int> { (int)State.party.First, (int)State.party.Second, (int)State.party.Third }
-        );
     }
 
     private void InitializeFriends()
@@ -114,5 +103,44 @@ public class Player
     {
         PlayerInfo playerInfo = GetPlayerInfo();
         await PlayerApi.UpdatePlayerInfo(playerInfo);
+    }
+    
+    public bool IsMaxLevel()
+    {
+        return Level == MAX_LEVEL;
+    }
+
+    public int ExpToLevelUp(int level)
+    {
+        return (int)(Math.Round((Math.Pow(level, 3) + level * 200) / 100.0) * 100);
+    }
+
+    private bool ShouldToLevelUp()
+    {
+        return Experience >= ExpToLevelUp(Level);
+    }
+
+    public void GainExperience(int exp)
+    {
+        Experience += exp;
+
+        while (ShouldToLevelUp() && !IsMaxLevel())
+        {
+            Experience -= ExpToLevelUp(Level);
+            Level++;
+            GameEvents.LevelUp();
+        }
+    }
+
+    public PlayerInfo GetPlayerInfo()
+    {
+        return new PlayerInfo(
+            Id,
+            FriendCode,
+            Name,
+            Level,
+            ElementalsData.Instance.elementalCaught,
+            Instance.Party
+        );
     }
 }

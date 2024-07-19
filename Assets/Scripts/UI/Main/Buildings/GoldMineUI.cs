@@ -38,12 +38,12 @@ public class GoldMineUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        int goldMineLevel = State.Maps.currentMapProgression.goldMineLevel;
+        int goldMineLevel = MapsData.Instance.currentMapProgression.goldMineLevel;
 
         levelText.text = $"{goldMineLevel}/{GoldMine.currentGoldMineSpecs.MaxLevel}";
         costText.text = GoldMine.IsMaxLevel() ? "Max" : $"{TextUtil.NumberFormatter(GoldMine.GetLevelUpCost())}";
         levelUpImage?.SetActive(!GoldMine.IsMaxLevel());
-        levelUpButton.GetComponent<Button>().interactable = !GoldMine.IsMaxLevel() && State.gold >= GoldMine.GetLevelUpCost();
+        levelUpButton.GetComponent<Button>().interactable = !GoldMine.IsMaxLevel() && ResourcesData.Instance.Gold >= GoldMine.GetLevelUpCost();
     }
 
     private void ScheduleUpdate()
