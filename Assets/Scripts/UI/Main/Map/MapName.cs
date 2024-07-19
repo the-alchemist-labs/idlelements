@@ -18,6 +18,6 @@ public class MapName : MonoBehaviour
 
     public void UpdateMapName()
     {
-        mapNameText.text = MapsData.Instance.currentMap.name;
+        mapNameText.text = MapManager.Instance.currentMap.name;
     }
 }

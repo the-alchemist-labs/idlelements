@@ -1,32 +1,18 @@
-using UnityEngine;
 
-public class ResourcesData : MonoBehaviour
+using Newtonsoft.Json;
+using Unity.VisualScripting;
+
+public class PlayerResources
 {
-    public static ResourcesData Instance { get; private set; }
-
     public int Essence { get; private set; }
     public int Gold { get; private set; }
     public int Orbs { get; private set; }
 
-    private void Awake()
+    public PlayerResources(int Essence = 0, int Gold = 0, int Orbs = 0)
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            Initialize();
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void Initialize()
-    {
-        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State, true);
-        Essence = gs.essence;
-        Gold = gs.gold;
-        Orbs = gs.orbs;
+        this.Essence = Essence;
+        this.Gold = Gold;
+        this.Orbs = Orbs;
     }
 
     public void UpdateEssence(int amount)

@@ -5,45 +5,10 @@ using System.Collections.Generic;
 public struct GameState
 {
     public DateTime lastEncounterDate;
-    public MapId currentMapId;
     public int level;
     public int experience;
     public int essence;
     public int gold;
     public int orbs;
     public Party party;
-    public ElementalId lastCaught;
-    public List<ElementalEntry> elementalEnteries;
-    public List<MapProgression> mapsProgression;
-}
-
-
-[Serializable]
-public class MapProgression
-{
-    public MapId id;
-    public int templeLevel = 1;
-    public int goldMineLevel = 1;
-    public int essenceLabLevel = 1;
-    public bool isUnlocked = false;
-
-    public void TempleLevelUp()
-    {
-        templeLevel++;
-    }
-
-    public void GoldMineLevelUp()
-    {
-        goldMineLevel++;
-    }
-
-    public void EssenceLabLevelUp()
-    {
-        essenceLabLevel++;
-    }
-
-    public void UnlockMap()
-    {
-        isUnlocked = true;
-    }
 }

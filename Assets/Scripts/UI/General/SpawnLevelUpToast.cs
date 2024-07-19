@@ -24,6 +24,6 @@ public class SpawnLevelUpToast : MonoBehaviour
         newPosition.x -= prefabRectTransform.rect.width;
 
         GameObject toast = Instantiate(toastPrefub, newPosition, Quaternion.identity, transform.parent);
-        toast.GetComponent<CatchToastPrefab>()?.DisplayToast(ElementalsData.Instance.GetElemental(ElementalsData.Instance.lastCaught));
+        toast.GetComponent<CatchToastPrefab>()?.DisplayToast(ElementalCatalog.Instance.GetElemental(ElementalManager.Instance.lastCaught));
     }
 }

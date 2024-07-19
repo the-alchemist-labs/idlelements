@@ -38,12 +38,12 @@ public class TempleUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        int templeLevel = MapsData.Instance.currentMapProgression.templeLevel;
+        int templeLevel = MapManager.Instance.currentMapProgression.templeLevel;
 
         levelText.text = $"{templeLevel}/{Temple.currentTempleSpecs.MaxLevel}";
         costText.text = Temple.IsMaxLevel() ? "Max" : $"{TextUtil.NumberFormatter(Temple.GetLevelUpCost())}";
         levelUpImage?.SetActive(!Temple.IsMaxLevel());
-        levelUpButton.GetComponent<Button>().interactable = !Temple.IsMaxLevel() && ResourcesData.Instance.Gold >= Temple.GetLevelUpCost();
+        levelUpButton.GetComponent<Button>().interactable = !Temple.IsMaxLevel() && Player.Instance.Resources.Gold >= Temple.GetLevelUpCost();
     }
 
     private void ScheduleUpdate()

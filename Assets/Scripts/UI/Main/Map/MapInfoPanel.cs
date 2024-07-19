@@ -21,17 +21,17 @@ public class MapInfoPanel : MonoBehaviour
 
     public void UpdateUI()
     {
-        mapNameText.text = MapsData.Instance.currentMap.name;
+        mapNameText.text = MapManager.Instance.currentMap.name;
 
         encountersContainer.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
-        foreach (ElementalEncounter encounter in MapsData.Instance.currentMap.elementalEncounters)
+        foreach (ElementalEncounter encounter in MapManager.Instance.currentMap.elementalEncounters)
         {
             GameObject newEntry = Instantiate(encounterPrefub, encountersContainer);
             if (newEntry.TryGetComponent(out EncounterPrefub item))
             {   
-                Elemental elemental = ElementalsData.Instance.GetElemental(encounter.elementalId);
-                ElementalEntry entry = ElementalsData.Instance.GetElementalEntry(encounter.elementalId);
+                Elemental elemental = ElementalCatalog.Instance.GetElemental(encounter.elementalId);
+                ElementalEntry entry = ElementalManager.Instance.GetElementalEntry(encounter.elementalId);
                 item.UpdateIU(encounter.elementalId, elemental.type,  elemental.name, encounter.encounterChance, entry.tokens);
             }
         }

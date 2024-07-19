@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 [Serializable]
 public class Party
@@ -11,11 +12,11 @@ public class Party
 
     public int MaxSize { get { return 3; } }
 
-    public Party(ElementalId first = ElementalId.None, ElementalId second = ElementalId.None, ElementalId third = ElementalId.None)
+    public Party(ElementalId First = ElementalId.None, ElementalId Second = ElementalId.None, ElementalId Third = ElementalId.None)
     {
-        First = first;
-        Second = second;
-        Third = third;
+        this.First = First;
+        this.Second = Second;
+        this.Third = Third;
     }
 
     public ElementalId GetPartyMember(int slot)
@@ -41,7 +42,7 @@ public class Party
 
     public ElementalId[] GetEligiblePartyMembers()
     {
-        return ElementalsData.Instance.entries
+        return ElementalManager.Instance.entries
             .Where(entry => entry.isCaught)
             .Select(entry => entry.id)
             .OrderBy(id => Player.Instance.Party.IsInParty(id))
@@ -52,7 +53,7 @@ public class Party
     {
         return new List<ElementalId?> { First, Second, Third }
         .Where(e => e != ElementalId.None)
-        .Select(id => ElementalsData.Instance.GetElemental(id.Value))
+        .Select(id => ElementalCatalog.Instance.GetElemental(id.Value))
         .Where(e => e.idleBonus != null)
         .Where(e => e.idleBonus?.resource == resource)
         .Sum(e => e.idleBonus.amount);

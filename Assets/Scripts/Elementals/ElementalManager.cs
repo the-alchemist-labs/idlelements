@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ElementalsData : MonoBehaviour
+public class ElementalManager : MonoBehaviour
 {
-    public static ElementalsData Instance { get; private set; }
-    public List<Elemental> all { get; private set; }
+    public static ElementalManager Instance { get; private set; }
     public List<ElementalEntry> entries { get; private set; }
     public ElementalId lastCaught { get; private set; }
-    public int elementalCaught { get { return entries.Count(entry => entry.isCaught); } }
     public DateTime lastEncounterDate { get; private set; }
+    public int elementalCaught { get { return entries.Count(entry => entry.isCaught); } }
 
     private void Awake()
     {
@@ -27,17 +26,11 @@ public class ElementalsData : MonoBehaviour
 
     private void Initialize()
     {
-        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State, true);
+        ElementalManagerState state = DataService.Instance.LoadData<ElementalManagerState>(FileName.ElementalManagerState, true);
 
-        all = DataService.Instance.LoadData<List<Elemental>>(FileName.Elementals, false);
-        entries = gs.elementalEnteries ?? new List<ElementalEntry>();
-        lastCaught = gs.lastCaught;
-        lastEncounterDate = gs.lastEncounterDate.Year == 1 ? DateTime.Now : gs.lastEncounterDate;
-    }
-
-    public Elemental GetElemental(ElementalId id)
-    {
-        return all.Find(el => el.id == id);
+        entries = state.entries;
+        lastCaught = state.lastCaught;
+        lastEncounterDate = state.lastEncounterDate;
     }
 
     public ElementalEntry GetElementalEntry(ElementalId id)
@@ -71,20 +64,20 @@ public class ElementalsData : MonoBehaviour
     public bool CanEvolve(ElementalId id)
     {
         ElementalEntry entry = GetElementalEntry(id);
-        Elemental elemental = GetElemental(id);
+        Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
 
         return elemental.evolution != null
         && entry.tokens >= elemental.evolution.tokensCost
-        && ResourcesData.Instance.Essence >= elemental.evolution.essenceCost;
+        && Player.Instance.Resources.Essence >= elemental.evolution.essenceCost;
     }
 
     public void Evolve(ElementalId id)
     {
-        Elemental elemental = GetElemental(id);
+        Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
 
         Temple.ElementalCaught(elemental.evolution.evolveTo, false);
         UpdateElementalTokens(id, -elemental.evolution.tokensCost);
-        ResourcesData.Instance.UpdateEssence(-elemental.evolution.essenceCost);
+        Player.Instance.Resources.UpdateEssence(-elemental.evolution.essenceCost);
         UpdateElementalTokens(elemental.evolution.evolveTo, 1);
 
         GameEvents.EssenceUpdated();

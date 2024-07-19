@@ -18,7 +18,7 @@ public class SpawnCatchToast : MonoBehaviour
     void DisplayToast()
     {
         // Don't show toast for idle encounter
-        if ((DateTime.Now - ElementalsData.Instance.lastEncounterDate).TotalSeconds >= 1) return;
+        if ((DateTime.Now - ElementalManager.Instance.lastEncounterDate).TotalSeconds >= 1) return;
 
         RectTransform rectTransform = GetComponent<RectTransform>();
 
@@ -27,6 +27,6 @@ public class SpawnCatchToast : MonoBehaviour
         newPosition.x -= prefabRectTransform.rect.width;
 
         GameObject toast = Instantiate(toastPrefub, newPosition, Quaternion.identity, transform.parent);
-        toast.GetComponent<CatchToastPrefab>().DisplayToast(ElementalsData.Instance.GetElemental(ElementalsData.Instance.lastCaught));
+        toast.GetComponent<CatchToastPrefab>().DisplayToast(ElementalCatalog.Instance.GetElemental(ElementalManager.Instance.lastCaught));
     }
 }

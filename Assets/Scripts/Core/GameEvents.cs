@@ -16,6 +16,7 @@ public static class GameEvents
     public static event Action OnTokensUpdated;
     public static event Action OnPartyUpdated;
     public static event Action OnFriendsUpdated;
+    public static event Action OnPlayerInitialized;
 
     public static void SocketConnected()
     {
@@ -74,4 +75,8 @@ public static class GameEvents
         OnFriendsUpdated?.Invoke();
     }
 
+    public static void PlayerInitialized()
+    {
+        OnPlayerInitialized?.Invoke();
+    }
 }

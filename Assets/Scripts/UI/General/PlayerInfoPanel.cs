@@ -23,7 +23,7 @@ public class PlayerInfoPanel : MonoBehaviour
 
         levelText.text = $"{player.level}";
         playerName.text = player.name;
-        deckText.text = $"Deck: {player.elementalsCaught}/{ElementalsData.Instance.all.Count}";
+        deckText.text = $"Deck: {player.elementalsCaught}/{ElementalCatalog.Instance.Count}";
         battleTowerText.text = "Battle tower: Unavailable";
 
         partyContainer.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));

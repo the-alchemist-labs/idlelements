@@ -43,7 +43,7 @@ public class AfkGainsPanel : MonoBehaviour
     {
         int delta = GetEncounterDeltaTime();
         rewards = GetIdleRewards();
-        ElementalsData.Instance.UpdatelastEncounterDate(DateTime.Now.AddSeconds(-delta));
+        ElementalManager.Instance.UpdatelastEncounterDate(DateTime.Now.AddSeconds(-delta));
 
         UpdatePanel();
     }
@@ -112,11 +112,11 @@ public class AfkGainsPanel : MonoBehaviour
 
     private void EarnRewardOfEncounters(IdleRewards rewards)
     {
-        rewards.newCatches.ForEach(c => ElementalsData.Instance.MarkElementalAsCaught(c));
-        rewards.elementalTokens.ToList().ForEach(c => ElementalsData.Instance.UpdateElementalTokens(c.Key, c.Value));
+        rewards.newCatches.ForEach(c => ElementalManager.Instance.MarkElementalAsCaught(c));
+        rewards.elementalTokens.ToList().ForEach(c => ElementalManager.Instance.UpdateElementalTokens(c.Key, c.Value));
         Player.Instance.GainExperience(rewards.experience);
-        ResourcesData.Instance.UpdateEssence(rewards.essence);
-        ResourcesData.Instance.UpdateGold(rewards.gold);
+        Player.Instance.Resources.UpdateEssence(rewards.essence);
+        Player.Instance.Resources.UpdateGold(rewards.gold);
 
         if (rewards.lastCaught != 0)
         {
@@ -126,13 +126,13 @@ public class AfkGainsPanel : MonoBehaviour
 
     private IdleRewards GetIdleRewards()
     {
-        float elapsedSeconds = Temple.GetSecondsSincelastEncounterDate(ElementalsData.Instance.lastEncounterDate);
+        float elapsedSeconds = Temple.GetSecondsSincelastEncounterDate(ElementalManager.Instance.lastEncounterDate);
 
         System.Random random = new System.Random();
         IdleRewards rewards = new IdleRewards();
         int encounters = GetNumberOfEncounters(elapsedSeconds);
 
-        ElementalEncounter[] elementalEncounters = MapsData.Instance.currentMap.elementalEncounters
+        ElementalEncounter[] elementalEncounters = MapManager.Instance.currentMap.elementalEncounters
             .OrderByDescending(e => e.encounterChance)
             .ToArray();
 
@@ -143,7 +143,7 @@ public class AfkGainsPanel : MonoBehaviour
 
         foreach (ElementalId elementalId in encounterIds)
         {
-            if (!ElementalsData.Instance.IsElementalRegistered(elementalId) && !rewards.newCatches.Contains(elementalId))
+            if (!ElementalManager.Instance.IsElementalRegistered(elementalId) && !rewards.newCatches.Contains(elementalId))
             {
                 rewards.newCatches.Add(elementalId);
             }
@@ -170,7 +170,7 @@ public class AfkGainsPanel : MonoBehaviour
         {
             if (!expCache.TryGetValue(elementalId, out int exp))
             {
-                exp = ElementalsData.Instance.GetElemental(elementalId).expGain;
+                exp = ElementalCatalog.Instance.GetElemental(elementalId).expGain;
                 expCache[elementalId] = exp;
             }
             totalExp += exp;
@@ -181,7 +181,7 @@ public class AfkGainsPanel : MonoBehaviour
 
     private int GetEncounterDeltaTime()
     {
-        float elapedsSeconds = Temple.GetSecondsSincelastEncounterDate(ElementalsData.Instance.lastEncounterDate);
+        float elapedsSeconds = Temple.GetSecondsSincelastEncounterDate(ElementalManager.Instance.lastEncounterDate);
         int encounters = GetNumberOfEncounters(elapedsSeconds);
         int encountersTime = encounters * Temple.GetEncounterSpeed();
         return (int)elapedsSeconds - encountersTime;

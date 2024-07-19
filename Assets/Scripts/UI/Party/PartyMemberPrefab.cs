@@ -8,7 +8,7 @@ public class PartyMemberPrefab : MonoBehaviour
 
     public void Init(ElementalId elementalId)
     {
-        Elemental elemental = ElementalsData.Instance.GetElemental(elementalId);
+        Elemental elemental = ElementalCatalog.Instance.GetElemental(elementalId);
 
         Sprite newSprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
         elementalImage.sprite = newSprite;

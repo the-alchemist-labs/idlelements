@@ -24,8 +24,8 @@ public class CatchToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void DisplayToast(Elemental elemental)
     {
-        int tokens = ElementalsData.Instance.GetElementalEntry(elemental.id).tokens;
-        bool isNew = !ElementalsData.Instance.IsElementalRegistered(elemental.id);
+        int tokens = ElementalManager.Instance.GetElementalEntry(elemental.id).tokens;
+        bool isNew = !ElementalManager.Instance.IsElementalRegistered(elemental.id);
 
         elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
         nameText.text = $"You caught {elemental.name}!";

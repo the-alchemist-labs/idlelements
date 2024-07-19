@@ -12,14 +12,15 @@ public class HeaderBannerManager : MonoBehaviour
 
     void Start()
     {
+        GameEvents.OnPlayerInitialized += UpdateUI;
         GameEvents.OnElementalCaught += UpdateUI;
         GameEvents.OnGoldUpdated += UpdateUI;
         GameEvents.OnEssenceUpdated += UpdateUI;
-        UpdateUI();
     }
 
     void OnDestroy()
     {
+        GameEvents.OnPlayerInitialized += UpdateUI;
         GameEvents.OnElementalCaught -= UpdateUI;
         GameEvents.OnGoldUpdated -= UpdateUI;
         GameEvents.OnEssenceUpdated -= UpdateUI;
@@ -30,8 +31,8 @@ public class HeaderBannerManager : MonoBehaviour
         levelText.text = TextUtil.NumberFormatter(Player.Instance.Level);
         expSlider.value = GetExpPercent();
         expText.text = GetExpDisplay();
-        essenseText.text = TextUtil.NumberFormatter(ResourcesData.Instance.Essence);
-        goldText.text = TextUtil.NumberFormatter(ResourcesData.Instance.Gold);
+        essenseText.text = TextUtil.NumberFormatter(Player.Instance.Resources.Essence);
+        goldText.text = TextUtil.NumberFormatter(Player.Instance.Resources.Gold);
     }
 
     public void OpenPlayerPanel()

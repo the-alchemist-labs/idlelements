@@ -11,8 +11,8 @@ public static class GoldMine
 
     public static int incomeLoopSeconds { get { return 60; } }
 
-    public static BuildingSpecs currentGoldMineSpecs { get { return MapsData.Instance.GetMap(MapsData.Instance.currentMapId).goldMineSpecs; } }
-    public static int currentGoldMineLevel { get { return MapsData.Instance.currentMapProgression.goldMineLevel; } }
+    public static BuildingSpecs currentGoldMineSpecs { get { return MapCatalog.Instance.GetMap(MapManager.Instance.currentMapId).goldMineSpecs; } }
+    public static int currentGoldMineLevel { get { return MapManager.Instance.currentMapProgression.goldMineLevel; } }
 
     static GoldMine()
     {
@@ -24,20 +24,20 @@ public static class GoldMine
         while (true)
         {
             lastCollectDate = DateTime.Now;
-            ResourcesData.Instance.UpdateGold(GetTotalGoldGains());
+            Player.Instance.Resources.UpdateGold(GetTotalGoldGains());
             await Task.Delay(incomeLoopSeconds * 1000);
         }
     }
 
     public static int GetTotalGoldGains()
     {
-        int gain = MapsData.Instance.all
+        int gain = MapCatalog.Instance.maps
         .Select(map => map.id)
-        .Where(mapId => Player.Instance.Level >= MapsData.Instance.GetMap(mapId).requiredLevel)
+        .Where(mapId => Player.Instance.Level >= MapCatalog.Instance.GetMap(mapId).requiredLevel)
         .ToList()
         .Sum(mapId =>
         {
-            MapProgression mapProgression = MapsData.Instance.GetMapProgression(mapId);
+            MapProgression mapProgression = MapManager.Instance.GetMapProgression(mapId);
             return mapProgression != null
             ? CalculateGoldGain(mapProgression.goldMineLevel, GetBaseBonusByMap(mapId))
             : 0;
@@ -60,25 +60,25 @@ public static class GoldMine
 
     public static bool LevelUp()
     {
-        if (IsMaxLevel() || ResourcesData.Instance.Gold < GetLevelUpCost())
+        if (IsMaxLevel() || Player.Instance.Resources.Gold < GetLevelUpCost())
         {
             return false;
         }
 
         int levelUpCost = GetLevelUpCost();
-        ResourcesData.Instance.UpdateGold(-levelUpCost);
-        MapsData.Instance.currentMapProgression.GoldMineLevelUp();
+        Player.Instance.Resources.UpdateGold(-levelUpCost);
+        MapManager.Instance.currentMapProgression.GoldMineLevelUp();
         GameEvents.IdleGainsChanged();
 
         if (IsMaxLevel())
-            Analytics.CustomEvent("GoldMineMaxLevel", new Dictionary<string, object> { { "map", MapsData.Instance.currentMapId } });
+            Analytics.CustomEvent("GoldMineMaxLevel", new Dictionary<string, object> { { "map", MapManager.Instance.currentMapId } });
 
         return true;
     }
 
     public static int GetGoldGain()
     {
-        return CalculateGoldGain(currentGoldMineLevel, GetBaseBonusByMap(MapsData.Instance.currentMapId));
+        return CalculateGoldGain(currentGoldMineLevel, GetBaseBonusByMap(MapManager.Instance.currentMapId));
     }
 
     public static int GetLevelUpCost()
@@ -90,7 +90,7 @@ public static class GoldMine
 
     public static int GetLevelUpGains()
     {
-        return CalculateGoldGain(currentGoldMineLevel + 1, GetBaseBonusByMap(MapsData.Instance.currentMapId));
+        return CalculateGoldGain(currentGoldMineLevel + 1, GetBaseBonusByMap(MapManager.Instance.currentMapId));
     }
 
     private static int CalculateGoldGain(int goldMineLevel, int baseBonus)
@@ -101,6 +101,6 @@ public static class GoldMine
 
     private static int GetBaseBonusByMap(MapId mapId)
     {
-        return MapsData.Instance.GetMap(mapId).goldMineSpecs.BaseBonus;
+        return MapCatalog.Instance.GetMap(mapId).goldMineSpecs.BaseBonus;
     }
 }

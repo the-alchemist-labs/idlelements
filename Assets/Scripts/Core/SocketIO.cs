@@ -32,7 +32,7 @@ public class SocketIO : MonoBehaviour
 
     void OnDestroy()
     {
-        Instance.Disconnect();
+        Instance?.Disconnect();
     }
 
     private async Task Initialize()

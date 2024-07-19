@@ -12,20 +12,25 @@ public class Friends
     public List<PlayerInfo> PendingFriendRequestsList { get; private set; }
     public List<PlayerInfo> FriendsList { get; private set; }
 
-    public Friends()
+    public Friends() { }
+
+
+    public static async Task<Friends> CreateAsync()
     {
-        MainThreadDispatcher.Enqueue(() => Initialize());
+        Friends friends = new Friends();
+        await friends.InitializeAsync();
+        return friends;
     }
 
-    public async void Initialize()
+    public async Task InitializeAsync()
     {
-        PendingFriendRequestsList = await FriendsApi.GetPendingFriendRequests(Player.Instance.Id);
+        Friends friends = new Friends();
+        PendingFriendRequestsList = await FriendsApi.GetPendingFriendRequests();
         FriendsList = await FriendsApi.GetFriends();
 
         SocketIO.Instance.RegisterEvent<FriendRequestReceivedResponse>(SocketEventName.FriendRequestReceived, OnFriendRequestReceived);
         SocketIO.Instance.RegisterEvent(SocketEventName.FriendRequestaccepted, OnFriendRequestAccepted);
 
-        GameEvents.FriendsUpdated();
     }
 
 
@@ -53,7 +58,7 @@ public class Friends
             return res;
         }
 
-        PendingFriendRequestsList = await FriendsApi.GetPendingFriendRequests(Player.Instance.Id);
+        PendingFriendRequestsList = await FriendsApi.GetPendingFriendRequests();
         FriendsList = await FriendsApi.GetFriends();
 
         GameEvents.FriendsUpdated();

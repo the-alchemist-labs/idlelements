@@ -4,27 +4,6 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
 
-[Serializable]
-public class PlayerInfo
-{
-    public string id;
-    public string friendCode;
-    public string name;
-    public int level;
-    public int elementalsCaught;
-    public Party party;
-
-    public PlayerInfo(string id, string friendCode, string name, int level, int elementalsCaught, Party party)
-    {
-        this.id = id;
-        this.friendCode = friendCode;
-        this.name = name;
-        this.level = level;
-        this.elementalsCaught = elementalsCaught;
-        this.party = party;
-    }
-}
-
 public class Player : MonoBehaviour
 {
     private int MAX_LEVEL = 30;
@@ -35,8 +14,9 @@ public class Player : MonoBehaviour
     public string Name { get; private set; }
     public int Level { get; private set; }
     public int Experience { get; private set; }
-    public Party Party { get; private set; }
 
+    public Party Party { get; private set; }
+    public PlayerResources Resources { get; private set; }
     public Friends Friends { get; private set; }
 
     async void Awake()
@@ -55,28 +35,32 @@ public class Player : MonoBehaviour
     private async Task Initialize()
     {
         await InitializeUnityServices();
-        GameState gs = DataService.Instance.LoadData<GameState>(FileName.State, true);
 
+        PlayerState state = DataService.Instance.LoadData<PlayerState>(FileName.PlayerState, true);
         PlayerInfo playerInfo = await PlayerApi.GetPlayer(AuthenticationService.Instance.PlayerId, true);
 
         Id = playerInfo.id;
         FriendCode = playerInfo.friendCode;
-        Name = $"Player_{FriendCode?.ToLower()}";
-        Level = gs.level == 0 ? 1 : gs.level;
-        Experience = gs.experience;
-        Party = gs.party ?? new Party();
-
+        Name = playerInfo.name;
+        Level = state.Level;
+        Experience = state.Experience;
+        Party = state.Party;
+        Resources = state.Resources;
+        
         gameObject.AddComponent<SocketIO>();
 
-        GameEvents.OnSocketConnected += InitializeFriends;
+        Friends = await Friends.CreateAsync();
+
+        SetEventListeners();
+
+        GameEvents.PlayerInitialized();
+    }
+
+    private void SetEventListeners()
+    {
         GameEvents.OnLevelUp += SavePlayerProgress;
         GameEvents.OnPartyUpdated += SavePlayerProgress;
         GameEvents.OnElementalCaught += SavePlayerProgress;
-    }
-
-    private void InitializeFriends()
-    {
-        Friends = new Friends();
     }
 
     private async Task InitializeUnityServices()
@@ -104,7 +88,7 @@ public class Player : MonoBehaviour
         PlayerInfo playerInfo = GetPlayerInfo();
         await PlayerApi.UpdatePlayerInfo(playerInfo);
     }
-    
+
     public bool IsMaxLevel()
     {
         return Level == MAX_LEVEL;
@@ -139,7 +123,7 @@ public class Player : MonoBehaviour
             FriendCode,
             Name,
             Level,
-            ElementalsData.Instance.elementalCaught,
+            ElementalManager.Instance.elementalCaught,
             Instance.Party
         );
     }

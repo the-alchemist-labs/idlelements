@@ -18,6 +18,6 @@ public class LastCaught : MonoBehaviour
 
     public void UpdateLastCaught()
     {
-        elementalNameText.text = ElementalsData.Instance.GetElemental(ElementalsData.Instance.lastCaught)?.name ?? "None";
+        elementalNameText.text = ElementalCatalog.Instance.GetElemental(ElementalManager.Instance.lastCaught)?.name ?? "None";
     }
 }

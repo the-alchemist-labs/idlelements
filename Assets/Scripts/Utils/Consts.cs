@@ -1,8 +1,11 @@
 public static class FileName
 {
-    public const string Maps = "maps";
-    public const string Elementals = "elementals";
-    public const string State = "state";
+    public const string MapCatalog = "MapCatalog";
+    public const string ElementalCatalog = "ElementalCatalog";
+    public const string MapManagerState = "MapManagerState";
+    public const string ElementalManagerState = "ElementalManagerState";
+    public const string PlayerState = "PlayerState";
+
 }
 
 public static class Tags

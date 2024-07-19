@@ -22,9 +22,9 @@ public class StatusResponse
 
 public static class FriendsApi
 {
-    public async static Task<List<PlayerInfo>> GetPendingFriendRequests(string playerId)
+    public async static Task<List<PlayerInfo>> GetPendingFriendRequests()
     {
-        PendingFriendRequestsResponse res = await Http.Get<PendingFriendRequestsResponse>($"{Consts.ServerURI}/friends/requests/pending/{playerId}");
+        PendingFriendRequestsResponse res = await Http.Get<PendingFriendRequestsResponse>($"{Consts.ServerURI}/friends/requests/pending/{Player.Instance.Id}");
         return res?.requests;
     }
 

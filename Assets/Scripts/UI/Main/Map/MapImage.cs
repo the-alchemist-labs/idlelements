@@ -18,7 +18,7 @@ public class MapImage : MonoBehaviour
 
     public void UpdateMapImage()
     {
-        Sprite newSprite = Resources.Load<Sprite>($"Sprites/Maps/{MapsData.Instance.currentMapId}");
+        Sprite newSprite = Resources.Load<Sprite>($"Sprites/Maps/{MapManager.Instance.currentMapId}");
         mapImage.sprite = newSprite;
     }
 }

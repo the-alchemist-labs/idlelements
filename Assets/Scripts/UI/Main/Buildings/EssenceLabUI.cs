@@ -38,12 +38,12 @@ public class EssenceLabUI : MonoBehaviour
 
     public void UpdateUI()
     {
-        int EssenceLabLevel = MapsData.Instance.currentMapProgression.essenceLabLevel;
+        int EssenceLabLevel = MapManager.Instance.currentMapProgression.essenceLabLevel;
 
         levelText.text = $"{EssenceLabLevel}/{EssenceLab.currentMapEssenceLabSpecs.MaxLevel}";
         levelUpImage?.SetActive(!EssenceLab.IsMaxLevel());
         costText.text = EssenceLab.IsMaxLevel() ? "Max" : $"{TextUtil.NumberFormatter(EssenceLab.GetLevelUpCost())}";
-        levelUpButton.GetComponent<Button>().interactable = !EssenceLab.IsMaxLevel() && ResourcesData.Instance.Gold >= EssenceLab.GetLevelUpCost();
+        levelUpButton.GetComponent<Button>().interactable = !EssenceLab.IsMaxLevel() && Player.Instance.Resources.Gold >= EssenceLab.GetLevelUpCost();
     }
 
     private void ScheduleUpdate()

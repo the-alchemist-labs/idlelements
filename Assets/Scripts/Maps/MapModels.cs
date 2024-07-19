@@ -57,6 +57,57 @@ public class Map
             .SelectMany(e => Enumerable.Repeat(e.elementalId, (int)(e.encounterChance * 100)))
             .ToList();
         int randomIndex = UnityEngine.Random.Range(0, encounterPool.Count);
-        return ElementalsData.Instance.GetElemental(encounterPool[randomIndex]);
+        return ElementalCatalog.Instance.GetElemental(encounterPool[randomIndex]);
+    }
+}
+
+
+[Serializable]
+public class MapProgression
+{
+    public MapId id;
+    public int templeLevel = 1;
+    public int goldMineLevel = 1;
+    public int essenceLabLevel = 1;
+    public bool isUnlocked = false;
+
+    public void TempleLevelUp()
+    {
+        templeLevel++;
+    }
+
+    public void GoldMineLevelUp()
+    {
+        goldMineLevel++;
+    }
+
+    public void EssenceLabLevelUp()
+    {
+        essenceLabLevel++;
+    }
+
+    public void UnlockMap()
+    {
+        isUnlocked = true;
+    }
+}
+
+[Serializable]
+public class MapManagerState
+{
+    public List<MapProgression> progressions { get; set; }
+    public MapId currentMapId { get; set; }
+
+
+   public MapManagerState()
+    {
+        progressions = new List<MapProgression>();
+        currentMapId = MapId.FireWater;
+    }
+
+   public MapManagerState(List<MapProgression> progressions, MapId currentMapId)
+    {
+        this.progressions = progressions;
+        this.currentMapId = currentMapId;
     }
 }

@@ -23,7 +23,7 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
     {
         levelText.text = $"You are level {Player.Instance.Level}!";
         orbsText.text = $"+{Consts.LevelUpOrbsGain}";
-        Map unlockedMap = MapsData.Instance.GetUnlockedMapByLevel(Player.Instance.Level);
+        Map unlockedMap = MapCatalog.Instance.GetUnlockedMapByLevel(Player.Instance.Level);
         mapContainer.gameObject.SetActive(unlockedMap != null);
         mapText.text = $"{unlockedMap.name} unlocked";
         gameObject.GetComponent<AudioSource>().Play();

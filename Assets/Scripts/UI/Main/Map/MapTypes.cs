@@ -21,7 +21,7 @@ public class MapTypes : MonoBehaviour
     {
         typesContainer.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
-        foreach (ElementType typeName in MapsData.Instance.currentMap.mapElementalTypes)
+        foreach (ElementType typeName in MapManager.Instance.currentMap.mapElementalTypes)
         {
             Sprite newType = Resources.Load<Sprite>($"Sprites/Types/{typeName}");
             GameObject newTypeObject = new GameObject();

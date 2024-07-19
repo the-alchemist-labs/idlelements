@@ -75,26 +75,40 @@ public sealed class DataService
         cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Data)));
     }
 
-    public T LoadData<T>(string fileName, bool isPersistent)
+public T LoadData<T>(string fileName, bool isPersistent) where T : class, new()
+{
+    string path = GetPath(fileName, isPersistent);
+
+    if (!File.Exists(path))
     {
-        string path = GetPath(fileName, isPersistent);
+        Debug.LogWarning($"Cannot load file at {path}. File does not exist!");
+        return new T();
+    }
 
-        if (!File.Exists(path))
+    try
+    {
+        if (isEncrypted)
         {
-            Debug.LogError($"Cannot load file at {path}. File does not exist!");
-            return default;
+            return ReadEncryptedData<T>(path);
         }
-
-        try
+        else
         {
-            return isEncrypted ? ReadEncryptedData<T>(path) : JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Failed to load data due to: {e.Message} {e.StackTrace}");
-            return default;
+            string data = File.ReadAllText(path);
+            T result = JsonConvert.DeserializeObject<T>(data);
+            if (result == null)
+            {
+                Debug.LogWarning($"Failed to deserialize data from {path}. Returning new instance.");
+                return new T();
+            }
+            return result;
         }
     }
+    catch (Exception e)
+    {
+        Debug.LogError($"Failed to load data due to: {e.Message} {e.StackTrace}");
+        return new T();
+    }
+}
 
     private T ReadEncryptedData<T>(string Path)
     {

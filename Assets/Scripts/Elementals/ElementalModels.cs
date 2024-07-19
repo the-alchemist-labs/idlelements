@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class Evolution
@@ -59,4 +60,26 @@ public class ElementalEntry
     public ElementalId id;
     public bool isCaught = false;
     public int tokens = 0;
+}
+
+[Serializable]
+public class ElementalManagerState
+{
+    public List<ElementalEntry> entries { get; private set; }
+    public ElementalId lastCaught { get; private set; }
+    public DateTime lastEncounterDate { get; private set; }
+
+    public ElementalManagerState()
+    {
+        entries = new List<ElementalEntry>();
+        lastCaught = ElementalId.None;
+        lastEncounterDate = DateTime.Now;
+    }
+
+    public ElementalManagerState(List<ElementalEntry> entries, ElementalId lastCaught, DateTime lastEncounterDate)
+    {
+        this.entries = entries;
+        this.lastCaught = lastCaught;
+        this.lastEncounterDate = lastEncounterDate;
+    }
 }
