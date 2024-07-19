@@ -1,10 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Linq;
 
 public class FriendRequestReceivedResponse
 {
     public PlayerInfo from;
+}
+
+public class FriendOnlineStatusResponse
+{
+    public string playerId;
+    public bool isOnline;
 }
 
 public class Friends
@@ -29,6 +36,7 @@ public class Friends
         FriendsList = await FriendsApi.GetFriends();
 
         SocketIO.Instance.RegisterEvent<FriendRequestReceivedResponse>(SocketEventName.FriendRequestReceived, OnFriendRequestReceived);
+        SocketIO.Instance.RegisterEvent<FriendOnlineStatusResponse>(SocketEventName.FriendOnlineStatus, OnFriendOnlineStatus);
         SocketIO.Instance.RegisterEvent(SocketEventName.FriendRequestaccepted, OnFriendRequestAccepted);
 
     }
@@ -46,6 +54,12 @@ public class Friends
     private async void OnFriendRequestAccepted()
     {
         FriendsList = await FriendsApi.GetFriends();
+        GameEvents.FriendsUpdated();
+    }
+
+    private void OnFriendOnlineStatus(FriendOnlineStatusResponse response)
+    {
+        FriendsList.Where(f => f.id == response.playerId).ToList().ForEach(f => f.isOnline = response.isOnline);
         GameEvents.FriendsUpdated();
     }
 

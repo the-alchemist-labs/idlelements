@@ -10,8 +10,10 @@ public class PlayerInfo
     public int level;
     public int elementalsCaught;
     public Party party;
+    public bool isOnline;
 
-    public PlayerInfo(string id, string friendCode, string name, int level, int elementalsCaught, Party party)
+
+    public PlayerInfo(string id, string friendCode, string name, int level, int elementalsCaught, Party party, bool isOnline)
     {
         this.id = id;
         this.friendCode = friendCode;
@@ -19,6 +21,7 @@ public class PlayerInfo
         this.level = level;
         this.elementalsCaught = elementalsCaught;
         this.party = party;
+        this.isOnline = isOnline;
     }
 }
 

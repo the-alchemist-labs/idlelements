@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public string Name { get; private set; }
     public int Level { get; private set; }
     public int Experience { get; private set; }
+    public bool IsOnline { get; private set; }
 
     public Party Party { get; private set; }
     public PlayerResources Resources { get; private set; }
@@ -42,11 +43,12 @@ public class Player : MonoBehaviour
         Id = playerInfo.id;
         FriendCode = playerInfo.friendCode;
         Name = playerInfo.name;
+        IsOnline = playerInfo.isOnline;
+        
         Level = state.Level;
         Experience = state.Experience;
         Party = state.Party;
         Resources = state.Resources;
-        
         gameObject.AddComponent<SocketIO>();
 
         Friends = await Friends.CreateAsync();
@@ -124,7 +126,8 @@ public class Player : MonoBehaviour
             Name,
             Level,
             ElementalManager.Instance.elementalCaught,
-            Instance.Party
+            Instance.Party,
+            IsOnline
         );
     }
 }

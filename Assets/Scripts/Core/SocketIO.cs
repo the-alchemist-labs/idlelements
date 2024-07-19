@@ -10,6 +10,7 @@ public static class SocketEventName
 {
     public const string FriendRequestaccepted = "friend_request_accepted";
     public const string FriendRequestReceived = "friend_request_received";
+    public const string FriendOnlineStatus = "friend_online_status";
 }
 
 public class SocketIO : MonoBehaviour
