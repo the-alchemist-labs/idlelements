@@ -5,7 +5,6 @@ public class GameManager : MonoBehaviour
 {
     public GameObject afkGainsPanel;
     public GameObject playerInfoPanel;
-    public GameState state { get; private set; }
 
     private static GameManager instance;
 
@@ -36,7 +35,6 @@ public class GameManager : MonoBehaviour
         QualitySettings.vSyncCount = 0;
 
         StartCoroutine(StartGame());
-
     }
 
     void OnDestroy()

@@ -9,12 +9,12 @@ public class FriendCode : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnFriendsUpdated += SetFriendCode;
+        GameEvents.OnPlayerInitialized += SetFriendCode;
     }
 
     void OnDestroy()
     {
-        GameEvents.OnFriendsUpdated -= SetFriendCode;
+        GameEvents.OnPlayerInitialized -= SetFriendCode;
     }
 
     public async void SendFriendRequest()
