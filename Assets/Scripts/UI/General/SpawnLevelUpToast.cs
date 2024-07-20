@@ -12,7 +12,7 @@ public class SpawnLevelUpToast : MonoBehaviour
 
     void OnDestroy()
     {
-        GameEvents.OnTriggerElementalToast -= DisplayToast;
+        GameEvents.OnLevelUp -= DisplayToast;
     }
 
     void DisplayToast()
@@ -24,6 +24,6 @@ public class SpawnLevelUpToast : MonoBehaviour
         newPosition.x -= prefabRectTransform.rect.width;
 
         GameObject toast = Instantiate(toastPrefub, newPosition, Quaternion.identity, transform.parent);
-        toast.GetComponent<CatchToastPrefab>()?.DisplayToast(ElementalCatalog.Instance.GetElemental(ElementalManager.Instance.lastCaught));
+        toast.GetComponent<LevelUpToastPrefab>()?.DisplayToast();
     }
 }
