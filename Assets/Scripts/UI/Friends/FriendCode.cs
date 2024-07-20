@@ -10,6 +10,7 @@ public class FriendCode : MonoBehaviour
     void Start()
     {
         GameEvents.OnPlayerInitialized += SetFriendCode;
+         friendCodeText.text = $"#{Player.Instance.FriendCode}";
     }
 
     void OnDestroy()

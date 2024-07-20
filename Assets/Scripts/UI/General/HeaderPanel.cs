@@ -37,7 +37,7 @@ public class HeaderBannerManager : MonoBehaviour
 
     public void OpenPlayerPanel()
     {
-        GameManager gameManger = GameObject.FindGameObjectWithTag(Tags.GameManager).GetComponent<GameManager>();
+        MainManager gameManger = GameObject.FindGameObjectWithTag(Tags.MainManager).GetComponent<MainManager>();
         gameManger.playerInfoPanel?.SetActive(true);
         gameManger.playerInfoPanel?.GetComponent<PlayerInfoPanel>().Init(Player.Instance.GetPlayerInfo());
     }

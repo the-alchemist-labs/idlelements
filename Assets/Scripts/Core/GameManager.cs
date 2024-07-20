@@ -1,11 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject afkGainsPanel;
-    public GameObject playerInfoPanel;
-
     private static GameManager instance;
 
     void Awake()
@@ -34,24 +32,25 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 120;
         QualitySettings.vSyncCount = 0;
 
-        StartCoroutine(StartGame());
+        GameEvents.OnPlayerInitialized += StartGame;
     }
 
     void OnDestroy()
     {
+        GameEvents.OnPlayerInitialized -= StartGame;
         Save();
     }
 
-    IEnumerator StartGame()
+    void StartGame()
     {
-        while (!IsReady())
-        {
-            yield return null;
-        }
-
-        afkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
-        StartCoroutine(Temple.StartRoutine());
         StartCoroutine(Backup());
+        SceneManager.LoadScene(SceneNames.Main);
+    }
+
+    private IEnumerator Backup()
+    {
+        Save();
+        yield return new WaitForSeconds(5);
     }
 
     private void Save()
@@ -77,17 +76,4 @@ public class GameManager : MonoBehaviour
         DataService.Instance.SaveData(FileName.PlayerState, true, ps);
     }
 
-    private IEnumerator Backup()
-    {
-        Save();
-        yield return new WaitForSeconds(1);
-    }
-
-    public bool IsReady()
-    {
-        return
-            Player.Instance.Id != null 
-            && ElementalManager.Instance?.lastEncounterDate.Year != 1
-            && Player.Instance.Party != null;
-    }
 }

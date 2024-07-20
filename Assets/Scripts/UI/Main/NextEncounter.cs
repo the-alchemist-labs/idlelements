@@ -25,7 +25,7 @@ public class NextEncounter : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager gameManger = GameObject.FindGameObjectWithTag(Tags.GameManager).GetComponent<GameManager>();
+        MainManager gameManger = GameObject.FindGameObjectWithTag(Tags.MainManager).GetComponent<MainManager>();
         if (gameManger.IsReady())
         {
             StartSliderUpdate();
