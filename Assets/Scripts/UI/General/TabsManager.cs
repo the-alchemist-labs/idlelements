@@ -6,7 +6,7 @@ public class TabManager : MonoBehaviour
     public Button[] buttons;
     public GameObject[] panels;
 
-    private int currentTabIndex = 4;
+    private int currentTabIndex = 2;
     private int lastTabIndex = 0;
 
     void Start()

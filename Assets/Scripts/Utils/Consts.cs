@@ -18,6 +18,7 @@ public static class Tags
 public static class PlayerPrefKeys
 {
     public const string BGM_Volume = "BGM_Volume";
+    public const string SFX_Volume = "SFX_Volume";
 }
 
 public static class Consts

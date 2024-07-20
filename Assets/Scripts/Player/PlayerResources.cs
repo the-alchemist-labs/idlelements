@@ -8,7 +8,7 @@ public class PlayerResources
     public int Gold { get; private set; }
     public int Orbs { get; private set; }
 
-    public PlayerResources(int Essence = 0, int Gold = 0, int Orbs = 0)
+    public PlayerResources(int Essence = 20000, int Gold = 20000, int Orbs = 0)
     {
         this.Essence = Essence;
         this.Gold = Gold;

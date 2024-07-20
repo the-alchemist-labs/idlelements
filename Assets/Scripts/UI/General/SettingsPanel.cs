@@ -3,20 +3,16 @@ using UnityEngine.UI;
 
 public class SettingsPanel : MonoBehaviour
 {
-    public AudioSource bgmAudio;
-    public Slider bgmSlider;
+    public Slider BGMSlider;
+    public Slider SFXSlider;
 
     void Start()
     {
-        float savedVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.BGM_Volume, 0.5f);
-        bgmSlider.value = savedVolume;
-        bgmSlider.onValueChanged.AddListener(SetVolume);
-    }
+        BGMSlider.value = SoundManager.Instance.BGMVolume;
+        BGMSlider.onValueChanged.AddListener(SoundManager.Instance.UpdateBGMVolume);
 
-    public void SetVolume(float volume)
-    {
-        bgmAudio.volume = volume;
-        PlayerPrefs.SetFloat(PlayerPrefKeys.BGM_Volume, volume);
+        SFXSlider.value = SoundManager.Instance.SFXVolume;
+        SFXSlider.onValueChanged.AddListener(SoundManager.Instance.UpdateSFXVolume);
     }
 
     public void OpenDiscord()
