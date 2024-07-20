@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 [Serializable]
 public class Evolution
@@ -76,6 +77,7 @@ public class ElementalManagerState
         lastEncounterDate = DateTime.Now;
     }
 
+    [JsonConstructor]
     public ElementalManagerState(List<ElementalEntry> entries, ElementalId lastCaught, DateTime lastEncounterDate)
     {
         this.entries = entries;
