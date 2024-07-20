@@ -17,14 +17,14 @@ public class TempleUI : MonoBehaviour
 
         GameEvents.OnMapDataChanged += ScheduleUpdate;
         GameEvents.OnGoldUpdated += ScheduleUpdate;
-
-        UpdateUI();
+        GameEvents.OnPlayerInitialized += UpdateUI;
     }
 
     void OnDestroy()
     {
         GameEvents.OnMapDataChanged -= ScheduleUpdate;
         GameEvents.OnGoldUpdated -= ScheduleUpdate;
+        GameEvents.OnPlayerInitialized -= UpdateUI;
     }
 
     public void LevelUp()

@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class CatchToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -13,6 +14,7 @@ public class CatchToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public TMP_Text expText;
     public TMP_Text orbsText;
     public GameObject orbsPanel;
+    public AudioSource newCatchSound;
 
     private Animator animator;
 
@@ -35,7 +37,7 @@ public class CatchToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
         if (isNew)
         {
-            gameObject.GetComponent<AudioSource>()?.Play();
+            SoundManager.Instance.PlaySFXFromPrefab(newCatchSound);
             orbsText.text = TextUtil.NumberFormatter(elemental.orbsGain);
         }
         else

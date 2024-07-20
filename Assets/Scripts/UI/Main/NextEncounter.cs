@@ -16,16 +16,20 @@ public class NextEncounter : MonoBehaviour
 
     void Start()
     {
-        sliderCoroutine = StartCoroutine(UpdateReactiveData());
         GameEvents.OnMapDataChanged += UpdateBoostText;
         GameEvents.OnIdleGainsChanged += UpdateBoostText;
         GameEvents.OnEssenceUpdated += UpdateBoostButton;
+        GameEvents.OnPlayerInitialized += StartSliderUpdate;
         UpdateBoostText();
     }
 
     void OnEnable()
     {
-        sliderCoroutine = StartCoroutine(UpdateReactiveData());
+        GameManager gameManger = GameObject.FindGameObjectWithTag(Tags.GameManager).GetComponent<GameManager>();
+        if (gameManger.IsReady())
+        {
+            StartSliderUpdate();
+        }
     }
 
     void OnDisable()
@@ -35,11 +39,19 @@ public class NextEncounter : MonoBehaviour
             StopCoroutine(sliderCoroutine);
         }
     }
+
     void OnDestroy()
     {
         GameEvents.OnMapDataChanged -= UpdateBoostText;
         GameEvents.OnIdleGainsChanged -= UpdateBoostText;
         GameEvents.OnEssenceUpdated -= UpdateBoostButton;
+        GameEvents.OnPlayerInitialized -= StartSliderUpdate;
+    }
+
+    void StartSliderUpdate()
+    {
+        sliderCoroutine = StartCoroutine(UpdateReactiveData());
+
     }
 
     IEnumerator UpdateReactiveData()

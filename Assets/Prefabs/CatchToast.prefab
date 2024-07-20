@@ -691,6 +691,7 @@ MonoBehaviour:
   expText: {fileID: 7181824810842101423}
   orbsText: {fileID: 5394310779734287463}
   orbsPanel: {fileID: 6770955574653351535}
+  newCatchSound: {fileID: 789501702884689949}
 --- !u!95 &4824281094863281910
 Animator:
   serializedVersion: 5

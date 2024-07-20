@@ -858,6 +858,7 @@ MonoBehaviour:
   orbsText: {fileID: 5394310779734287463}
   mapContainer: {fileID: 8886022383509762528}
   mapText: {fileID: 3832797807146084882}
+  levelUpsound: {fileID: 789501702884689949}
 --- !u!1 &6770955574653351535
 GameObject:
   m_ObjectHideFlags: 0

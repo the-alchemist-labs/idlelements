@@ -31,7 +31,7 @@ public class MapOption : MonoBehaviour
         if (Player.Instance.Level >= MapCatalog.Instance.GetMap(mapId).requiredLevel)
         {
             MapManager.Instance.UpdateCurrentMap(mapId);
-            selectMapSound.Play();
+            SoundManager.Instance.PlaySFXFromPrefab(selectMapSound);
             allMapsPanel.SetActive(false);
         }
     }

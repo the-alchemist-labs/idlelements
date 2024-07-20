@@ -745,18 +745,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5370368523168875239}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!82 &5370368523168875239
 AudioSource:
   m_ObjectHideFlags: 0
@@ -767,7 +755,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 23ac557f34171384c9c15e95d79fc87d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2d1beb48f79ddd24e84bfe2d94b64da9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -916,6 +904,7 @@ MonoBehaviour:
   tokensText: {fileID: 1443021474764871745}
   idleBonusText: {fileID: 692372917968024643}
   evolveButtonInfo: {fileID: 8182034376862520793}
+  evolveInfoBtnSound: {fileID: 5370368523168875239}
 --- !u!222 &1017260839905651799
 CanvasRenderer:
   m_ObjectHideFlags: 0

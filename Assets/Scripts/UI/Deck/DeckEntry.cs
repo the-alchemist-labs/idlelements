@@ -11,6 +11,7 @@ public class DeckEntry : MonoBehaviour
     public TMP_Text tokensText;
     public TMP_Text idleBonusText;
     public Button evolveButtonInfo;
+    public AudioSource evolveInfoBtnSound;
 
     private Elemental elemental;
     private EvolvePanel evolvePanel;
@@ -42,6 +43,7 @@ public class DeckEntry : MonoBehaviour
 
     public void EvolveInfoClicked()
     {
+        SoundManager.Instance.PlaySFXFromPrefab(evolveInfoBtnSound);
         evolvePanel.DisplayPanel(elemental);
     }
 

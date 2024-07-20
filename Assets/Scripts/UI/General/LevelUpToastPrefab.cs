@@ -11,6 +11,7 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
     public GameObject mapContainer;
     public TMP_Text mapText;
 
+    public AudioSource levelUpsound;
     private Animator animator;
 
     void Start()
@@ -26,7 +27,8 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
         Map unlockedMap = MapCatalog.Instance.GetUnlockedMapByLevel(Player.Instance.Level);
         mapContainer.gameObject.SetActive(unlockedMap != null);
         mapText.text = $"{unlockedMap.name} unlocked";
-        gameObject.GetComponent<AudioSource>().Play();
+
+        SoundManager.Instance.PlaySFXFromPrefab(levelUpsound);
     }
 
     public void DestroySelf()

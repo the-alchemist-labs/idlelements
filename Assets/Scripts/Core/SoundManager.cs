@@ -8,8 +8,6 @@ enum SoundGroup
 
 public class SoundManager : MonoBehaviour
 {
-
-
     public static SoundManager Instance;
 
     public float SFXVolume;
@@ -37,6 +35,11 @@ public class SoundManager : MonoBehaviour
         ChangeAudioSounds(SoundGroup.BGM, BGMVolume);
     }
 
+    public void PlaySFXFromPrefab(AudioSource sound)
+    {
+        sound.volume = SFXVolume;
+        sound.Play();
+    }
 
     public void UpdateSFXVolume(float volume)
     {
@@ -53,7 +56,7 @@ public class SoundManager : MonoBehaviour
     private void ChangeAudioSounds(SoundGroup soundGroup, float volume)
     {
         GameObject childObject = transform.Find(soundGroup.ToString()).gameObject;
-        
+
         foreach (Transform child in childObject.transform)
         {
             child.GetComponent<AudioSource>().volume = volume;

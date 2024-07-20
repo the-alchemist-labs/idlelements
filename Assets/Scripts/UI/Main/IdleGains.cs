@@ -16,14 +16,14 @@ public class IdleGains : MonoBehaviour
     {
         GameEvents.OnIdleGainsChanged += UpdateIdleGains;
         GameEvents.OnPartyUpdated += UpdateIdleGains;
-
-        UpdateIdleGains();
+        GameEvents.OnPlayerInitialized += UpdateIdleGains;
     }
 
     void OnDestroy()
     {
         GameEvents.OnMapDataChanged -= UpdateIdleGains;
         GameEvents.OnPartyUpdated -= UpdateIdleGains;
+        GameEvents.OnPlayerInitialized -= UpdateIdleGains;
     }
 
     public void UpdateIdleGains()
