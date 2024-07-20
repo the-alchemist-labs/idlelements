@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainManager : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class MainManager : MonoBehaviour
 
     void Awake()
     {
+        if (Player.Instance == null)
+        {
+            SceneManager.LoadScene(SceneNames.Loading);
+            return;
+        }
+
         if (instance == null)
         {
             instance = this;

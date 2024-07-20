@@ -32,7 +32,7 @@ public static class Consts
 
 public static class SceneNames
 {
-    public const string Loading = "Loading";
+    public const string Loading = "LoadingScene";
     public const string Main = "MainScene";
 }
 
