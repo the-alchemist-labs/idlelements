@@ -19,17 +19,12 @@ public class NextEncounter : MonoBehaviour
         GameEvents.OnMapDataChanged += UpdateBoostText;
         GameEvents.OnIdleGainsChanged += UpdateBoostText;
         GameEvents.OnEssenceUpdated += UpdateBoostButton;
-        GameEvents.OnPlayerInitialized += StartSliderUpdate;
         UpdateBoostText();
     }
 
     void OnEnable()
     {
-        MainManager gameManger = GameObject.FindGameObjectWithTag(Tags.MainManager).GetComponent<MainManager>();
-        if (gameManger.IsReady())
-        {
-            StartSliderUpdate();
-        }
+        StartSliderUpdate();
     }
 
     void OnDisable()
@@ -45,7 +40,6 @@ public class NextEncounter : MonoBehaviour
         GameEvents.OnMapDataChanged -= UpdateBoostText;
         GameEvents.OnIdleGainsChanged -= UpdateBoostText;
         GameEvents.OnEssenceUpdated -= UpdateBoostButton;
-        GameEvents.OnPlayerInitialized -= StartSliderUpdate;
     }
 
     void StartSliderUpdate()

@@ -9,13 +9,7 @@ public class FriendCode : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnPlayerInitialized += SetFriendCode;
          friendCodeText.text = $"#{Player.Instance.FriendCode}";
-    }
-
-    void OnDestroy()
-    {
-        GameEvents.OnPlayerInitialized -= SetFriendCode;
     }
 
     public async void SendFriendRequest()
@@ -23,10 +17,5 @@ public class FriendCode : MonoBehaviour
         StatusResponse res = await Player.Instance.Friends.SendFriendRequest(friendCodeInput.text);
         requestResultPanel.SetActive(true);
         requestResultPanel.GetComponent<RequestResultPanel>().Init(res);
-    }
-
-    private void SetFriendCode()
-    {
-        friendCodeText.text = $"#{Player.Instance.FriendCode}";
     }
 }

@@ -11,13 +11,12 @@ public class FriendsScrollView : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnPlayerInitialized += RenderPendingRequestList;
         GameEvents.OnFriendsUpdated += RenderPendingRequestList;
+        RenderPendingRequestList();
     }
 
     void OnDestroy()
     {
-        GameEvents.OnPlayerInitialized -= RenderPendingRequestList;
         GameEvents.OnFriendsUpdated -= RenderPendingRequestList;
     }
 

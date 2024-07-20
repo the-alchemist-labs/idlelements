@@ -10,15 +10,13 @@ public class PartyUI : MonoBehaviour
     void Start()
     {
         GameEvents.OnPartyUpdated += UpdateUI;
-        GameEvents.OnPlayerInitialized += UpdateUI;
+        UpdateUI();
     }
 
 
     void OnDestroy()
     {
         GameEvents.OnPartyUpdated -= UpdateUI;
-        GameEvents.OnPlayerInitialized -= UpdateUI;
-
     }
 
     void UpdateUI()

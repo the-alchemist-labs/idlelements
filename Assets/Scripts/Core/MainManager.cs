@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class MainManager : MonoBehaviour
@@ -25,13 +24,5 @@ public class MainManager : MonoBehaviour
     {
         afkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
         StartCoroutine(Temple.StartRoutine());
-    }
-
-    public bool IsReady()
-    {
-        return
-            Player.Instance.Id != null 
-            && ElementalManager.Instance?.lastEncounterDate.Year != 1
-            && Player.Instance.Party != null;
     }
 }

@@ -17,14 +17,13 @@ public class EssenceLabUI : MonoBehaviour
 
         GameEvents.OnMapDataChanged += ScheduleUpdate;
         GameEvents.OnGoldUpdated += ScheduleUpdate;
-        GameEvents.OnPlayerInitialized += UpdateUI;
+        UpdateUI();
     }
 
     void OnDestroy()
     {
         GameEvents.OnMapDataChanged -= ScheduleUpdate;
         GameEvents.OnGoldUpdated -= ScheduleUpdate;
-        GameEvents.OnPlayerInitialized -= UpdateUI;
     }
 
     public void LevelUp()

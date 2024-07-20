@@ -14,19 +14,18 @@ public class IdleGains : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnIdleGainsChanged += UpdateIdleGains;
-        GameEvents.OnPartyUpdated += UpdateIdleGains;
-        GameEvents.OnPlayerInitialized += UpdateIdleGains;
+        GameEvents.OnIdleGainsChanged += UpdateUI;
+        GameEvents.OnPartyUpdated += UpdateUI;
+        UpdateUI();
     }
 
     void OnDestroy()
     {
-        GameEvents.OnMapDataChanged -= UpdateIdleGains;
-        GameEvents.OnPartyUpdated -= UpdateIdleGains;
-        GameEvents.OnPlayerInitialized -= UpdateIdleGains;
+        GameEvents.OnMapDataChanged -= UpdateUI;
+        GameEvents.OnPartyUpdated -= UpdateUI;
     }
 
-    public void UpdateIdleGains()
+    public void UpdateUI()
     {
         float goldPartyBonusMultiplier = Player.Instance.Party.GetPartyBonusMultipier(BonusResource.Gold);
         int goldGains = GoldMine.GetTotalGoldGains();
