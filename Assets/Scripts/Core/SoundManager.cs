@@ -31,7 +31,7 @@ public class SoundManager : MonoBehaviour
         SFXVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.SFX_Volume, 0.5f);
         BGMVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.BGM_Volume, 0.5f);
 
-        ChangeAudioSounds(SoundGroup.SFX, SFXVolume);
+        // ChangeAudioSounds(SoundGroup.SFX, SFXVolume);
         ChangeAudioSounds(SoundGroup.BGM, BGMVolume);
     }
 

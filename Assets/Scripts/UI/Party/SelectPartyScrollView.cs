@@ -50,7 +50,7 @@ public class SelectPartyScrollView : MonoBehaviour
     public void OnMemberSelected()
     {
         Player.Instance.Party.SetPartyMember(memberSlot, selectedElemental);
-        selectSound.Play();
+        SoundManager.Instance.PlaySFXFromPrefab(selectSound);
         panel.SetActive(false);
     }
 
