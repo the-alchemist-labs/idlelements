@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public Party Party { get; private set; }
     public PlayerResources Resources { get; private set; }
     public Friends Friends { get; private set; }
+    public Inventory Inventory { get; private set; }
 
     async void Awake()
     {
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
         Experience = state.Experience;
         Party = state.Party;
         Resources = state.Resources;
+        Inventory = state.Inventory;
         gameObject.AddComponent<SocketIO>();
 
         Friends = await Friends.CreateAsync();

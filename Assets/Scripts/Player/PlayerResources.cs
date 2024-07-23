@@ -1,7 +1,3 @@
-
-using Newtonsoft.Json;
-using Unity.VisualScripting;
-
 public class PlayerResources
 {
     public int Essence { get; private set; }

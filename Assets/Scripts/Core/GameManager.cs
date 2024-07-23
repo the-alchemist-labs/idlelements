@@ -67,8 +67,9 @@ public class GameManager : MonoBehaviour
         PlayerState ps = new PlayerState(
             p.Level,
             p.Experience,
-            new Party(p.Party.First, p.Party.Second, p.Party.Third),
-            new PlayerResources(p.Resources.Essence, p.Resources.Gold, p.Resources.Orbs)
+            Player.Instance.Party,
+            Player.Instance.Resources,
+            Player.Instance.Inventory
         );
 
         DataService.Instance.SaveData(FileName.ElementalManagerState, true, ems);
