@@ -21,14 +21,14 @@ public class PartyUI : MonoBehaviour
 
     void UpdateUI()
     {
-        for (int i = 0; i < Player.Instance.Party.MaxSize; i++)
-        {
-            Sprite sprite = (Player.Instance.Party.GetPartyMember(i) != ElementalId.None)
-                ? Resources.Load<Sprite>($"Sprites/Elementals/{Player.Instance.Party.GetPartyMember(i)}")
-                : Resources.Load<Sprite>($"Sprites/UI/add");
+        // for (int i = 0; i < Player.Instance.Party.MaxSize; i++)
+        // {
+        //     Sprite sprite = (Player.Instance.Party.GetPartyMember(i) != ElementalId.None)
+        //         ? Resources.Load<Sprite>($"Sprites/Elementals/{Player.Instance.Party.GetPartyMember(i)}")
+        //         : Resources.Load<Sprite>($"Sprites/UI/add");
 
-            partyImages[i].sprite = sprite;
-        }
+        //     partyImages[i].sprite = sprite;
+        // }
     }
 
     public void OpenSelectMemberPanel(int slot)

@@ -1,0 +1,16 @@
+{
+    "Balls": [
+        {
+            "Id": "Normal",
+            "Name": "Basic Ball",
+            "Description": "It's A basic ball.",
+            "CatchRate": 0.65
+        },
+        {
+            "Id": "Master",
+            "Name": "Master Ball",
+            "Description": "It's A Master ball.",
+            "CatchRate": 1
+        }
+    ]
+}

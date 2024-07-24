@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Analytics;
 
 public static class GameEvents
@@ -9,7 +8,6 @@ public static class GameEvents
     public static event Action OnMapDataChanged;
     public static event Action OnIdleGainsChanged;
     public static event Action OnElementalCaught;
-    public static event Action OnTriggerElementalToast;
     public static event Action OnGoldUpdated;
     public static event Action OnEssenceUpdated;
     public static event Action OnLevelUp;
@@ -17,6 +15,8 @@ public static class GameEvents
     public static event Action OnPartyUpdated;
     public static event Action OnFriendsUpdated;
     public static event Action OnPlayerInitialized;
+    public static event Action OnBallsUpdated;
+    public static event Action OnBallSelected;
 
     public static void SocketConnected()
     {
@@ -37,11 +37,6 @@ public static class GameEvents
     {
         OnElementalCaught?.Invoke();
 
-    }
-
-    public static void TriggerElementalToast()
-    {
-        OnTriggerElementalToast?.Invoke();
     }
 
     public static void GoldUpdated()
@@ -78,5 +73,15 @@ public static class GameEvents
     public static void PlayerInitialized()
     {
         OnPlayerInitialized?.Invoke();
+    }
+
+    public static void BallsUpdated()
+    {
+        OnBallsUpdated?.Invoke();
+    }
+
+    public static void BallSelected()
+    {
+        OnBallSelected?.Invoke();
     }
 }

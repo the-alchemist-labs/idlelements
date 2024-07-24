@@ -26,7 +26,6 @@ public class Map
     public int catchesToComplete { get; }
     public BuildingSpecs goldMineSpecs { get; }
     public BuildingSpecs essenceLabSpecs { get; }
-    public TempleSpecs templeSpecs { get; }
 
     public Map(
         MapId id,
@@ -36,8 +35,7 @@ public class Map
         int catchesToComplete,
         ElementType[] mapElementalTypes,
         BuildingSpecs goldMineSpecs,
-        BuildingSpecs essenceLabSpecs,
-        TempleSpecs templeSpecs
+        BuildingSpecs essenceLabSpecs
         )
     {
         this.id = id;
@@ -48,16 +46,15 @@ public class Map
         this.catchesToComplete = catchesToComplete;
         this.goldMineSpecs = goldMineSpecs;
         this.essenceLabSpecs = essenceLabSpecs;
-        this.templeSpecs = templeSpecs;
     }
 
-    public Elemental GetEncounter()
+    public ElementalId GetEncounter()
     {
         List<ElementalId> encounterPool = elementalEncounters
             .SelectMany(e => Enumerable.Repeat(e.elementalId, (int)(e.encounterChance * 100)))
             .ToList();
         int randomIndex = UnityEngine.Random.Range(0, encounterPool.Count);
-        return ElementalCatalog.Instance.GetElemental(encounterPool[randomIndex]);
+        return encounterPool[randomIndex];
     }
 }
 

@@ -7,8 +7,7 @@ public class ElementalManager : MonoBehaviour
 {
     public static ElementalManager Instance { get; private set; }
     public List<ElementalEntry> entries { get; private set; }
-    public ElementalId lastCaught { get; private set; }
-    public DateTime lastEncounterDate { get; private set; }
+    public Encounter lastEncounter { get; private set; }
     public int elementalCaught { get { return entries.Count(entry => entry.isCaught); } }
 
     private void Awake()
@@ -29,8 +28,7 @@ public class ElementalManager : MonoBehaviour
         ElementalManagerState state = DataService.Instance.LoadData<ElementalManagerState>(FileName.ElementalManagerState, true);
 
         entries = state.entries;
-        lastCaught = state.lastCaught;
-        lastEncounterDate = state.lastEncounterDate;
+        lastEncounter = state.lastEncounter;
     }
 
     public ElementalEntry GetElementalEntry(ElementalId id)
@@ -75,7 +73,6 @@ public class ElementalManager : MonoBehaviour
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
 
-        Temple.ElementalCaught(elemental.evolution.evolveTo, false);
         UpdateElementalTokens(id, -elemental.evolution.tokensCost);
         Player.Instance.Resources.UpdateEssence(-elemental.evolution.essenceCost);
         UpdateElementalTokens(elemental.evolution.evolveTo, 1);
@@ -84,20 +81,20 @@ public class ElementalManager : MonoBehaviour
         GameEvents.TokensUpdated();
     }
 
-    public void UpdateElementalCaught(ElementalId elementalId, bool isNaturalEncounter = true)
+    public void UpdatelastEncounter(Encounter encounter)
     {
-        lastCaught = elementalId;
-        GameEvents.ElementalCaught();
-
-        if (isNaturalEncounter)
-        {
-            UpdatelastEncounterDate(DateTime.Now);
-            GameEvents.TriggerElementalToast();
-        }
+        lastEncounter = encounter;
     }
 
-    public void UpdatelastEncounterDate(DateTime date)
+    public bool CatchElemental(Elemental elemental, Ball ball)
     {
-        lastEncounterDate = date;
+        float bonusCatchRate = 0.1f;
+        float totalCatchRate = elemental.catchRate * ball.CatchRate + bonusCatchRate;
+        float randomValue = UnityEngine.Random.Range(0f, 1f);
+        bool isCaught = totalCatchRate >= randomValue;
+
+        if (isCaught) GameEvents.ElementalCaught();
+
+        return isCaught;
     }
 }
