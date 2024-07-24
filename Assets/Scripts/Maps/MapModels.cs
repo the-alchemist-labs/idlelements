@@ -48,7 +48,7 @@ public class Map
         this.essenceLabSpecs = essenceLabSpecs;
     }
 
-    public ElementalId GetEncounter()
+    public ElementalId GetElementalEncounter()
     {
         List<ElementalId> encounterPool = elementalEncounters
             .SelectMany(e => Enumerable.Repeat(e.elementalId, (int)(e.encounterChance * 100)))

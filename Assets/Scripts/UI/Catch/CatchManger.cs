@@ -18,7 +18,14 @@ public class CatchManager : MonoBehaviour
         GameEvents.OnBallSelected += UpdateSelectedBall;
         BallId selectedBallId = (BallId)PlayerPrefs.GetInt(PlayerPrefKeys.SELECTED_BALL, (int)BallId.Normal);
         selectedBall = InventoryCatalog.Instance.GetBall(selectedBallId);
-        encounter = ElementalManager.Instance.lastEncounter;
+        encounter = ElementalManager.Instance.lastEncounter ?? new Encounter();
+
+        if (encounter.EncounterId == ElementalId.None)
+        {
+            GetNewEncounter();
+            return;
+        }
+
         elementalEncounter = ElementalCatalog.Instance.GetElemental(encounter.EncounterId);
         encounterPanel.UpdateUI(elementalEncounter);
     }
@@ -38,13 +45,12 @@ public class CatchManager : MonoBehaviour
 
     public void GetNewEncounter()
     {
-        ElementalId elementalId = MapManager.Instance.currentMap.GetEncounter();
+        ElementalId elementalId = MapManager.Instance.currentMap.GetElementalEncounter();
         encounter.SetNewEncounter(elementalId);
+        elementalEncounter = ElementalCatalog.Instance.GetElemental(encounter.EncounterId);
         ElementalManager.Instance.UpdatelastEncounter(encounter);
-
         throwButton.interactable = encounter.HasRemainingTries();
         encounterPanel.UpdateUI(elementalEncounter);
-        Debug.Log(elementalId);
     }
 
     public void ThrowBall()
