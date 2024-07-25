@@ -86,8 +86,11 @@ public class ElementalManager : MonoBehaviour
         lastEncounter = encounter;
     }
 
-    public bool CatchElemental(Elemental elemental, Ball ball)
+    public bool CatchElemental(ElementalId elementalId, BallId ballId)
     {
+        Elemental elemental = ElementalCatalog.Instance.GetElemental(elementalId);
+        Ball ball = InventoryCatalog.Instance.GetBall(ballId);
+
         float bonusCatchRate = 0.1f;
         float totalCatchRate = elemental.catchRate * ball.CatchRate + bonusCatchRate;
         float randomValue = UnityEngine.Random.Range(0f, 1f);

@@ -4,20 +4,19 @@ using UnityEngine.UI;
 
 public class CatchManager : MonoBehaviour
 {
-
     [SerializeField] ElementalEncounterPanel encounterPanel;
     [SerializeField] BallsScrollView balls;
     [SerializeField] Button throwButton;
 
     private Encounter encounter;
-    private Elemental elementalEncounter;
-    private Ball selectedBall;
+    private BallId selectedBallId;
 
     void Start()
     {
         GameEvents.OnBallSelected += UpdateSelectedBall;
-        BallId selectedBallId = (BallId)PlayerPrefs.GetInt(PlayerPrefKeys.SELECTED_BALL, (int)BallId.Normal);
-        selectedBall = InventoryCatalog.Instance.GetBall(selectedBallId);
+        GameEvents.OnEncounterUpdated += OnEncouterUpdated;
+
+        selectedBallId = (BallId)PlayerPrefs.GetInt(PlayerPrefKeys.SELECTED_BALL, (int)BallId.Normal);
         encounter = ElementalManager.Instance.lastEncounter ?? new Encounter();
 
         if (encounter.EncounterId == ElementalId.None)
@@ -26,61 +25,58 @@ public class CatchManager : MonoBehaviour
             return;
         }
 
-        elementalEncounter = ElementalCatalog.Instance.GetElemental(encounter.EncounterId);
-        encounterPanel.UpdateUI(elementalEncounter);
+        GameEvents.EncounterUpdated();
     }
 
     void OnDestroy()
     {
         GameEvents.OnBallSelected -= UpdateSelectedBall;
-    }
-
-    private void UpdateSelectedBall()
-    {
-        selectedBall = InventoryCatalog.Instance.GetBall(balls.selectedBall);
-        throwButton.GetComponentInChildren<TMP_Text>().text = $"Catch {selectedBall.CatchRate * 100}%";
-        PlayerPrefs.SetInt(PlayerPrefKeys.SELECTED_BALL, (int)selectedBall.Id);
-    }
-
-
-    public void GetNewEncounter()
-    {
-        ElementalId elementalId = MapManager.Instance.currentMap.GetElementalEncounter();
-        encounter.SetNewEncounter(elementalId);
-        elementalEncounter = ElementalCatalog.Instance.GetElemental(encounter.EncounterId);
-        ElementalManager.Instance.UpdatelastEncounter(encounter);
-        throwButton.interactable = encounter.HasRemainingTries();
-        encounterPanel.UpdateUI(elementalEncounter);
+        GameEvents.OnEncounterUpdated -= OnEncouterUpdated;
     }
 
     public void ThrowBall()
     {
-        bool isCaught = ElementalManager.Instance.CatchElemental(elementalEncounter, selectedBall);
-        Player.Instance.Inventory.UpdateBalls(selectedBall.Id, -1);
+        bool isCaught = ElementalManager.Instance.CatchElemental(encounter.EncounterId, selectedBallId);
+        Player.Instance.Inventory.UpdateBalls(selectedBallId, -1);
+        encounter.UseTry(isCaught);
 
         if (isCaught)
         {
-            HandleSuccessfulCatch();
+            // HandleSuccessfulCatch();
         }
         else
         {
-            HandleFailedCatch();
+            // HandleFailedCatch();
         }
 
-        throwButton.interactable = encounter.HasRemainingTries();
+        GameEvents.EncounterUpdated();
     }
 
-    private void HandleSuccessfulCatch()
+    private void UpdateSelectedBall()
     {
-        GetNewEncounter();
-        Debug.Log("Success");
-
+        selectedBallId = balls.selectedBall;
+        Ball selectedBall = InventoryCatalog.Instance.GetBall(balls.selectedBall);
+        throwButton.GetComponentInChildren<TMP_Text>().text = $"Catch {selectedBall.CatchRate * 100}%";
+        throwButton.interactable = canThrowBall();
     }
 
-    private void HandleFailedCatch()
+    private void OnEncouterUpdated()
     {
-        encounter.UseTry();
         ElementalManager.Instance.UpdatelastEncounter(encounter);
-        Debug.Log($"Failed, tries: {encounter.Tries}");
+        throwButton.interactable = canThrowBall();
+        encounterPanel.UpdateUI(encounter);
+    }
+
+    private void GetNewEncounter()
+    {
+        ElementalId elementalId = MapManager.Instance.currentMap.GetElementalEncounter();
+        encounter.SetNewEncounter(elementalId);
+        GameEvents.EncounterUpdated();
+    }
+
+    private bool canThrowBall()
+    {
+        bool HasRemainingTries = selectedBallId != BallId.None && Player.Instance.Inventory.Balls[selectedBallId] > 0;
+        return encounter.HasRemainingTries() && HasRemainingTries;
     }
 }

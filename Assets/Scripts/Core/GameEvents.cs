@@ -17,6 +17,7 @@ public static class GameEvents
     public static event Action OnPlayerInitialized;
     public static event Action OnBallsUpdated;
     public static event Action OnBallSelected;
+    public static event Action OnEncounterUpdated;
 
     public static void SocketConnected()
     {
@@ -83,5 +84,10 @@ public static class GameEvents
     public static void BallSelected()
     {
         OnBallSelected?.Invoke();
+    }
+
+    public static void EncounterUpdated()
+    {
+        OnEncounterUpdated?.Invoke();
     }
 }
