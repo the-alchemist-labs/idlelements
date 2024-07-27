@@ -3,6 +3,7 @@ public static class FileName
     public const string MapCatalog = "MapCatalog";
     public const string ElementalCatalog = "ElementalCatalog";
     public const string InventoryCatalog = "InventoryCatalog";
+    public const string SkillCatalog = "SkillCatalog";
     public const string MapManagerState = "MapManagerState";
     public const string ElementalManagerState = "ElementalManagerState";
     public const string PlayerState = "PlayerState";
@@ -12,8 +13,10 @@ public static class FileName
 public static class Tags
 {
     public const string MapsPanel = "MapsPanel";
-    public const string CatchToastLocation = "CatchToastLocation";
     public const string MainManager = "MainManager";
+    public const string Enemy = "Enemy";
+    public const string PartyMember = "PartyMember";
+    public const string Untagged = "Untagged";
 }
 
 public static class PlayerPrefKeys
@@ -37,24 +40,6 @@ public static class SceneNames
 {
     public const string Loading = "LoadingScene";
     public const string Main = "MainScene";
-}
-
-public enum ElementalId
-{
-    None,
-    Ferine,
-    Ferion,
-    Wizo,
-    Wizar,
-    Bolli,
-    Bider,
-    Bulldo,
-    Seria,
-    Galeria,
-    Freezion,
-    Stromeon,
-    Zapeon,
-    Volx,
 }
 
 public enum MapId

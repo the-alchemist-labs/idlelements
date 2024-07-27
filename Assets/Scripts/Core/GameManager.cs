@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
             gameObject.AddComponent<MapCatalog>();
             gameObject.AddComponent<ElementalCatalog>();
             gameObject.AddComponent<InventoryCatalog>();
+            gameObject.AddComponent<SkillCatalog>();
             gameObject.AddComponent<MapManager>();
             gameObject.AddComponent<ElementalManager>();
             gameObject.AddComponent<MainThreadDispatcher>();
@@ -50,8 +51,11 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Backup()
     {
-        Save();
-        yield return new WaitForSeconds(5);
+        while (true)
+        {
+            Save();
+            yield return new WaitForSeconds(5);
+        }
     }
 
     private void Save()
@@ -60,7 +64,8 @@ public class GameManager : MonoBehaviour
 
         ElementalManagerState ems = new ElementalManagerState(
             ElementalManager.Instance.entries,
-            ElementalManager.Instance.lastEncounter
+            ElementalManager.Instance.lastEncounter,
+            ElementalManager.Instance.equipedSkills
         );
 
         Player p = Player.Instance;

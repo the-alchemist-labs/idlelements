@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,6 +7,7 @@ public class ElementalManager : MonoBehaviour
     public static ElementalManager Instance { get; private set; }
     public List<ElementalEntry> entries { get; private set; }
     public Encounter lastEncounter { get; private set; }
+    public Dictionary<ElementalId, List<SkillId>> equipedSkills { get; private set; }
     public int elementalCaught { get { return entries.Count(entry => entry.isCaught); } }
 
     private void Awake()
@@ -29,6 +29,7 @@ public class ElementalManager : MonoBehaviour
 
         entries = state.entries;
         lastEncounter = state.lastEncounter;
+        equipedSkills = state.equipedSkills;
     }
 
     public ElementalEntry GetElementalEntry(ElementalId id)
@@ -99,5 +100,24 @@ public class ElementalManager : MonoBehaviour
         if (isCaught) GameEvents.ElementalCaught();
 
         return isCaught;
+    }
+
+    public List<SkillId> GetSkills(ElementalId elementalId)
+    {
+        return equipedSkills.TryGetValue(elementalId, out List<SkillId> value) ? value : new List<SkillId> { SkillId.Default };
+    }
+
+    public void EquipSkill(ElementalId elementalId, SkillId skillIdToAdd, SkillId skillIdToRemove)
+    {
+        if (!equipedSkills.ContainsKey(elementalId))
+        {
+            equipedSkills.Add(elementalId, new List<SkillId>());
+        }
+
+        if (equipedSkills.TryGetValue(elementalId, out List<SkillId> skillsList))
+        {
+            skillsList.Remove(skillIdToRemove);
+            skillsList.Add(skillIdToAdd);
+        }
     }
 }

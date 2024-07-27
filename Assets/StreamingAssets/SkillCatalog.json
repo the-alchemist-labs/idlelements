@@ -1,0 +1,11 @@
+[
+    {
+        "Id": 0,
+        "Name": "Tackle",
+        "Description": "Basic attack",
+        "AttackTarget": "Single",
+        "ElementalStat": "Hp",
+        "ImpactValue": 10,
+        "SkillSpeed": "Normal"
+    }
+]

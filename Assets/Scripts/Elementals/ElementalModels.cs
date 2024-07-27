@@ -3,6 +3,63 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
+public enum ElementalId
+{
+    None,
+    Ferine,
+    Ferion,
+    Wizo,
+    Wizar,
+    Bolli,
+    Bider,
+    Bulldo,
+    Seria,
+    Galeria,
+    Freezion,
+    Stromeon,
+    Zapeon,
+    Volx,
+}
+
+public enum ElementalStat
+{
+    Hp,
+    Attack,
+    Defense,
+    AttackSpeed,
+    MovmentSpeed,
+}
+
+public enum AttackTarget
+{
+    Single,
+    AoE,
+    Self,
+}
+
+public enum SkillId
+{
+    Default,
+    FireBall,
+    WaterBlast
+}
+
+public enum EncounterState
+{
+    InProgress,
+    Caught,
+    OutOfTries,
+}
+
+public enum TravelTime
+{
+    Instant = 0,
+    Slow = 3,
+    Normal = 5,
+    Fast = 7,
+    VeryFast = 10
+}
+
 [Serializable]
 public class Evolution
 {
@@ -31,6 +88,66 @@ public class IdleBonus
     }
 }
 
+public class ElementalSkill
+{
+    public SkillId Id { get; }
+    public string Name { get; }
+    public string Description { get; }
+    public AttackTarget AttackTarget { get; }
+    public ElementalStat TargetedStat { get; }
+    public int ImpactValue { get; }
+    public TravelTime SkillSpeed { get; }
+
+    public ElementalSkill(SkillId Id, string Name, string Description, AttackTarget AttackTarget, ElementalStat TargetedStat, int ImpactValue, TravelTime SkillSpeed)
+    {
+        this.Id = Id;
+        this.Name = Name;
+        this.Description = Description;
+        this.AttackTarget = AttackTarget;
+        this.TargetedStat = TargetedStat;
+        this.ImpactValue = ImpactValue;
+        this.SkillSpeed = SkillSpeed;
+    }
+}
+
+[Serializable]
+public class ElementalStats
+{
+    public int Hp { get; private set; }
+    public int Attack { get; private set; }
+    public int Defense { get; private set; }
+    public int AttackSpeed { get; private set; }
+    public int MovmentSpeed { get; private set; }
+
+    private readonly Dictionary<ElementalStat, Action<int>> _statModifiers;
+
+    public ElementalStats(int Hp = 10, int Attack = 1, int Defense = 1, int AttackSpeed = 1, int MovmentSpeed = 1)
+    {
+        this.Hp = Hp;
+        this.Attack = Attack;
+        this.Defense = Defense;
+        this.AttackSpeed = AttackSpeed;
+        this.MovmentSpeed = MovmentSpeed;
+
+        _statModifiers = new Dictionary<ElementalStat, Action<int>>
+        {
+            { ElementalStat.Hp, value => Hp += value },
+            { ElementalStat.Attack, value => Attack += value },
+            { ElementalStat.Defense, value => Defense += value },
+            { ElementalStat.AttackSpeed, value => AttackSpeed += value },
+            { ElementalStat.MovmentSpeed, value => MovmentSpeed += value }
+        };
+    }
+
+    public void ModifyStat(ElementalStat stat, int modifyBy)
+    {
+        if (_statModifiers.TryGetValue(stat, out Action<int> modifyAction))
+        {
+            modifyAction(modifyBy);
+        }
+    }
+}
+
 [Serializable]
 public class Elemental
 {
@@ -39,17 +156,32 @@ public class Elemental
     public ElementType type { get; }
     public float catchRate { get; }
     public Evolution? evolution { get; }
+    public ElementalStats Stats { get; }
+    public List<SkillId> Skills { get; }
     public int expGain { get; }
     public int orbsGain { get; }
     public IdleBonus? idleBonus { get; }
 
 
-    public Elemental(ElementalId id, string name, float catchRate, Evolution evolution, ElementType type, int expGain, int orbsGain, IdleBonus idleBonus)
+    public Elemental(
+        ElementalId id,
+        string name,
+        float catchRate,
+        Evolution evolution,
+        ElementType type,
+        ElementalStats Stats,
+        List<SkillId> Skills,
+        int expGain,
+        int orbsGain,
+        IdleBonus idleBonus
+        )
     {
         this.id = id;
         this.name = name;
         this.type = type;
         this.catchRate = catchRate;
+        this.Stats = new ElementalStats(); // for now
+        this.Skills = new List<SkillId>(); // for now
         this.expGain = expGain;
         this.orbsGain = orbsGain;
         this.evolution = evolution;
@@ -63,14 +195,6 @@ public class ElementalEntry
     public ElementalId id;
     public bool isCaught = false;
     public int tokens = 0;
-}
-
-
-public enum EncounterState
-{
-    InProgress,
-    Caught,
-    OutOfTries,
 }
 
 [Serializable]
@@ -130,16 +254,20 @@ public class ElementalManagerState
 {
     public List<ElementalEntry> entries { get; private set; }
     public Encounter lastEncounter { get; private set; }
+    public Dictionary<ElementalId, List<SkillId>> equipedSkills { get; private set; }
+
     public ElementalManagerState()
     {
         entries = new List<ElementalEntry>();
         lastEncounter = new Encounter();
+        equipedSkills = new Dictionary<ElementalId, List<SkillId>>();
     }
 
     [JsonConstructor]
-    public ElementalManagerState(List<ElementalEntry> entries, Encounter lastEncounter)
+    public ElementalManagerState(List<ElementalEntry> entries, Encounter lastEncounter, Dictionary<ElementalId, List<SkillId>> equipedSkills)
     {
         this.entries = entries;
         this.lastEncounter = lastEncounter;
+        this.equipedSkills = equipedSkills;
     }
 }

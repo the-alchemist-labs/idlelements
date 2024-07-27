@@ -4,11 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Panel
-  - MapInfo
-  - MapsPanel
-  - CatchToastLocation
   - GameManager
+  - Enemy
+  - MapsPanel
+  - PlayerInfoPanel
   layers:
   - Default
   - TransparentFX
@@ -20,7 +19,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Border
   - 
   - 
   - 
