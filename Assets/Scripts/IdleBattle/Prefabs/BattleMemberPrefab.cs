@@ -1,14 +1,13 @@
-using System.Collections;
-using UnityEngine;
+using System;
 
 public class BattleMemberPrefab : BaseBattlePrefab
 {
-    private const int DEATH_PENALTY_SECONDS = 5;
-    private const int MOVE_X_DISTANCE = 100;
+    private Action<UnityEngine.GameObject> handleFaintedMember;
 
-    public void SetElemental(ElementalId elementalId)
+    public void Initialize(ElementalId elementalId, Action<UnityEngine.GameObject> handleFaintedMember)
     {
-        Initialize(elementalId, false);
+        this.handleFaintedMember = handleFaintedMember;
+        BaseInitialize(elementalId, Player.Instance.Level, false);
 
         if (attackCoroutine != null)
         {
@@ -19,24 +18,6 @@ public class BattleMemberPrefab : BaseBattlePrefab
 
     protected override void HandleDeath()
     {
-        if (attackCoroutine != null)
-        {
-            StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
-            StartCoroutine(Respawn());
-        }
-
-        gameObject.tag = Tags.Untagged;
-        transform.position = new Vector2(transform.position.x - MOVE_X_DISTANCE, transform.position.y);
-    }
-
-    private IEnumerator Respawn()
-    {
-        yield return new WaitForSeconds(DEATH_PENALTY_SECONDS);
-        gameObject.tag = Tags.PartyMember;
-        transform.position = new Vector2(transform.position.x + MOVE_X_DISTANCE, transform.position.y);
-
-        attackCoroutine = StartCoroutine(AttackRoutine());
-        healthBar.value = GetMaxHealth();
+        handleFaintedMember(gameObject);
     }
 }

@@ -1,8 +1,12 @@
+using System;
+
 public class BattleEnemyPrefab : BaseBattlePrefab
 {
-    public void SetEnemy(ElementalId elementalId)
+    private Action<UnityEngine.GameObject> onEnemeyDeath;
+    public void Initialize(ElementalId elementalId, int level, Action<UnityEngine.GameObject> onEnemeyDeath)
     {
-        Initialize(elementalId, true);
+        this.onEnemeyDeath = onEnemeyDeath;
+        BaseInitialize(elementalId, level, true);
         StartCoroutine(AttackRoutine());
     }
 
@@ -10,6 +14,6 @@ public class BattleEnemyPrefab : BaseBattlePrefab
     {
         // disable (by manager)
         // rewards
-        Destroy(gameObject);
+        onEnemeyDeath(gameObject);
     }
 }

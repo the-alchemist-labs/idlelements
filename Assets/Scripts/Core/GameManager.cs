@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
             gameObject.AddComponent<ElementalCatalog>();
             gameObject.AddComponent<InventoryCatalog>();
             gameObject.AddComponent<SkillCatalog>();
+            gameObject.AddComponent<StageCatalog>();
             gameObject.AddComponent<MapManager>();
             gameObject.AddComponent<ElementalManager>();
             gameObject.AddComponent<MainThreadDispatcher>();

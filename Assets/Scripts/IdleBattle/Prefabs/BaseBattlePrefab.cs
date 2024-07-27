@@ -9,15 +9,16 @@ public class BaseBattlePrefab : MonoBehaviour
 
     public Elemental elemental { get; private set; }
     private List<SkillId> skills;
-
+    private int level;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] protected Slider healthBar;
 
     protected Coroutine attackCoroutine;
     private bool isEnemyPrefab;
 
-    public void Initialize(ElementalId elementalId, bool isEnemyPrefab)
+    protected void BaseInitialize(ElementalId elementalId, int level, bool isEnemyPrefab)
     {
+        this.level = level;
         this.isEnemyPrefab = isEnemyPrefab;
         elemental = ElementalCatalog.Instance.GetElemental(elementalId);
         skills = ElementalManager.Instance.GetSkills(elementalId);
@@ -91,12 +92,12 @@ public class BaseBattlePrefab : MonoBehaviour
     private void UseSkill(ElementalSkill skill, Vector2 target)
     {
         GameObject projectile = Instantiate(IdleBattleManager.Instance.prefab, transform.position, Quaternion.identity);
-        projectile.GetComponent<ProjectilePrefab>().Initialize(target, skill, elemental.Stats.Attack, GetTargetTag());
+        projectile.GetComponent<ProjectilePrefab>().Initialize(target, skill, elemental.Stats.Attack * level, GetTargetTag());
     }
 
     public void TakeDamage(int damageAmount)
     {
-        healthBar.value -= damageAmount - elemental.Stats.Defense;
+        healthBar.value -= damageAmount - elemental.Stats.Defense * level;
 
         if (healthBar.value <= 0) HandleDeath();
     }

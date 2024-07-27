@@ -4,6 +4,7 @@ public static class FileName
     public const string ElementalCatalog = "ElementalCatalog";
     public const string InventoryCatalog = "InventoryCatalog";
     public const string SkillCatalog = "SkillCatalog";
+    public const string StageCatalog = "StageCatalog";
     public const string MapManagerState = "MapManagerState";
     public const string ElementalManagerState = "ElementalManagerState";
     public const string PlayerState = "PlayerState";
