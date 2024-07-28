@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class BaseBattlePrefab : MonoBehaviour
 {
     const int HEALTH_PER_HP_MODIFIER = 3;
 
+    public event Action<GameObject> OnDefeat;
     public Elemental elemental { get; private set; }
     private List<SkillId> skills;
     private int level;
@@ -15,11 +17,13 @@ public class BaseBattlePrefab : MonoBehaviour
 
     protected Coroutine attackCoroutine;
     private bool isEnemyPrefab;
+    private bool isDefeated;
 
     protected void BaseInitialize(ElementalId elementalId, int level, bool isEnemyPrefab)
     {
         this.level = level;
         this.isEnemyPrefab = isEnemyPrefab;
+        isDefeated = false;
         elemental = ElementalCatalog.Instance.GetElemental(elementalId);
         skills = ElementalManager.Instance.GetSkills(elementalId);
 
@@ -49,7 +53,7 @@ public class BaseBattlePrefab : MonoBehaviour
 
     private SkillId SelectNextSkill()
     {
-        int random = Random.Range(0, skills.Count);
+        int random = UnityEngine.Random.Range(0, skills.Count);
         return skills[random];
     }
 
@@ -99,13 +103,23 @@ public class BaseBattlePrefab : MonoBehaviour
     {
         healthBar.value -= damageAmount - elemental.Stats.Defense * level;
 
-        if (healthBar.value <= 0) HandleDeath();
+        if (healthBar.value <= 0 && !isDefeated)
+        {
+            HandleDefeat();
+        }
     }
 
-    protected virtual void HandleDeath() { }
+    private void HandleDefeat()
+    {
+        isDefeated = true;
+        OnDefeat?.Invoke(gameObject);
+        HandlePostDefeat();
+    }
 
     protected int GetMaxHealth()
     {
         return elemental.Stats.Hp * HEALTH_PER_HP_MODIFIER;
     }
+
+    protected virtual void HandlePostDefeat() { }
 }

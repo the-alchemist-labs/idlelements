@@ -2,12 +2,9 @@ using System;
 
 public class BattleMemberPrefab : BaseBattlePrefab
 {
-    private Action<UnityEngine.GameObject> handleFaintedMember;
-
-    public void Initialize(ElementalId elementalId, Action<UnityEngine.GameObject> handleFaintedMember)
+    public void Initialize(ElementalId elementalId, int level)
     {
-        this.handleFaintedMember = handleFaintedMember;
-        BaseInitialize(elementalId, Player.Instance.Level, false);
+        BaseInitialize(elementalId, level, false);
 
         if (attackCoroutine != null)
         {
@@ -16,8 +13,8 @@ public class BattleMemberPrefab : BaseBattlePrefab
         attackCoroutine = StartCoroutine(AttackRoutine());
     }
 
-    protected override void HandleDeath()
+    protected override void HandlePostDefeat()
     {
-        handleFaintedMember(gameObject);
+        // add to battle stats?
     }
 }

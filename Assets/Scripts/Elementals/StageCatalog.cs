@@ -1,10 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class StageMinimemtal
+{
+    public ElementalId Id;
+    public int Level;
+}
+
 public class StageCatalog : MonoBehaviour
 {
     public static StageCatalog Instance { get; private set; }
-    public Dictionary<int, Dictionary<ElementalId, int>> Stages { get; private set; }
+    public Dictionary<int, List<StageMinimemtal>> Stages { get; private set; }
 
     private void Awake()
     {
@@ -21,15 +27,15 @@ public class StageCatalog : MonoBehaviour
 
     private void Initialize()
     {
-        Stages = DataService.Instance.LoadData<Dictionary<int, Dictionary<ElementalId, int>>>(FileName.StageCatalog, false);
+        Stages = DataService.Instance.LoadData<Dictionary<int, List<StageMinimemtal>>>(FileName.StageCatalog, false);
     }
 
-    public Dictionary<ElementalId, int> GetStage(int stageNum)
+    public List<StageMinimemtal> GetStage(int stageNum)
     {
-        if (Stages.TryGetValue(stageNum, out Dictionary<ElementalId, int> elementalDictionary))
+        if (Stages.TryGetValue(stageNum, out List<StageMinimemtal> elementalDictionary))
         {
             return elementalDictionary;
         }
-        return new Dictionary<ElementalId, int>();
+        return new List<StageMinimemtal>();
     }
 }

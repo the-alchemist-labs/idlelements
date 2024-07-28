@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject idleBattleEnemyPrefab;
-    [SerializeField] private Transform[] spawnLocations = new Transform[3];
+    [SerializeField] private Transform[] spawnLocations = new Transform[5];
     [SerializeField] private int enemiesCounter;
     private ObjectPool<GameObject> pool;
     private int currentStage;
@@ -14,8 +14,8 @@ public class EnemySpawner : MonoBehaviour
     {
         pool = new ObjectPool<GameObject>(
             createFunc: () => Instantiate(idleBattleEnemyPrefab),
-            actionOnGet: obj => obj.SetActive(true),
-            actionOnRelease: obj => obj.SetActive(false),
+            actionOnGet: GetInstance,
+            actionOnRelease: ReleaseInstance,
             actionOnDestroy: obj => Destroy(obj),
             collectionCheck: true,
             defaultCapacity: 15,
@@ -29,24 +29,36 @@ public class EnemySpawner : MonoBehaviour
         StartStage(currentStage);
     }
 
+    private void GetInstance(GameObject obj)
+    {
+        obj.SetActive(true);
+        obj.GetComponent<BattleEnemyPrefab>().OnDefeat += onEnemeyDeath;
+    }
+
+    private void ReleaseInstance(GameObject obj)
+    {
+        obj.GetComponent<BattleEnemyPrefab>().OnDefeat -= onEnemeyDeath;
+        obj.SetActive(false);
+    }
+
     private GameObject SetEnemy(ElementalId id, int level)
     {
-        Transform spawLocation = spawnLocations[UnityEngine.Random.Range(0, spawnLocations.Length)];
+        Transform spawLocation = spawnLocations[Random.Range(0, spawnLocations.Length)];
         GameObject obj = pool.Get();
         obj.transform.SetParent(gameObject.transform, false);
         obj.transform.position = spawLocation.position;
 
         BattleEnemyPrefab prefabScript = obj.GetComponent<BattleEnemyPrefab>();
-        prefabScript.Initialize(id, level, onEnemeyDeath);
+        prefabScript.Initialize(id, level);
         return obj;
     }
 
     private void StartStage(int waveNum)
     {
-        Dictionary<ElementalId, int> stage = StageCatalog.Instance.GetStage(waveNum);
-        foreach (KeyValuePair<ElementalId, int> kvp in stage)
+        List<StageMinimemtal> stage = StageCatalog.Instance.GetStage(waveNum);
+        foreach (StageMinimemtal stageMinimemtal in stage)
         {
-            SetEnemy(kvp.Key, kvp.Value);
+            SetEnemy(stageMinimemtal.Id, stageMinimemtal.Level);
         }
         enemiesCounter = stage.Count;
     }
@@ -55,7 +67,7 @@ public class EnemySpawner : MonoBehaviour
     {
         pool.Release(obj);
         enemiesCounter--;
-        
+
         if (enemiesCounter == 0)
         {
             currentStage++;

@@ -14,10 +14,11 @@ public class PartySpawner : MonoBehaviour
 
     private void Awake()
     {
+        GameEvents.OnPartyUpdated += UpdateTeam;
         pool = new ObjectPool<GameObject>(
             createFunc: () => Instantiate(idleBattleMemberPrefab),
-            actionOnGet: obj => obj.SetActive(true),
-            actionOnRelease: obj => obj.SetActive(false),
+            actionOnGet: GetInstance,
+            actionOnRelease: ReleaseInstance,
             actionOnDestroy: obj => Destroy(obj),
             collectionCheck: true,
             defaultCapacity: 3,
@@ -27,7 +28,6 @@ public class PartySpawner : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnPartyUpdated += UpdateTeam;
         UpdateTeam();
     }
 
@@ -35,7 +35,6 @@ public class PartySpawner : MonoBehaviour
     {
         GameEvents.OnPartyUpdated -= UpdateTeam;
     }
-
 
     private void UpdateTeam()
     {
@@ -46,12 +45,28 @@ public class PartySpawner : MonoBehaviour
         {
             if (partyIds[i] == ElementalId.None)
             {
-                pool.Release(members[i]);
-                members[i] = null;
+                if (members[i] != null)
+                {
+                    pool.Release(members[i]);
+                    members[i] = null;
+                }
+                continue;
             };
 
             members[i] = SetPartyMember(partyIds[i], spawnLocations[i]);
         }
+    }
+
+    private void GetInstance(GameObject obj)
+    {
+        obj.SetActive(true);
+        obj.GetComponent<BattleMemberPrefab>().OnDefeat += handleFaintedMember;
+    }
+
+    private void ReleaseInstance(GameObject obj)
+    {
+        obj.GetComponent<BattleMemberPrefab>().OnDefeat -= handleFaintedMember;
+        obj.SetActive(false);
     }
 
     private GameObject SetPartyMember(ElementalId id, Transform transform)
@@ -61,7 +76,7 @@ public class PartySpawner : MonoBehaviour
         obj.transform.position = transform.position;
 
         BattleMemberPrefab prefabScript = obj.GetComponent<BattleMemberPrefab>();
-        prefabScript.Initialize(id, handleFaintedMember);
+        prefabScript.Initialize(id, Player.Instance.Level);
         return obj;
     }
 
