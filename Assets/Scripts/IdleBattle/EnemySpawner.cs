@@ -4,16 +4,15 @@ using UnityEngine.Pool;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject idleBattleEnemyPrefab;
-    [SerializeField] private Transform[] spawnLocations = new Transform[5];
-    [SerializeField] private int enemiesCounter;
-    private ObjectPool<GameObject> pool;
-    private int currentStage;
+    [SerializeField] private GameObject _idleBattleEnemyPrefab;
+    [SerializeField] private Transform[] _spawnLocations = new Transform[5];
+    [SerializeField] private int _enemiesCounter;
+    private ObjectPool<GameObject> _pool;
 
     private void Awake()
     {
-        pool = new ObjectPool<GameObject>(
-            createFunc: () => Instantiate(idleBattleEnemyPrefab),
+        _pool = new ObjectPool<GameObject>(
+            createFunc: () => Instantiate(_idleBattleEnemyPrefab),
             actionOnGet: GetInstance,
             actionOnRelease: ReleaseInstance,
             actionOnDestroy: obj => Destroy(obj),
@@ -25,8 +24,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        currentStage = IdleBattleManager.Instance.CurrentStage;
-        StartStage(currentStage);
+        StartStage(IdleBattleManager.Instance.CurrentStage);
     }
 
     private void GetInstance(GameObject obj)
@@ -43,8 +41,8 @@ public class EnemySpawner : MonoBehaviour
 
     private GameObject SetEnemy(MinimentalId id, int level)
     {
-        Transform spawLocation = spawnLocations[Random.Range(0, spawnLocations.Length)];
-        GameObject obj = pool.Get();
+        Transform spawLocation = _spawnLocations[Random.Range(0, _spawnLocations.Length)];
+        GameObject obj = _pool.Get();
         obj.transform.SetParent(gameObject.transform, false);
         obj.transform.position = spawLocation.position;
 
@@ -58,20 +56,20 @@ public class EnemySpawner : MonoBehaviour
         List<MinimentalId> stage = IdleBattleManager.Instance.GetStage(waveNum);
         foreach (MinimentalId stageMinimemtalId in stage)
         {
-            SetEnemy(stageMinimemtalId, currentStage);
+            SetEnemy(stageMinimemtalId, waveNum);
         }
-        enemiesCounter = stage.Count;
+        _enemiesCounter = stage.Count;
     }
 
     private void onEnemeyDeath(GameObject obj)
     {
-        pool.Release(obj);
-        enemiesCounter--;
+        _pool.Release(obj);
+        _enemiesCounter--;
 
-        if (enemiesCounter == 0)
+        if (_enemiesCounter == 0)
         {
-            currentStage = IdleBattleManager.Instance.IncrementCurrentStage();
-            StartStage(currentStage);
+            IdleBattleManager.Instance.IncrementCurrentStage();
+            StartStage(IdleBattleManager.Instance.CurrentStage);
         }
     }
 }

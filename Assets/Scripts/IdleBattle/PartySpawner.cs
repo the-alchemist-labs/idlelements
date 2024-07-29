@@ -6,17 +6,19 @@ using UnityEngine.Pool;
 public class PartySpawner : MonoBehaviour
 {
     private const int DEATH_PENALTY_SECONDS = 5;
-    [SerializeField] GameObject idleBattleMemberPrefab;
-    [SerializeField] private GameObject[] members = new GameObject[3];
-    [SerializeField] private Transform[] spawnLocations = new Transform[3];
-    private ObjectPool<GameObject> pool;
-    private List<ElementalId> partyIds;
 
-    private void Awake()
+    [SerializeField] private GameObject _idleBattleMemberPrefab;
+    [SerializeField] private Transform[] _spawnLocations = new Transform[3];
+
+    private GameObject[] _members = new GameObject[3];
+    private ObjectPool<GameObject> _pool;
+    private List<ElementalId> _partyIds;
+
+    void Awake()
     {
         GameEvents.OnPartyUpdated += UpdateTeam;
-        pool = new ObjectPool<GameObject>(
-            createFunc: () => Instantiate(idleBattleMemberPrefab),
+        _pool = new ObjectPool<GameObject>(
+            createFunc: () => Instantiate(_idleBattleMemberPrefab),
             actionOnGet: GetInstance,
             actionOnRelease: ReleaseInstance,
             actionOnDestroy: obj => Destroy(obj),
@@ -39,21 +41,21 @@ public class PartySpawner : MonoBehaviour
     private void UpdateTeam()
     {
         Party party = Player.Instance.Party;
-        partyIds = new List<ElementalId> { party.First, party.Second, party.Third };
+        _partyIds = new List<ElementalId> { party.First, party.Second, party.Third };
 
-        for (int i = 0; i < members.Length; i++)
+        for (int i = 0; i < _members.Length; i++)
         {
-            if (partyIds[i] == ElementalId.None)
+            if (_partyIds[i] == ElementalId.None)
             {
-                if (members[i] != null)
+                if (_members[i] != null)
                 {
-                    pool.Release(members[i]);
-                    members[i] = null;
+                    _pool.Release(_members[i]);
+                    _members[i] = null;
                 }
                 continue;
             };
 
-            members[i] = SetPartyMember(partyIds[i], spawnLocations[i]);
+            _members[i] = SetPartyMember(_partyIds[i], _spawnLocations[i]);
         }
     }
 
@@ -71,7 +73,7 @@ public class PartySpawner : MonoBehaviour
 
     private GameObject SetPartyMember(ElementalId id, Transform transform)
     {
-        GameObject obj = pool.Get();
+        GameObject obj = _pool.Get();
         obj.transform.SetParent(gameObject.transform, false);
         obj.transform.position = transform.position;
 
@@ -82,18 +84,18 @@ public class PartySpawner : MonoBehaviour
 
     private void handleFaintedMember(GameObject obj)
     {
-        int partySlot = partyIds.IndexOf(((Elemental)obj.GetComponent<BattleMemberPrefab>().elemental).id);
-        pool.Release(obj);
-        members[partySlot] = null;
+        int partySlot = _partyIds.IndexOf(((Elemental)obj.GetComponent<BattleMemberPrefab>().Elemental).id);
+        _pool.Release(obj);
+        _members[partySlot] = null;
         StartCoroutine(SpawnNewMemberAfterDelay(partySlot));
     }
 
     IEnumerator SpawnNewMemberAfterDelay(int partySlot)
     {
         yield return new WaitForSeconds(DEATH_PENALTY_SECONDS);
-        if (partyIds[partySlot] != ElementalId.None)
+        if (_partyIds[partySlot] != ElementalId.None)
         {
-            members[partySlot] = SetPartyMember(partyIds[partySlot], spawnLocations[partySlot]);
+            _members[partySlot] = SetPartyMember(_partyIds[partySlot], _spawnLocations[partySlot]);
         }
     }
 }

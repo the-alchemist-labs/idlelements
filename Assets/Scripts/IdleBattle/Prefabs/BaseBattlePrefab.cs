@@ -8,44 +8,45 @@ public class BaseBattlePrefab : MonoBehaviour
 {
     const int HEALTH_PER_HP_MODIFIER = 3;
 
-    public IElemental elemental;
-
+    public IElemental Elemental;
     public event Action<GameObject> OnDefeat;
-    protected List<SkillId> skills;
-    private int level;
-    [SerializeField] SpriteRenderer sprite;
-    [SerializeField] protected Slider healthBar;
 
-    protected Coroutine attackCoroutine;
-    private bool isEnemyPrefab;
-    private bool isDefeated;
+    protected List<SkillId> Skills;
+    protected Coroutine AttackCoroutine;
+
+    [SerializeField] protected Slider HealthBar;
+    [SerializeField] private SpriteRenderer _sprite;
+
+    private int _level;
+    private bool _isEnemyPrefab;
+    private bool _isDefeated;
 
     protected void Initialize(ElementalId id, int level)
     {
-        isEnemyPrefab = false;
-        sprite.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{id}");
-        elemental = ElementalCatalog.Instance.GetElemental(id);
-        skills = ElementalManager.Instance.GetSkills(id);
+        _isEnemyPrefab = false;
+        _sprite.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{id}");
+        Elemental = ElementalCatalog.Instance.GetElemental(id);
+        Skills = ElementalManager.Instance.GetSkills(id);
         BaseInitialize(level);
     }
 
     protected void Initialize(MinimentalId id, int level)
     {
-        isEnemyPrefab = true;
-        elemental = ElementalCatalog.Instance.GetElemental(id);
-        skills = ElementalManager.Instance.GetSkills(id);
-        sprite.sprite = Resources.Load<Sprite>($"Sprites/Minimentals/{id}");
+        _isEnemyPrefab = true;
+        Elemental = ElementalCatalog.Instance.GetElemental(id);
+        Skills = ElementalManager.Instance.GetSkills(id);
+        _sprite.sprite = Resources.Load<Sprite>($"Sprites/Minimentals/{id}");
         BaseInitialize(level);
     }
 
     private void BaseInitialize(int level)
     {
         // summon animation
-        this.level = level;
-        isDefeated = false;
+        _level = level;
+        _isDefeated = false;
 
-        healthBar.maxValue = GetMaxHealth();
-        healthBar.value = GetMaxHealth();
+        HealthBar.maxValue = GetMaxHealth();
+        HealthBar.value = GetMaxHealth();
     }
 
     protected IEnumerator AttackRoutine()
@@ -58,8 +59,15 @@ public class BaseBattlePrefab : MonoBehaviour
 
             if (target.HasValue)
             {
-                UseSkill(skill, target.Value);
-                yield return new WaitForSeconds(elemental.Stats.AttackSpeed);
+
+                Vector2 resolvedTarget = target.Value;
+                IdleBattleManager.Instance.ActivateSkill(
+                    transform.position,
+                    resolvedTarget, skill,
+                    Elemental.Stats.Attack * _level,
+                    GetTargetTag(skill.AttackTarget == AttackTarget.Self)
+                );
+                yield return new WaitForSeconds(Elemental.Stats.AttackSpeed);
             }
 
             yield return new WaitForSeconds(0.5f);
@@ -68,20 +76,21 @@ public class BaseBattlePrefab : MonoBehaviour
 
     private SkillId SelectNextSkill()
     {
-        int random = UnityEngine.Random.Range(0, skills.Count);
-        return skills[random];
+        int random = UnityEngine.Random.Range(0, Skills.Count);
+        return Skills[random];
     }
 
     protected Vector2? GetTargetLocation(AttackTarget target)
     {
+        bool isTargetingSelf = target == AttackTarget.Self;
         Vector2 ownPosition = transform.position;
 
-        if (target == AttackTarget.Self)
+        if (isTargetingSelf)
         {
             return ownPosition;
         }
 
-        GameObject[] targets = GameObject.FindGameObjectsWithTag(GetTargetTag());
+        GameObject[] targets = GameObject.FindGameObjectsWithTag(GetTargetTag(isTargetingSelf));
         if (targets.Length == 0)
             return null;
 
@@ -103,22 +112,21 @@ public class BaseBattlePrefab : MonoBehaviour
         return closestTarget.transform.position;
     }
 
-    private string GetTargetTag()
+    private string GetTargetTag(bool isTargetingSelf)
     {
-        return isEnemyPrefab ? Tags.PartyMember : Tags.Enemy;
-    }
+        if (isTargetingSelf)
+        {
+            return _isEnemyPrefab ? Tags.Enemy : Tags.PartyMember;
+        }
 
-    private void UseSkill(ElementalSkill skill, Vector2 target)
-    {
-        GameObject projectile = Instantiate(IdleBattleManager.Instance.prefab, transform.position, Quaternion.identity);
-        projectile.GetComponent<ProjectilePrefab>().Initialize(target, skill, elemental.Stats.Attack * level, GetTargetTag());
+        return _isEnemyPrefab ? Tags.PartyMember : Tags.Enemy;
     }
 
     public void TakeDamage(int damageAmount)
     {
-        healthBar.value -= damageAmount - elemental.Stats.Defense * level;
+        HealthBar.value -= damageAmount - Elemental.Stats.Defense * _level;
 
-        if (healthBar.value <= 0 && !isDefeated)
+        if (HealthBar.value <= 0 && !_isDefeated)
         {
             HandleDefeat();
         }
@@ -126,14 +134,14 @@ public class BaseBattlePrefab : MonoBehaviour
 
     private void HandleDefeat()
     {
-        isDefeated = true;
+        _isDefeated = true;
         OnDefeat?.Invoke(gameObject);
         HandlePostDefeat();
     }
 
     protected int GetMaxHealth()
     {
-        return elemental.Stats.Hp * HEALTH_PER_HP_MODIFIER;
+        return Elemental.Stats.Hp * HEALTH_PER_HP_MODIFIER;
     }
 
     protected virtual void HandlePostDefeat() { }

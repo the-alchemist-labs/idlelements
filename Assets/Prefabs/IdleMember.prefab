@@ -208,10 +208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53f9d3b10df1cd489769114c99763ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skills: 
-  sprite: {fileID: 7565379693042919265}
-  healthBar: {fileID: 1413743992484716903}
-  health: 0
+  HealthBar: {fileID: 1413743992484716903}
+  _sprite: {fileID: 7565379693042919265}
 --- !u!1 &1964849390387704420
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.8666667}
+  m_Color: {r: 1, g: 0, b: 0, a: 0.6313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -447,7 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23584908, g: 0.025587406, b: 0.025587406, a: 0.5882353}
+  m_Color: {r: 0.23584908, g: 0.025587406, b: 0.025587406, a: 0.56078434}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -500,8 +498,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.018424995, y: -0.1}
-  m_SizeDelta: {x: -0.1632, y: 0.08}
+  m_AnchoredPosition: {x: 0.00000008940697, y: -0.14700001}
+  m_SizeDelta: {x: -0.2857, y: 0.1177}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1413743992484716903
 MonoBehaviour:

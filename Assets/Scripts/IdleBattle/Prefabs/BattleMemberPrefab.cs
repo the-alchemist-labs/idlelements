@@ -6,11 +6,11 @@ public class BattleMemberPrefab : BaseBattlePrefab
     {
         Initialize(elementalId, level);
 
-        if (attackCoroutine != null)
+        if (AttackCoroutine != null)
         {
-            StopCoroutine(attackCoroutine);
+            StopCoroutine(AttackCoroutine);
         }
-        attackCoroutine = StartCoroutine(AttackRoutine());
+        AttackCoroutine = StartCoroutine(AttackRoutine());
     }
 
     protected override void HandlePostDefeat()

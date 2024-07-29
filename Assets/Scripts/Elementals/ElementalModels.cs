@@ -49,7 +49,7 @@ public enum SkillId
 {
     Default,
     FireBall,
-    WaterBlast
+    WaterBall
 }
 
 public enum EncounterState
