@@ -25,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        currentStage = 1; // get
+        currentStage = IdleBattleManager.Instance.CurrentStage;
         StartStage(currentStage);
     }
 
@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
         obj.SetActive(false);
     }
 
-    private GameObject SetEnemy(ElementalId id, int level)
+    private GameObject SetEnemy(MinimentalId id, int level)
     {
         Transform spawLocation = spawnLocations[Random.Range(0, spawnLocations.Length)];
         GameObject obj = pool.Get();
@@ -49,16 +49,16 @@ public class EnemySpawner : MonoBehaviour
         obj.transform.position = spawLocation.position;
 
         BattleEnemyPrefab prefabScript = obj.GetComponent<BattleEnemyPrefab>();
-        prefabScript.Initialize(id, level);
+        prefabScript.InitializeEnemy(id, level);
         return obj;
     }
 
     private void StartStage(int waveNum)
     {
-        List<StageMinimemtal> stage = StageCatalog.Instance.GetStage(waveNum);
-        foreach (StageMinimemtal stageMinimemtal in stage)
+        List<MinimentalId> stage = IdleBattleManager.Instance.GetStage(waveNum);
+        foreach (MinimentalId stageMinimemtalId in stage)
         {
-            SetEnemy(stageMinimemtal.Id, stageMinimemtal.Level);
+            SetEnemy(stageMinimemtalId, currentStage);
         }
         enemiesCounter = stage.Count;
     }
@@ -70,7 +70,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (enemiesCounter == 0)
         {
-            currentStage++;
+            currentStage = IdleBattleManager.Instance.IncrementCurrentStage();
             StartStage(currentStage);
         }
     }

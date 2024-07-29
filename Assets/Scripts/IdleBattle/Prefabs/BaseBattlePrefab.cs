@@ -8,9 +8,10 @@ public class BaseBattlePrefab : MonoBehaviour
 {
     const int HEALTH_PER_HP_MODIFIER = 3;
 
+    public IElemental elemental;
+
     public event Action<GameObject> OnDefeat;
-    public Elemental elemental { get; private set; }
-    private List<SkillId> skills;
+    protected List<SkillId> skills;
     private int level;
     [SerializeField] SpriteRenderer sprite;
     [SerializeField] protected Slider healthBar;
@@ -19,16 +20,30 @@ public class BaseBattlePrefab : MonoBehaviour
     private bool isEnemyPrefab;
     private bool isDefeated;
 
-    protected void BaseInitialize(ElementalId elementalId, int level, bool isEnemyPrefab)
+    protected void Initialize(ElementalId id, int level)
     {
-        this.level = level;
-        this.isEnemyPrefab = isEnemyPrefab;
-        isDefeated = false;
-        elemental = ElementalCatalog.Instance.GetElemental(elementalId);
-        skills = ElementalManager.Instance.GetSkills(elementalId);
+        isEnemyPrefab = false;
+        sprite.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{id}");
+        elemental = ElementalCatalog.Instance.GetElemental(id);
+        skills = ElementalManager.Instance.GetSkills(id);
+        BaseInitialize(level);
+    }
 
+    protected void Initialize(MinimentalId id, int level)
+    {
+        isEnemyPrefab = true;
+        elemental = ElementalCatalog.Instance.GetElemental(id);
+        skills = ElementalManager.Instance.GetSkills(id);
+        sprite.sprite = Resources.Load<Sprite>($"Sprites/Minimentals/{id}");
+        BaseInitialize(level);
+    }
+
+    private void BaseInitialize(int level)
+    {
         // summon animation
-        sprite.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elementalId}");
+        this.level = level;
+        isDefeated = false;
+
         healthBar.maxValue = GetMaxHealth();
         healthBar.value = GetMaxHealth();
     }

@@ -19,6 +19,14 @@ public enum ElementalId
     Stromeon,
     Zapeon,
     Volx,
+    Serphire,
+}
+
+public enum MinimentalId
+{
+    None,
+    FireMeele,
+    FireRanged,
 }
 
 public enum ElementalStat
@@ -148,8 +156,17 @@ public class ElementalStats
     }
 }
 
+
+public interface IElemental
+{
+    public string name { get; }
+    public ElementType type { get; }
+    public ElementalStats Stats { get; }
+    public List<SkillId> Skills { get; }
+}
+
 [Serializable]
-public class Elemental
+public class Elemental: IElemental
 {
     public ElementalId id { get; }
     public string name { get; }
@@ -161,7 +178,6 @@ public class Elemental
     public int expGain { get; }
     public int orbsGain { get; }
     public IdleBonus? idleBonus { get; }
-
 
     public Elemental(
         ElementalId id,
@@ -186,6 +202,25 @@ public class Elemental
         this.orbsGain = orbsGain;
         this.evolution = evolution;
         this.idleBonus = idleBonus;
+    }
+}
+
+[Serializable]
+public class Minimental: IElemental
+{
+    public MinimentalId id { get; }
+    public string name { get; }
+    public ElementType type { get; }
+    public ElementalStats Stats { get; }
+    public List<SkillId> Skills { get; }
+
+    public Minimental(MinimentalId id, string name, ElementType type, List<SkillId> Skills, ElementalStats Stats)
+    {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.Skills = Skills;
+        this.Stats = new ElementalStats(); // for now
     }
 }
 

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Fire Meele",
+    "type": "Fire",
+    "Skills": ["Default"]
+  },
+  {
+    "id": 2,
+    "name": "Fire Ranged",
+    "type": "Fire",
+    "Skills": ["Default"]
+  }
+]

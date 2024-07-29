@@ -107,6 +107,11 @@ public class ElementalManager : MonoBehaviour
         return equipedSkills.TryGetValue(elementalId, out List<SkillId> value) ? value : new List<SkillId> { SkillId.Default };
     }
 
+    public List<SkillId> GetSkills(MinimentalId minimentalId)
+    {
+        return ElementalCatalog.Instance.GetElemental(minimentalId).Skills;
+    }
+
     public void EquipSkill(ElementalId elementalId, SkillId skillIdToAdd, SkillId skillIdToRemove)
     {
         if (!equipedSkills.ContainsKey(elementalId))

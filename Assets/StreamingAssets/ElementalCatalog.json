@@ -171,5 +171,15 @@
     "orbsGain": 300,
     "evolution": null,
     "idleBonus": null
+  },
+  {
+    "id": 13,
+    "name": "Serphire",
+    "type": "Fire",
+    "catchRate": 1,
+    "expGain": 200,
+    "orbsGain": 300,
+    "evolution": null,
+    "idleBonus": null
   }
 ]

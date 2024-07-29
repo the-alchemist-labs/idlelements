@@ -2,9 +2,9 @@ using System;
 
 public class BattleMemberPrefab : BaseBattlePrefab
 {
-    public void Initialize(ElementalId elementalId, int level)
+    public void InitializeMember(ElementalId elementalId, int level)
     {
-        BaseInitialize(elementalId, level, false);
+        Initialize(elementalId, level);
 
         if (attackCoroutine != null)
         {

@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
             gameObject.AddComponent<ElementalCatalog>();
             gameObject.AddComponent<InventoryCatalog>();
             gameObject.AddComponent<SkillCatalog>();
-            gameObject.AddComponent<StageCatalog>();
             gameObject.AddComponent<MapManager>();
             gameObject.AddComponent<ElementalManager>();
             gameObject.AddComponent<MainThreadDispatcher>();
@@ -54,8 +53,8 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
+            yield return new WaitForSeconds(10);
             Save();
-            yield return new WaitForSeconds(5);
         }
     }
 
@@ -63,16 +62,17 @@ public class GameManager : MonoBehaviour
     {
         MapManagerState mms = new MapManagerState(MapManager.Instance.progressions, MapManager.Instance.currentMapId);
 
+        IdleBattleManagerState ibs = new IdleBattleManagerState(IdleBattleManager.Instance.CurrentStage);
+
         ElementalManagerState ems = new ElementalManagerState(
             ElementalManager.Instance.entries,
             ElementalManager.Instance.lastEncounter,
             ElementalManager.Instance.equipedSkills
         );
 
-        Player p = Player.Instance;
         PlayerState ps = new PlayerState(
-            p.Level,
-            p.Experience,
+            Player.Instance.Level,
+            Player.Instance.Experience,
             Player.Instance.Party,
             Player.Instance.Resources,
             Player.Instance.Inventory
@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
         DataService.Instance.SaveData(FileName.ElementalManagerState, true, ems);
         DataService.Instance.SaveData(FileName.MapManagerState, true, mms);
         DataService.Instance.SaveData(FileName.PlayerState, true, ps);
+        DataService.Instance.SaveData(FileName.IdleBattleManagerState, true, ibs);
     }
 
 }

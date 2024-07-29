@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-public class MapName : MonoBehaviour
+public class StageName : MonoBehaviour
 {
-    public TMP_Text mapNameText;
+    public TMP_Text stageNameText;
 
     void Start()
     {
@@ -18,6 +18,6 @@ public class MapName : MonoBehaviour
 
     public void UpdateMapName()
     {
-        mapNameText.text = MapManager.Instance.currentMap.name;
+        stageNameText.text = $"Stage {IdleBattleManager.Instance.CurrentStage}";
     }
 }
