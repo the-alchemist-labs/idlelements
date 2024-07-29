@@ -4,9 +4,10 @@ using UnityEngine;
 public class ElementalCatalog : MonoBehaviour
 {
     public static ElementalCatalog Instance { get; private set; }
-    public List<Elemental> elementals { get; private set; }
-    public List<Minimental> minimentals { get; private set; }
-    public int Count { get { return elementals.Count; } }
+    public List<Elemental> Elementals { get; private set; }
+    public List<Minimental> Minimentals { get; private set; }
+    public List<ElementalSkill> Skills { get; private set; }
+    public int Count { get { return Elementals.Count; } }
 
     private void Awake()
     {
@@ -23,17 +24,23 @@ public class ElementalCatalog : MonoBehaviour
 
     private void Initialize()
     {
-        elementals = DataService.Instance.LoadData<List<Elemental>>(FileName.ElementalCatalog, false);
-        minimentals = DataService.Instance.LoadData<List<Minimental>>(FileName.MinimentalCatalog, false);
+        Elementals = DataService.Instance.LoadData<List<Elemental>>(FileName.ElementalCatalog, false);
+        Minimentals = DataService.Instance.LoadData<List<Minimental>>(FileName.MinimentalCatalog, false);
+        Skills = DataService.Instance.LoadData<List<ElementalSkill>>(FileName.SkillCatalog, false);
     }
 
     public Elemental GetElemental(ElementalId id)
     {
-        return elementals.Find(el => el.id == id);
+        return Elementals.Find(el => el.id == id);
     }
 
     public Minimental GetElemental(MinimentalId id)
     {
-        return minimentals.Find(el => el.id == id);
+        return Minimentals.Find(el => el.id == id);
+    }
+
+    public ElementalSkill GetSkill(SkillId id)
+    {
+        return Skills.Find(el => el.Id == id);
     }
 }

@@ -53,7 +53,7 @@ public class BaseBattlePrefab : MonoBehaviour
         while (true)
         {
             SkillId skillId = SelectNextSkill();
-            ElementalSkill skill = SkillCatalog.Instance.GetSkill(skillId);
+            ElementalSkill skill = ElementalCatalog.Instance.GetSkill(skillId);
             Vector2? target = GetTargetLocation(skill.AttackTarget);
 
             if (target.HasValue)

@@ -197,7 +197,7 @@ public class Elemental: IElemental
         this.type = type;
         this.catchRate = catchRate;
         this.Stats = new ElementalStats(); // for now
-        this.Skills = new List<SkillId>(); // for now
+        this.Skills = Skills;
         this.expGain = expGain;
         this.orbsGain = orbsGain;
         this.evolution = evolution;

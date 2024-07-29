@@ -5,7 +5,16 @@
         "Description": "Basic attack",
         "AttackTarget": "Single",
         "ElementalStat": "Hp",
-        "ImpactValue": 10,
+        "ImpactValue": 3,
         "SkillSpeed": "Normal"
+    },
+    {
+        "Id": 1,
+        "Name": "Fire ball",
+        "Description": "It's a fire ball",
+        "AttackTarget": "Single",
+        "ElementalStat": "Hp",
+        "ImpactValue": 10,
+        "SkillSpeed": "Fast"
     }
 ]

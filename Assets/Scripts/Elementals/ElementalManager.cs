@@ -94,7 +94,7 @@ public class ElementalManager : MonoBehaviour
 
         float bonusCatchRate = 0.1f;
         float totalCatchRate = elemental.catchRate * ball.CatchRate + bonusCatchRate;
-        float randomValue = UnityEngine.Random.Range(0f, 1f);
+        float randomValue = Random.Range(0f, 1f);
         bool isCaught = totalCatchRate >= randomValue;
 
         if (isCaught) GameEvents.ElementalCaught();
