@@ -36,9 +36,8 @@ public class HeaderBannerManager : MonoBehaviour
 
     public void OpenPlayerPanel()
     {
-        MainManager gameManger = GameObject.FindGameObjectWithTag(Tags.MainManager).GetComponent<MainManager>();
-        gameManger.playerInfoPanel?.SetActive(true);
-        gameManger.playerInfoPanel?.GetComponent<PlayerInfoPanel>().Init(Player.Instance.GetPlayerInfo());
+        MainManager.Instance.playerInfoPanel?.SetActive(true);
+        MainManager.Instance.playerInfoPanel?.GetComponent<PlayerInfoPanel>().Init(Player.Instance.GetPlayerInfo());
     }
 
     private static float GetExpPercent()

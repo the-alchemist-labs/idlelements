@@ -26,7 +26,9 @@ public class Inventory
 
     public Inventory()
     {
-        Balls = new Dictionary<BallId, int>();
+        Balls = new Dictionary<BallId, int> {
+            { BallId.Normal, 0},
+        };
     }
 
     public Inventory(Dictionary<BallId, int> Balls = null)

@@ -3,28 +3,27 @@ using UnityEngine;
 
 public class PendingRequestPrefab : MonoBehaviour
 {
-    public TMP_Text playreNameText;
-    public AudioSource respondSound;
+    [SerializeField]
+    TMP_Text playreNameText;
 
-    private PlayerInfo requestingPlayer;
+    private PlayerInfo _requestingPlayer;
 
     public void Init(PlayerInfo fromPlayer)
     {
-        requestingPlayer = fromPlayer;
+        _requestingPlayer = fromPlayer;
         playreNameText.text = fromPlayer.name;
     }
 
     public async void AcceptRequest()
     {
-        await Player.Instance.Friends.FriendRequestRespond(requestingPlayer.id, Respond.Accept);
-        SoundManager.Instance.PlaySFXFromPrefab(respondSound);
-
+        await Player.Instance.Friends.FriendRequestRespond(_requestingPlayer.id, Respond.Accept);
+        SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
     }
 
     public async void RejectRequest()
     {
-        await Player.Instance.Friends.FriendRequestRespond(requestingPlayer.id, Respond.Reject);
-        SoundManager.Instance.PlaySFXFromPrefab(respondSound);
+        await Player.Instance.Friends.FriendRequestRespond(_requestingPlayer.id, Respond.Reject);
+        SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
 
     }
 }

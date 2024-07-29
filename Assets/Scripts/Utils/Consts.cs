@@ -15,7 +15,6 @@ public static class FileName
 public static class Tags
 {
     public const string MapsPanel = "MapsPanel";
-    public const string MainManager = "MainManager";
     public const string Enemy = "Enemy";
     public const string PartyMember = "PartyMember";
     public const string Untagged = "Untagged";

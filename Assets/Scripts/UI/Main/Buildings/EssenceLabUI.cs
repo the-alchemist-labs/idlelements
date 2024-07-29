@@ -4,16 +4,15 @@ using UnityEngine.UI;
 
 public class EssenceLabUI : MonoBehaviour
 {
-    public TMP_Text levelText;
-    public TMP_Text costText;
-    public GameObject levelUpButton;
-    public AudioSource levelUpSound;
+    [SerializeField] TMP_Text levelText;
+    [SerializeField] TMP_Text costText;
+    [SerializeField] GameObject levelUpButton;
     
-    private GameObject levelUpImage;
+    private GameObject _levelUpImage;
 
     void Start()
     {
-        levelUpImage = levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>()?.gameObject;
+        _levelUpImage = levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>()?.gameObject;
 
         GameEvents.OnMapDataChanged += ScheduleUpdate;
         GameEvents.OnGoldUpdated += ScheduleUpdate;
@@ -31,7 +30,7 @@ public class EssenceLabUI : MonoBehaviour
         bool didLevelUp = EssenceLab.LevelUp();
         if (didLevelUp)
         {
-            levelUpSound.Play();
+            SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
         }
     }
 
@@ -40,7 +39,7 @@ public class EssenceLabUI : MonoBehaviour
         int EssenceLabLevel = MapManager.Instance.currentMapProgression.essenceLabLevel;
 
         levelText.text = $"{EssenceLabLevel}/{EssenceLab.currentMapEssenceLabSpecs.MaxLevel}";
-        levelUpImage?.SetActive(!EssenceLab.IsMaxLevel());
+        _levelUpImage?.SetActive(!EssenceLab.IsMaxLevel());
         costText.text = EssenceLab.IsMaxLevel() ? "Max" : $"{TextUtil.NumberFormatter(EssenceLab.GetLevelUpCost())}";
         levelUpButton.GetComponent<Button>().interactable = !EssenceLab.IsMaxLevel() && Player.Instance.Resources.Gold >= EssenceLab.GetLevelUpCost();
     }

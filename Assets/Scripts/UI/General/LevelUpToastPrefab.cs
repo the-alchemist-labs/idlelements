@@ -5,18 +5,20 @@ using UnityEngine.EventSystems;
 
 public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public TMP_Text levelText;
-    public TMP_Text orbsText;
+    [SerializeField]
+    TMP_Text levelText;
+    [SerializeField]
+    TMP_Text orbsText;
+    [SerializeField]
+    GameObject mapContainer;
+    [SerializeField]
+    TMP_Text mapText;
 
-    public GameObject mapContainer;
-    public TMP_Text mapText;
-
-    public AudioSource levelUpsound;
-    private Animator animator;
+    private Animator _animator;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         StartCoroutine(CheckIfAnimationFinished());
     }
 
@@ -28,7 +30,7 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
         mapContainer.gameObject.SetActive(unlockedMap != null);
         mapText.text = $"{unlockedMap?.name} unlocked";
 
-        SoundManager.Instance.PlaySFXFromPrefab(levelUpsound);
+        SoundManager.Instance.PlaySystemSFX(SystemSFXId.Celebration);
     }
 
     public void DestroySelf()
@@ -36,9 +38,19 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
         Destroy(gameObject);
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        _animator.speed = 0;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _animator.speed = 1;
+    }
+
     private IEnumerator CheckIfAnimationFinished()
     {
-        AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+        AnimatorClipInfo[] clipInfo = _animator.GetCurrentAnimatorClipInfo(0);
 
         if (clipInfo.Length == 0)
         {
@@ -49,8 +61,8 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
         string animationName = clipInfo[0].clip.name;
         while (true)
         {
-            if (!animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) ||
-                animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) ||
+                _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
                 Destroy(gameObject);
                 yield break;
@@ -58,15 +70,5 @@ public class LevelUpToastPrefab : MonoBehaviour, IPointerDownHandler, IPointerUp
 
             yield return null;
         }
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        animator.speed = 0;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        animator.speed = 1;
     }
 }

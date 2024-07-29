@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class MainManager : MonoBehaviour
 {
+    public static MainManager Instance;
+
     public GameObject afkGainsPanel;
     public GameObject playerInfoPanel;
 
-    private static MainManager instance;
-
     void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else

@@ -4,17 +4,19 @@ using UnityEngine.UI;
 
 public class CelebateEvolutionPanel : MonoBehaviour
 {
-    public TMP_Text evolveToText;
-    public TMP_Text idleBonusText;
-    public Image sprite;
-    public AudioSource celebrationSound;
+    [SerializeField]
+    TMP_Text evolveToText;
+    [SerializeField]
+    TMP_Text idleBonusText;
+    [SerializeField]
+    Image sprite;
 
     public void DisplayPanel(Elemental elemental)
     {
         gameObject.SetActive(true);
 
-        celebrationSound.Play();
-        
+        SoundManager.Instance.PlaySystemSFX(SystemSFXId.Celebration);
+
         Elemental evolution = ElementalCatalog.Instance.GetElemental(elemental.evolution.evolveTo);
         IdleBonus idleBonus = evolution.idleBonus;
 

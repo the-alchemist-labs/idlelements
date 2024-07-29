@@ -4,30 +4,36 @@ using UnityEngine.UI;
 
 public class DeckEntry : MonoBehaviour
 {
-    public Image elementalImage;
-    public Image caughtIndicatorImage;
-    public TMP_Text elementalIdText;
-    public TMP_Text elementalName;
-    public TMP_Text tokensText;
-    public TMP_Text idleBonusText;
-    public Button evolveButtonInfo;
-    public AudioSource evolveInfoBtnSound;
+    [SerializeField]
+    Image elementalImage;
+    [SerializeField]
+    Image caughtIndicatorImage;
+    [SerializeField]
+    TMP_Text elementalIdText;
+    [SerializeField]
+    TMP_Text elementalName;
+    [SerializeField]
+    TMP_Text tokensText;
+    [SerializeField]
+    TMP_Text idleBonusText;
+    [SerializeField]
+    Button evolveButtonInfo;
 
-    private Elemental elemental;
-    private EvolvePanel evolvePanel;
+    private Elemental _elemental;
+    private EvolvePanel _evolvePanel;
 
-    private Color UnlockedColor = Color.white;
-    private Color LockedColor = new Color(.25f, .25f, .25f, 0.8f);
+    private Color _unlockedColor = Color.white;
+    private Color _lockedColor = new Color(.25f, .25f, .25f, 0.8f);
 
     void Start()
     {
-        LockedColor.a = 0.5f;
+        _lockedColor.a = 0.5f;
     }
 
     public void UpdateEntry(Elemental elemental, EvolvePanel evolvePanel)
     {
-        this.elemental = elemental;
-        this.evolvePanel = evolvePanel;
+        _elemental = elemental;
+        _evolvePanel = evolvePanel;
 
         ElementalEntry entry = ElementalManager.Instance.GetElementalEntry(elemental.id);
         elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
@@ -43,29 +49,29 @@ public class DeckEntry : MonoBehaviour
 
     public void EvolveInfoClicked()
     {
-        SoundManager.Instance.PlaySFXFromPrefab(evolveInfoBtnSound);
-        evolvePanel.DisplayPanel(elemental);
+        SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
+        _evolvePanel.DisplayPanel(_elemental);
     }
 
-    void UpdateCatchImage()
+    private void UpdateCatchImage()
     {
-        if (ElementalManager.Instance.GetElementalEntry(elemental.id).isCaught)
+        if (ElementalManager.Instance.GetElementalEntry(_elemental.id).isCaught)
         {
-            elementalImage.color = UnlockedColor;
+            elementalImage.color = _unlockedColor;
             caughtIndicatorImage.gameObject.SetActive(true);
         }
         else
         {
-            elementalImage.color = LockedColor;
+            elementalImage.color = _lockedColor;
             caughtIndicatorImage.gameObject.SetActive(false);
         }
     }
 
-    void UpdateIdleBonusInfo()
+    private void UpdateIdleBonusInfo()
     {
-        if (elemental.idleBonus != null)
+        if (_elemental.idleBonus != null)
         {
-            idleBonusText.text = $"Idle bonus: {elemental.idleBonus.amount * 100}% {elemental.idleBonus.resource}";
+            idleBonusText.text = $"Idle bonus: {_elemental.idleBonus.amount * 100}% {_elemental.idleBonus.resource}";
         }
     }
 }

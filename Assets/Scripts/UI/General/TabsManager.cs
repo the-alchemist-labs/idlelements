@@ -19,6 +19,7 @@ public class TabManager : MonoBehaviour
         lastTabIndex = currentTabIndex;
         currentTabIndex = tabIndex;
         UpdateTabActive();
+        SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
     }
 
     void UpdateTabActive()

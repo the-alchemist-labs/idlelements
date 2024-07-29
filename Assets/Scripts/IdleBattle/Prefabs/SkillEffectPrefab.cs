@@ -17,6 +17,7 @@ public class SkillEffectPrefab : MonoBehaviour
 
     public void Initialize(Vector2 target, ElementalSkill skill, int power, string targetTag)
     {
+        SoundManager.Instance.PlaySkillSFX(skill.Id);
         _sprite.sprite = Resources.Load<Sprite>($"Sprites/Skills/{skill.Id}");
         _targetTag = targetTag;
         _speed = (int)skill.SkillSpeed;

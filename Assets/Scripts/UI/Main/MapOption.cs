@@ -8,7 +8,6 @@ public class MapOption : MonoBehaviour
     public TMP_Text mapNameText;
     public Image mapIcon;
     public Material blackAndWhiteMaterial;
-    public AudioSource selectMapSound;
 
     private Material originalMaterial;
     private GameObject allMapsPanel;
@@ -27,11 +26,11 @@ public class MapOption : MonoBehaviour
     }
 
     public void ChooseMap()
-    {   
+    {
         if (Player.Instance.Level >= MapCatalog.Instance.GetMap(mapId).requiredLevel)
         {
             MapManager.Instance.UpdateCurrentMap(mapId);
-            SoundManager.Instance.PlaySFXFromPrefab(selectMapSound);
+            SoundManager.Instance.PlaySystemSFX(SystemSFXId.Celebration);
             allMapsPanel.SetActive(false);
         }
     }

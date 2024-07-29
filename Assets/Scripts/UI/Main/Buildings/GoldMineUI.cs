@@ -4,16 +4,15 @@ using UnityEngine.UI;
 
 public class GoldMineUI : MonoBehaviour
 {
-    public TMP_Text levelText;
-    public TMP_Text costText;
-    public GameObject levelUpButton;
-    public AudioSource levelUpSound;
+    [SerializeField] TMP_Text levelText;
+    [SerializeField] TMP_Text costText;
+    [SerializeField] GameObject levelUpButton;
 
-    private GameObject levelUpImage;
+    private GameObject _levelUpImage;
 
     void Start()
     {
-        levelUpImage = levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>()?.gameObject;
+        _levelUpImage = levelUpButton.transform.GetChild(0).GetComponentInChildren<Image>()?.gameObject;
 
         GameEvents.OnMapDataChanged += ScheduleUpdate;
         GameEvents.OnGoldUpdated += ScheduleUpdate;
@@ -31,7 +30,7 @@ public class GoldMineUI : MonoBehaviour
         bool didLevelUp = GoldMine.LevelUp();
         if (didLevelUp)
         {
-            levelUpSound.Play();
+            SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
         }
     }
 
@@ -41,7 +40,7 @@ public class GoldMineUI : MonoBehaviour
 
         levelText.text = $"{goldMineLevel}/{GoldMine.currentGoldMineSpecs.MaxLevel}";
         costText.text = GoldMine.IsMaxLevel() ? "Max" : $"{TextUtil.NumberFormatter(GoldMine.GetLevelUpCost())}";
-        levelUpImage?.SetActive(!GoldMine.IsMaxLevel());
+        _levelUpImage?.SetActive(!GoldMine.IsMaxLevel());
         levelUpButton.GetComponent<Button>().interactable = !GoldMine.IsMaxLevel() && Player.Instance.Resources.Gold >= GoldMine.GetLevelUpCost();
     }
 

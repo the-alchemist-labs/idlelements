@@ -10,7 +10,6 @@ public class SelectPartyScrollView : MonoBehaviour
     public Transform scrollViewContent;
     public GameObject prefub;
     public TMP_Text idleBonusText;
-    public AudioSource selectSound;
 
     private ElementalId selectedElemental;
     private int memberSlot;
@@ -50,7 +49,7 @@ public class SelectPartyScrollView : MonoBehaviour
     public void OnMemberSelected()
     {
         Player.Instance.Party.SetPartyMember(memberSlot, selectedElemental);
-        SoundManager.Instance.PlaySFXFromPrefab(selectSound);
+        SoundManager.Instance.PlaySystemSFX(SystemSFXId.Celebration);
         panel.SetActive(false);
     }
 

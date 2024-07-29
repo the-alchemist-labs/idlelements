@@ -3,16 +3,18 @@ using UnityEngine.UI;
 
 public class SettingsPanel : MonoBehaviour
 {
-    public Slider BGMSlider;
-    public Slider SFXSlider;
+    [SerializeField]
+    Slider bGMSlider;
+    [SerializeField]
+    Slider sFXSlider;
 
     void Start()
     {
-        BGMSlider.value = SoundManager.Instance.BGMVolume;
-        BGMSlider.onValueChanged.AddListener(SoundManager.Instance.UpdateBGMVolume);
+        bGMSlider.value = SoundManager.Instance.BGMVolume;
+        bGMSlider.onValueChanged.AddListener(SoundManager.Instance.UpdateBGVolume);
 
-        SFXSlider.value = SoundManager.Instance.SFXVolume;
-        SFXSlider.onValueChanged.AddListener(SoundManager.Instance.UpdateSFXVolume);
+        sFXSlider.value = SoundManager.Instance.SFXVolume;
+        sFXSlider.onValueChanged.AddListener(SoundManager.Instance.UpdateSFXVolume);
     }
 
     public void OpenDiscord()
