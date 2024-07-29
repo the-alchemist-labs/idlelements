@@ -16,5 +16,14 @@
         "ElementalStat": "Hp",
         "ImpactValue": 10,
         "SkillSpeed": "Fast"
+    },
+    {
+        "Id": 2,
+        "Name": "Water ball",
+        "Description": "It's a water ball",
+        "AttackTarget": "Single",
+        "ElementalStat": "Hp",
+        "ImpactValue": 10,
+        "SkillSpeed": "Fast"
     }
 ]
