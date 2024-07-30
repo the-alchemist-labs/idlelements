@@ -7,17 +7,17 @@ public class StageName : MonoBehaviour
 
     void Start()
     {
-        GameEvents.OnMapDataChanged += UpdateMapName;
-        UpdateMapName();
+        GameEvents.OnStageFinished += UpdateStageName;
+        UpdateStageName();
     }
 
     void OnDestroy()
     {
-        GameEvents.OnMapDataChanged -= UpdateMapName;
+        GameEvents.OnStageFinished -= UpdateStageName;
     }
 
-    public void UpdateMapName()
+    public void UpdateStageName()
     {
-        stageNameText.text = $"Stage {IdleBattleManager.Instance.CurrentStage}";
+        stageNameText.text = $"Stage {IdleBattleManager.Instance.GetStageName()}";
     }
 }

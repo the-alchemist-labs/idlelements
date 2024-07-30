@@ -41,7 +41,6 @@ public class BaseBattlePrefab : MonoBehaviour
 
     private void BaseInitialize(int level)
     {
-        // summon animation
         _level = level;
         _isDefeated = false;
 

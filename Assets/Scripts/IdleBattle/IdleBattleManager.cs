@@ -3,20 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public interface IEffectPrefab
-{
-    event Action<GameObject> OnEffectCompleted;
-}
-
 public class IdleBattleManager : MonoBehaviour
 {
     public static IdleBattleManager Instance;
     public int CurrentStage { get; private set; }
-    public Dictionary<int, List<MinimentalId>> Stages { get; private set; }
 
     [SerializeField] private GameObject skillPrefab;
 
     private ObjectPool<GameObject> _pool;
+
+    private Dictionary<ElementType, List<MinimentalId>> _stageMinimentalByType = new Dictionary<ElementType, List<MinimentalId>> {
+        { ElementType.Fire, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireMeele  } },
+        { ElementType.Water, new List<MinimentalId>() {  MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged } },
+        { ElementType.Earth, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireMeele  } },
+        { ElementType.Air, new List<MinimentalId>() { MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged } },
+        { ElementType.Ice, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireMeele } },
+        { ElementType.Lightning, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireMeele } },
+        { ElementType.Chaos, new List<MinimentalId>() { MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged } }
+    };
+
+    private Dictionary<ElementType, MinimentalId> _stageBossByType = new Dictionary<ElementType, MinimentalId> {
+        { ElementType.Fire, MinimentalId.FireBoss },
+        { ElementType.Water,MinimentalId.FireBoss },
+        { ElementType.Earth, MinimentalId.FireBoss },
+        { ElementType.Air, MinimentalId.FireBoss },
+        { ElementType.Ice, MinimentalId.FireBoss},
+        { ElementType.Lightning, MinimentalId.FireBoss },
+        { ElementType.Chaos, MinimentalId.FireBoss }
+    };
 
     void Awake()
     {
@@ -35,15 +49,6 @@ public class IdleBattleManager : MonoBehaviour
     {
         IdleBattleManagerState state = DataService.Instance.LoadData<IdleBattleManagerState>(FileName.IdleBattleManagerState, true);
         CurrentStage = state.CurrentStage;
-
-        // Temp here
-        Stages = new Dictionary<int, List<MinimentalId>>{
-            { 1, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireRanged} },
-            { 2, new List<MinimentalId>() { MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged} },
-            { 3, new List<MinimentalId>() { MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged} },
-            { 4, new List<MinimentalId>() { MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged} },
-            { 5, new List<MinimentalId>() { MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged} },
-        };
 
         _pool = new ObjectPool<GameObject>(
               createFunc: () => Instantiate(skillPrefab),
@@ -70,21 +75,24 @@ public class IdleBattleManager : MonoBehaviour
     }
     public string GetStageName()
     {
-        return $"{CurrentStage / 10}-{CurrentStage % 10}";
+        
+        return $"{CurrentStage / 10 }-{CurrentStage % 10}";
     }
 
     public List<MinimentalId> GetStage(int stageNum)
     {
-        if (Stages.TryGetValue(stageNum, out List<MinimentalId> elementalDictionary))
+        ElementType stageType = GetElementTypeByStage(stageNum);
+
+        if (stageNum % 10 == 0)
         {
-            return elementalDictionary;
+            return new List<MinimentalId>() { _stageBossByType[stageType] };
         }
-        return new List<MinimentalId>();
+
+        return _stageMinimentalByType[stageType];
     }
 
     public int IncrementCurrentStage()
     {
-        if (CurrentStage == 5) return 1; // remvoe later
         return ++CurrentStage;
     }
 
@@ -103,5 +111,12 @@ public class IdleBattleManager : MonoBehaviour
     private void FinishEffect(GameObject obj)
     {
         _pool.Release(obj);
+    }
+
+    private ElementType GetElementTypeByStage(int stageNum)
+    {
+        ElementType[] elementTypes = (ElementType[])Enum.GetValues(typeof(ElementType));
+        int delta = stageNum % elementTypes.Length;
+        return elementTypes[delta];
     }
 }

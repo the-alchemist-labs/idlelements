@@ -70,6 +70,7 @@ public class EnemySpawner : MonoBehaviour
         {
             IdleBattleManager.Instance.IncrementCurrentStage();
             StartStage(IdleBattleManager.Instance.CurrentStage);
+            GameEvents.StageFinished();
         }
     }
 }

@@ -18,6 +18,8 @@ public static class GameEvents
     public static event Action OnBallsUpdated;
     public static event Action OnBallSelected;
     public static event Action OnEncounterUpdated;
+    public static event Action OnStageFinished;
+
 
     public static void SocketConnected()
     {
@@ -89,5 +91,10 @@ public static class GameEvents
     public static void EncounterUpdated()
     {
         OnEncounterUpdated?.Invoke();
+    }
+
+    public static void StageFinished()
+    {
+        OnStageFinished?.Invoke();
     }
 }

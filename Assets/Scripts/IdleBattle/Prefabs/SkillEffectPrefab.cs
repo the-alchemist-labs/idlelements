@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class SkillEffectPrefab : MonoBehaviour, IEffectPrefab
+public class SkillEffectPrefab : MonoBehaviour
 {
     private const float EFFECT_TTL = 3f;
 

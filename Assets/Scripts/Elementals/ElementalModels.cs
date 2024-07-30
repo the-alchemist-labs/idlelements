@@ -27,6 +27,7 @@ public enum MinimentalId
     None,
     FireMeele,
     FireRanged,
+    FireBoss,
 }
 
 public enum ElementalStat

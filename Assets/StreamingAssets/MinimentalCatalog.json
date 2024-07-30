@@ -10,5 +10,11 @@
     "name": "Fire Ranged",
     "type": "Fire",
     "Skills": ["Default"]
+  },
+  {
+    "id": 3,
+    "name": "Fire Boss",
+    "type": "Fire",
+    "Skills": ["FireBall"]
   }
 ]
