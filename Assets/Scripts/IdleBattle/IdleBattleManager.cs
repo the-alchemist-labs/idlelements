@@ -1,6 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+
+public interface IEffectPrefab
+{
+    event Action<GameObject> OnEffectCompleted;
+}
 
 public class IdleBattleManager : MonoBehaviour
 {
@@ -8,7 +14,7 @@ public class IdleBattleManager : MonoBehaviour
     public int CurrentStage { get; private set; }
     public Dictionary<int, List<MinimentalId>> Stages { get; private set; }
 
-    [SerializeField] private GameObject _skillPrefab;
+    [SerializeField] private GameObject skillPrefab;
 
     private ObjectPool<GameObject> _pool;
 
@@ -40,7 +46,7 @@ public class IdleBattleManager : MonoBehaviour
         };
 
         _pool = new ObjectPool<GameObject>(
-              createFunc: () => Instantiate(_skillPrefab),
+              createFunc: () => Instantiate(skillPrefab),
               actionOnGet: GetInstance,
               actionOnRelease: ReleaseInstance,
               actionOnDestroy: obj => Destroy(obj),
@@ -57,6 +63,11 @@ public class IdleBattleManager : MonoBehaviour
         skillEffect.GetComponent<SkillEffectPrefab>().Initialize(targetPosition, skill, power, targetTag);
     }
 
+    public void Explosion(Vector3 spawnPosition)
+    {
+        GameObject skillEffect = _pool.Get();
+        skillEffect.transform.position = spawnPosition;
+    }
     public string GetStageName()
     {
         return $"{CurrentStage / 10}-{CurrentStage % 10}";
@@ -73,6 +84,7 @@ public class IdleBattleManager : MonoBehaviour
 
     public int IncrementCurrentStage()
     {
+        if (CurrentStage == 5) return 1; // remvoe later
         return ++CurrentStage;
     }
 

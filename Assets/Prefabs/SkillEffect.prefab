@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7205470560209030803}
   - component: {fileID: 1787669664976334858}
   - component: {fileID: 4014410679661373293}
+  - component: {fileID: 8940740483418895403}
   m_Layer: 0
   m_Name: SkillEffect
   m_TagString: Untagged
@@ -102,9 +103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62bcede2c7356fa4baf7ef91d872a962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sprite: {fileID: 7205470560209030803}
-  _damage: 0
-  _speed: 0
+  sprite: {fileID: 7205470560209030803}
+  animator: {fileID: 8940740483418895403}
+  damage: 0
+  speed: 0
 --- !u!61 &4014410679661373293
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -150,3 +152,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &8940740483418895403
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832557153396074881}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 06bfeab4cce33d846bc51ab598ff4adc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
