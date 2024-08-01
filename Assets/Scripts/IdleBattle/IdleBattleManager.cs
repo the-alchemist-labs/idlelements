@@ -75,8 +75,9 @@ public class IdleBattleManager : MonoBehaviour
     }
     public string GetStageName()
     {
-        
-        return $"{CurrentStage / 10 }-{CurrentStage % 10}";
+        int quotient = (CurrentStage - 1) / 10;
+        int remainder = (CurrentStage - 1) % 10 + 1;
+        return $"{quotient}-{remainder}";
     }
 
     public List<MinimentalId> GetStage(int stageNum)

@@ -157,6 +157,26 @@ public class ElementalStats
     }
 }
 
+[Serializable]
+public class Rewards
+{
+    public int Gold { get; }
+    public int Essence { get; }
+    public int Orbs { get; }
+    public int Exp { get; }
+    public int Token { get; }
+    public BallId Ball { get; }
+
+    public Rewards(int Gold = 0, int Essence = 0, int Orbs = 0, int Exp = 0, int Token = 0, BallId Ball = BallId.None)
+    {
+        this.Gold = Gold;
+        this.Essence = Essence;
+        this.Orbs = Orbs;
+        this.Exp = Exp;
+        this.Token = Token;
+        this.Ball = Ball;
+    }
+}
 
 public interface IElemental
 {
@@ -164,10 +184,11 @@ public interface IElemental
     public ElementType type { get; }
     public ElementalStats Stats { get; }
     public List<SkillId> Skills { get; }
+    public Rewards Rewards { get; }
 }
 
 [Serializable]
-public class Elemental: IElemental
+public class Elemental : IElemental
 {
     public ElementalId id { get; }
     public string name { get; }
@@ -179,6 +200,7 @@ public class Elemental: IElemental
     public int expGain { get; }
     public int orbsGain { get; }
     public IdleBonus? idleBonus { get; }
+    public Rewards Rewards { get; }
 
     public Elemental(
         ElementalId id,
@@ -190,7 +212,8 @@ public class Elemental: IElemental
         List<SkillId> Skills,
         int expGain,
         int orbsGain,
-        IdleBonus idleBonus
+        IdleBonus idleBonus,
+        Rewards Rewards
         )
     {
         this.id = id;
@@ -203,25 +226,36 @@ public class Elemental: IElemental
         this.orbsGain = orbsGain;
         this.evolution = evolution;
         this.idleBonus = idleBonus;
+        this.Rewards = Rewards;
     }
 }
 
 [Serializable]
-public class Minimental: IElemental
+public class Minimental : IElemental
 {
     public MinimentalId id { get; }
     public string name { get; }
     public ElementType type { get; }
     public ElementalStats Stats { get; }
     public List<SkillId> Skills { get; }
+    public Rewards Rewards { get; }
 
-    public Minimental(MinimentalId id, string name, ElementType type, List<SkillId> Skills, ElementalStats Stats)
+    public Minimental(
+        MinimentalId id,
+        string name,
+        ElementType type,
+        List<SkillId> Skills,
+        ElementalStats Stats,
+        int expGain,
+        Rewards Rewards
+        )
     {
         this.id = id;
         this.name = name;
         this.type = type;
         this.Skills = Skills;
         this.Stats = new ElementalStats(); // for now
+        this.Rewards = Rewards;
     }
 }
 
