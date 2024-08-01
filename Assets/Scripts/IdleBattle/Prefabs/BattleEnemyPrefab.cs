@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public class BattleEnemyPrefab : BaseBattlePrefab
 {
     private int _level;
@@ -14,9 +17,25 @@ public class BattleEnemyPrefab : BaseBattlePrefab
         Player.Instance.GainExperience(Elemental.Rewards.Exp * _level);
         Player.Instance.Resources.UpdateEssence(Elemental.Rewards.Essence);
         Player.Instance.Resources.UpdateGold(Elemental.Rewards.Gold);
-        if (Elemental.Rewards.Ball != BallId.None)
+        RewardBalls(Elemental.Rewards.Balls);
+    }
+
+    private void RewardBalls(Dictionary<BallId, RewardsItem> balls)
+    {
+        Random random = new Random();
+
+        foreach (KeyValuePair<BallId, RewardsItem> kvp in balls)
         {
-            Player.Instance.Inventory.UpdateBalls(Elemental.Rewards.Ball, 1);
+            BallId ballId = kvp.Key;
+            RewardsItem rewardsItem = kvp.Value;
+
+            float randomNumber = (float)random.NextDouble();
+            if (rewardsItem.Chance >= randomNumber)
+            {
+                Player.Instance.Inventory.UpdateBalls(ballId, rewardsItem.Amount);
+            }
+            print($"{ballId}: {rewardsItem.Amount}");
+
         }
     }
 }

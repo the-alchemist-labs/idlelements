@@ -59,9 +59,15 @@ public class GameManager : MonoBehaviour
 
     private void Save()
     {
-        MapManagerState mms = new MapManagerState(MapManager.Instance.progressions, MapManager.Instance.currentMapId);
+        MapManagerState mms = new MapManagerState(
+            MapManager.Instance.progressions,
+            MapManager.Instance.currentMapId
+        );
 
-        IdleBattleManagerState ibs = new IdleBattleManagerState(IdleBattleManager.Instance.CurrentStage);
+        IdleBattleManagerState ibs = new IdleBattleManagerState(
+            IdleBattleManager.Instance.CurrentStage,
+            IdleBattleManager.Instance.LastRewardTimestamp
+        );
 
         ElementalManagerState ems = new ElementalManagerState(
             ElementalManager.Instance.entries,

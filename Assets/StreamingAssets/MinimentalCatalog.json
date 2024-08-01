@@ -3,7 +3,9 @@
     "id": 1,
     "name": "Fire Meele",
     "type": "Fire",
-    "Skills": ["Default"],
+    "Skills": [
+      "Default"
+    ],
     "Rewards": {
       "Gold": 10,
       "Essence": 15,
@@ -14,7 +16,9 @@
     "id": 2,
     "name": "Fire Ranged",
     "type": "Fire",
-    "Skills": ["Default"],
+    "Skills": [
+      "Default"
+    ],
     "Rewards": {
       "Gold": 10,
       "Essence": 15,
@@ -25,12 +29,19 @@
     "id": 3,
     "name": "Fire Boss",
     "type": "Fire",
-    "Skills": ["FireBall"],
+    "Skills": [
+      "FireBall"
+    ],
     "Rewards": {
       "Gold": 20,
       "Essence": 25,
       "Exp": 10,
-      "Ball": "Normal"
+      "Balls": {
+        "Normal": {
+          "Amount": 1,
+          "Chance": 0.01
+        }
+      }
     }
   }
 ]

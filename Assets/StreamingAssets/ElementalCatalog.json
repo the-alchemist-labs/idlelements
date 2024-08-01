@@ -9,8 +9,6 @@
       "essenceCost": 300000,
       "tokensCost": 100
     },
-    "expGain": 10,
-    "orbsGain": 50,
     "idleBonus": {
       "resource": "Gold",
       "amount": 0.1
@@ -20,8 +18,6 @@
     "id": 2,
     "name": "Ferion",
     "type": "Fire",
-    "expGain": 80,
-    "orbsGain": 200,
     "catchRate": 1,
     "idleBonus": {
       "resource": "Gold",
@@ -49,8 +45,6 @@
     "id": 4,
     "name": "Wizar",
     "type": "Water",
-    "expGain": 100,
-    "orbsGain": 200,
     "catchRate": 1,
     "idleBonus": {
       "resource": "Essence",
@@ -67,8 +61,6 @@
       "essenceCost": 300000,
       "tokensCost": 100
     },
-    "expGain": 15,
-    "orbsGain": 50,
     "idleBonus": {
       "resource": "Experience",
       "amount": 0.075
@@ -84,8 +76,6 @@
       "essenceCost": 800000,
       "tokensCost": 250
     },
-    "expGain": 120,
-    "orbsGain": 150,
     "idleBonus": {
       "resource": "Experience",
       "amount": 0.1
@@ -95,8 +85,6 @@
     "id": 7,
     "name": "Bulldo",
     "type": "Earth",
-    "expGain": 800,
-    "orbsGain": 300,
     "catchRate": 1,
     "idleBonus": {
       "resource": "Experience",
@@ -113,8 +101,6 @@
       "essenceCost": 500000,
       "tokensCost": 180
     },
-    "expGain": 20,
-    "orbsGain": 100,
     "idleBonus": {
       "resource": "Essence",
       "amount": 0.065
@@ -125,8 +111,6 @@
     "name": "Galeria",
     "type": "Ice",
     "catchRate": 1,
-    "expGain": 700,
-    "orbsGain": 280,
     "idleBonus": {
       "resource": "Essence",
       "amount": 0.15
@@ -137,8 +121,6 @@
     "name": "Freezion",
     "type": "Ice",
     "catchRate": 1,
-    "expGain": 100,
-    "orbsGain": 180,
     "evolution": null,
     "idleBonus": null
   },
@@ -147,8 +129,6 @@
     "name": "Stromeon",
     "type": "Air",
     "catchRate": 1,
-    "expGain": 100,
-    "orbsGain": 180,
     "evolution": null,
     "idleBonus": null
   },
@@ -157,8 +137,6 @@
     "name": "Zapeon",
     "type": "Lightning",
     "catchRate": 1,
-    "expGain": 100,
-    "orbsGain": 180,
     "evolution": null,
     "idleBonus": null
   },
@@ -167,8 +145,6 @@
     "name": "Volx",
     "type": "Lightning",
     "catchRate": 1,
-    "expGain": 200,
-    "orbsGain": 300,
     "evolution": null,
     "idleBonus": null
   },
@@ -177,8 +153,6 @@
     "name": "Serphire",
     "type": "Fire",
     "catchRate": 1,
-    "expGain": 200,
-    "orbsGain": 300,
     "evolution": null,
     "idleBonus": null
   }

@@ -158,6 +158,19 @@ public class ElementalStats
 }
 
 [Serializable]
+public class RewardsItem
+{
+    public int Amount { get; }
+    public float Chance { get; }
+
+    public RewardsItem(int Amount = 0, float Chance = 0)
+    {
+        this.Amount = Amount;
+        this.Chance = Chance;
+    } 
+}
+
+[Serializable]
 public class Rewards
 {
     public int Gold { get; }
@@ -165,16 +178,16 @@ public class Rewards
     public int Orbs { get; }
     public int Exp { get; }
     public int Token { get; }
-    public BallId Ball { get; }
+    public Dictionary<BallId, RewardsItem> Balls { get; }
 
-    public Rewards(int Gold = 0, int Essence = 0, int Orbs = 0, int Exp = 0, int Token = 0, BallId Ball = BallId.None)
+    public Rewards(int Gold = 0, int Essence = 0, int Orbs = 0, int Exp = 0, int Token = 0, Dictionary<BallId, RewardsItem>? Balls = null)
     {
         this.Gold = Gold;
         this.Essence = Essence;
         this.Orbs = Orbs;
         this.Exp = Exp;
         this.Token = Token;
-        this.Ball = Ball;
+        this.Balls = Balls ?? new Dictionary<BallId, RewardsItem>();
     }
 }
 
@@ -226,7 +239,7 @@ public class Elemental : IElemental
         this.orbsGain = orbsGain;
         this.evolution = evolution;
         this.idleBonus = idleBonus;
-        this.Rewards = Rewards;
+        this.Rewards = Rewards ?? new Rewards();
     }
 }
 
@@ -246,7 +259,6 @@ public class Minimental : IElemental
         ElementType type,
         List<SkillId> Skills,
         ElementalStats Stats,
-        int expGain,
         Rewards Rewards
         )
     {
@@ -255,7 +267,7 @@ public class Minimental : IElemental
         this.type = type;
         this.Skills = Skills;
         this.Stats = new ElementalStats(); // for now
-        this.Rewards = Rewards;
+        this.Rewards = Rewards ?? new Rewards();
     }
 }
 

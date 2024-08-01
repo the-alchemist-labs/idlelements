@@ -39,15 +39,6 @@ public class BaseBattlePrefab : MonoBehaviour
         BaseInitialize(level);
     }
 
-    private void BaseInitialize(int level)
-    {
-        _level = level;
-        _isDefeated = false;
-
-        HealthBar.maxValue = GetMaxHealth();
-        HealthBar.value = GetMaxHealth();
-    }
-
     protected IEnumerator AttackRoutine()
     {
         while (true)
@@ -73,10 +64,9 @@ public class BaseBattlePrefab : MonoBehaviour
         }
     }
 
-    private SkillId SelectNextSkill()
+    protected int GetMaxHealth()
     {
-        int random = UnityEngine.Random.Range(0, Skills.Count);
-        return Skills[random];
+        return Elemental.Stats.Hp * HEALTH_PER_HP_MODIFIER;
     }
 
     protected Vector2? GetTargetLocation(AttackTarget target)
@@ -111,16 +101,6 @@ public class BaseBattlePrefab : MonoBehaviour
         return closestTarget.transform.position;
     }
 
-    private string GetTargetTag(bool isTargetingSelf)
-    {
-        if (isTargetingSelf)
-        {
-            return _isEnemyPrefab ? Tags.Enemy : Tags.PartyMember;
-        }
-
-        return _isEnemyPrefab ? Tags.PartyMember : Tags.Enemy;
-    }
-
     public void TakeDamage(int damageAmount)
     {
         HealthBar.value -= damageAmount - Elemental.Stats.Defense * _level;
@@ -131,16 +111,36 @@ public class BaseBattlePrefab : MonoBehaviour
         }
     }
 
+    private void BaseInitialize(int level)
+    {
+        _level = level;
+        _isDefeated = false;
+
+        HealthBar.maxValue = GetMaxHealth();
+        HealthBar.value = GetMaxHealth();
+    }
+
+    private SkillId SelectNextSkill()
+    {
+        int random = UnityEngine.Random.Range(0, Skills.Count);
+        return Skills[random];
+    }
+
+    private string GetTargetTag(bool isTargetingSelf)
+    {
+        if (isTargetingSelf)
+        {
+            return _isEnemyPrefab ? Tags.Enemy : Tags.PartyMember;
+        }
+
+        return _isEnemyPrefab ? Tags.PartyMember : Tags.Enemy;
+    }
+
     private void HandleDefeat()
     {
         _isDefeated = true;
-        OnDefeat?.Invoke(gameObject);
         HandlePostDefeat();
-    }
-
-    protected int GetMaxHealth()
-    {
-        return Elemental.Stats.Hp * HEALTH_PER_HP_MODIFIER;
+        OnDefeat?.Invoke(gameObject);
     }
 
     protected virtual void HandlePostDefeat() { }

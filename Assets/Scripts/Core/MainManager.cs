@@ -22,6 +22,6 @@ public class MainManager : MonoBehaviour
 
     void Start()
     {
-        // afkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
+        afkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
     }
 }

@@ -7,6 +7,7 @@ public class IdleBattleManager : MonoBehaviour
 {
     public static IdleBattleManager Instance;
     public int CurrentStage { get; private set; }
+    public DateTime LastRewardTimestamp { get; private set; }
 
     [SerializeField] private GameObject skillPrefab;
 
@@ -49,6 +50,7 @@ public class IdleBattleManager : MonoBehaviour
     {
         IdleBattleManagerState state = DataService.Instance.LoadData<IdleBattleManagerState>(FileName.IdleBattleManagerState, true);
         CurrentStage = state.CurrentStage;
+        LastRewardTimestamp = state.LastRewardTimestamp;
 
         _pool = new ObjectPool<GameObject>(
               createFunc: () => Instantiate(skillPrefab),
