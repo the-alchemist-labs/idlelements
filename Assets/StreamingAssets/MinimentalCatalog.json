@@ -9,7 +9,13 @@
     "Rewards": {
       "Gold": 10,
       "Essence": 15,
-      "Exp": 3
+      "Exp": 1,
+      "Balls": {
+        "Normal": {
+          "Amount": 1,
+          "Chance": 0.01
+        }
+      }
     }
   },
   {
@@ -22,7 +28,13 @@
     "Rewards": {
       "Gold": 10,
       "Essence": 15,
-      "Exp": 3
+      "Exp": 1,
+      "Balls": {
+        "Normal": {
+          "Amount": 1,
+          "Chance": 0.01
+        }
+      }
     }
   },
   {
@@ -35,7 +47,7 @@
     "Rewards": {
       "Gold": 20,
       "Essence": 25,
-      "Exp": 10,
+      "Exp": 2,
       "Balls": {
         "Normal": {
           "Amount": 1,

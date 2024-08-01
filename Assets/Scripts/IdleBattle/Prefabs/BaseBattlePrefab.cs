@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class BaseBattlePrefab : MonoBehaviour
 {
-    const int HEALTH_PER_HP_MODIFIER = 3;
+    const int ATTACK_SPEED_INTERVAL_SECONDS = 1;
 
     public IElemental Elemental;
     public event Action<GameObject> OnDefeat;
@@ -54,19 +54,19 @@ public class BaseBattlePrefab : MonoBehaviour
                 IdleBattleManager.Instance.ActivateSkill(
                     transform.position,
                     resolvedTarget, skill,
-                    Elemental.Stats.Attack * _level,
+                    Elemental.Stats.Attack + _level,
                     GetTargetTag(skill.AttackTarget == AttackTarget.Self)
                 );
-                yield return new WaitForSeconds(Elemental.Stats.AttackSpeed);
+                yield return new WaitForSeconds(ATTACK_SPEED_INTERVAL_SECONDS);
             }
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(ATTACK_SPEED_INTERVAL_SECONDS / 2);
         }
     }
 
     protected int GetMaxHealth()
     {
-        return Elemental.Stats.Hp * HEALTH_PER_HP_MODIFIER;
+        return Elemental.Stats.Hp + _level;
     }
 
     protected Vector2? GetTargetLocation(AttackTarget target)
@@ -103,7 +103,7 @@ public class BaseBattlePrefab : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        HealthBar.value -= damageAmount - Elemental.Stats.Defense * _level;
+        HealthBar.value -= damageAmount - (Elemental.Stats.Defense + _level);
 
         if (HealthBar.value <= 0 && !_isDefeated)
         {

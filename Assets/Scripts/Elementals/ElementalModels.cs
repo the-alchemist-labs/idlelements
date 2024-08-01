@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Unity.VisualScripting;
 
 public enum ElementalId
 {
@@ -35,7 +36,6 @@ public enum ElementalStat
     Hp,
     Attack,
     Defense,
-    AttackSpeed,
     MovmentSpeed,
 }
 
@@ -125,17 +125,15 @@ public class ElementalStats
     public int Hp { get; private set; }
     public int Attack { get; private set; }
     public int Defense { get; private set; }
-    public int AttackSpeed { get; private set; }
     public int MovmentSpeed { get; private set; }
 
     private readonly Dictionary<ElementalStat, Action<int>> _statModifiers;
 
-    public ElementalStats(int Hp = 10, int Attack = 1, int Defense = 1, int AttackSpeed = 1, int MovmentSpeed = 1)
+    public ElementalStats(int Hp = 10, int Attack = 1, int Defense = 1, int MovmentSpeed = 1)
     {
         this.Hp = Hp;
         this.Attack = Attack;
         this.Defense = Defense;
-        this.AttackSpeed = AttackSpeed;
         this.MovmentSpeed = MovmentSpeed;
 
         _statModifiers = new Dictionary<ElementalStat, Action<int>>
@@ -143,7 +141,6 @@ public class ElementalStats
             { ElementalStat.Hp, value => Hp += value },
             { ElementalStat.Attack, value => Attack += value },
             { ElementalStat.Defense, value => Defense += value },
-            { ElementalStat.AttackSpeed, value => AttackSpeed += value },
             { ElementalStat.MovmentSpeed, value => MovmentSpeed += value }
         };
     }
@@ -167,7 +164,7 @@ public class RewardsItem
     {
         this.Amount = Amount;
         this.Chance = Chance;
-    } 
+    }
 }
 
 [Serializable]

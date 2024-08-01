@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -63,18 +64,18 @@ public class IdleBattleManager : MonoBehaviour
           );
     }
 
+    public void UpdateLastRewardTimestam(DateTime date)
+    {
+        LastRewardTimestamp = date;
+    }
+
     public void ActivateSkill(Vector3 spawnPosition, Vector2 targetPosition, ElementalSkill skill, int power, string targetTag)
     {
         GameObject skillEffect = _pool.Get();
         skillEffect.transform.position = spawnPosition;
         skillEffect.GetComponent<SkillEffectPrefab>().Initialize(targetPosition, skill, power, targetTag);
     }
-
-    public void Explosion(Vector3 spawnPosition)
-    {
-        GameObject skillEffect = _pool.Get();
-        skillEffect.transform.position = spawnPosition;
-    }
+    
     public string GetStageName()
     {
         int quotient = (CurrentStage - 1) / 10;
@@ -99,6 +100,11 @@ public class IdleBattleManager : MonoBehaviour
         return ++CurrentStage;
     }
 
+    public int GetStageEHP()
+    {
+        return GetStage(CurrentStage).Sum(m => GetMinimentalEHP(m, CurrentStage));
+    }
+
     private void GetInstance(GameObject obj)
     {
         obj.SetActive(true);
@@ -121,5 +127,11 @@ public class IdleBattleManager : MonoBehaviour
         ElementType[] elementTypes = (ElementType[])Enum.GetValues(typeof(ElementType));
         int delta = stageNum % elementTypes.Length;
         return elementTypes[delta];
+    }
+
+    private int GetMinimentalEHP(MinimentalId id, int level)
+    {
+        Minimental minimental = ElementalCatalog.Instance.GetElemental(id);
+        return (minimental.Stats.Hp + level) + (minimental.Stats.Defense + level);
     }
 }

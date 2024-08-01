@@ -18,6 +18,7 @@ public class BattleEnemyPrefab : BaseBattlePrefab
         Player.Instance.Resources.UpdateEssence(Elemental.Rewards.Essence);
         Player.Instance.Resources.UpdateGold(Elemental.Rewards.Gold);
         RewardBalls(Elemental.Rewards.Balls);
+        IdleBattleManager.Instance.UpdateLastRewardTimestam(DateTime.Now);
     }
 
     private void RewardBalls(Dictionary<BallId, RewardsItem> balls)
@@ -34,8 +35,6 @@ public class BattleEnemyPrefab : BaseBattlePrefab
             {
                 Player.Instance.Inventory.UpdateBalls(ballId, rewardsItem.Amount);
             }
-            print($"{ballId}: {rewardsItem.Amount}");
-
         }
     }
 }

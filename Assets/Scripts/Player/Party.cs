@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 [Serializable]
 public class Party
@@ -61,6 +62,22 @@ public class Party
     public bool IsInParty(ElementalId? id)
     {
         return First == id || Second == id || Third == id;
+    }
+
+    public int PartyPower()
+    {
+        IEnumerable<ElementalId> party = new[] { First, Second, Third }.Where(e => e != ElementalId.None);
+
+        return party.Sum(m => GetMemberDPS(m, Player.Instance.Level));
+    }
+
+    private int GetMemberDPS(ElementalId id, int level)
+    {
+        Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
+        List<SkillId> skillIds = ElementalManager.Instance.GetSkills(id);
+        List<ElementalSkill> skills = skillIds.Select(s => ElementalCatalog.Instance.GetSkill(s)).ToList();
+        int maxDamagSkill = skills.Max(s => s.ImpactValue);
+        return (elemental.Stats.Attack + level) * maxDamagSkill;
     }
 
     private void _setPartyMember(int slot, ElementalId id)

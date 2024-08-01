@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
 
     public int ExpToLevelUp(int level)
     {
-        return (int)(Math.Round((Math.Pow(level, 3) + level * 200) / 100.0) * 100);
+        return (int)(Math.Round((Math.Pow(level, 3) + level * 200) / 100.0) * 1000);
     }
 
     private bool ShouldToLevelUp()

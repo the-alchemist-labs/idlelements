@@ -43,4 +43,16 @@ public class ElementalCatalog : MonoBehaviour
     {
         return Skills.Find(el => el.Id == id);
     }
+
+    
+    public int CalculateDPS(Elemental elemental, int level)
+    {
+        return elemental.Stats.Attack * level;
+    }
+
+    public int CalculateEHP(Elemental elemental, int level)
+    {
+        return (elemental.Stats.Hp * level) + (elemental.Stats.Defense * 10);
+
+    }
 }

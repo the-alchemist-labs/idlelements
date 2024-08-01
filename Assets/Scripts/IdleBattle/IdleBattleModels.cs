@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 [Serializable]
@@ -19,4 +20,13 @@ public class IdleBattleManagerState
         this.CurrentStage = CurrentStage;
         this.LastRewardTimestamp = LastRewardTimestamp ?? DateTime.Now;
     }
+}
+
+public class IdleRewards
+{
+    public int Gold = 0;
+    public int Essence = 0;
+    public int Experience = 0;
+    public Dictionary<BallId, int> Balls = new Dictionary<BallId, int>();
+    public string IdleTime;
 }
