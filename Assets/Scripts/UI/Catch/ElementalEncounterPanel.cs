@@ -13,7 +13,7 @@ public class ElementalEncounterPanel : MonoBehaviour
     public void UpdateUI(Encounter encounter)
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(encounter.EncounterId);
-        encounterImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
+        encounterImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.Id}");
         nameText.text = elemental.name;
         triesText.text = $"Tries left: {Encounter.MAX_CATCH_TRIES - encounter.Tries}";
         encounterStateText.text = $"State: {encounter.state}";

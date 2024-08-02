@@ -84,7 +84,7 @@ public class PartySpawner : MonoBehaviour
 
     private void handleFaintedMember(GameObject obj)
     {
-        int partySlot = _partyIds.IndexOf(((Elemental)obj.GetComponent<BattleMemberPrefab>().Elemental).id);
+        int partySlot = _partyIds.IndexOf(((Elemental)obj.GetComponent<BattleMemberPrefab>().Elemental).Id);
         _pool.Release(obj);
         _members[partySlot] = null;
         StartCoroutine(SpawnNewMemberAfterDelay(partySlot));

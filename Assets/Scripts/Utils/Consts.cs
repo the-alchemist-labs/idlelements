@@ -1,10 +1,7 @@
 public static class FileName
 {
     public const string MapCatalog = "MapCatalog";
-    public const string ElementalCatalog = "ElementalCatalog";
-    public const string MinimentalCatalog = "MinimentalCatalog";
     public const string InventoryCatalog = "InventoryCatalog";
-    public const string SkillCatalog = "SkillCatalog";
     public const string MapManagerState = "MapManagerState";
     public const string ElementalManagerState = "ElementalManagerState";
     public const string IdleBattleManagerState = "IdleBattleManagerState";

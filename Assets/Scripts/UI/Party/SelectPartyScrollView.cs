@@ -62,7 +62,7 @@ public class SelectPartyScrollView : MonoBehaviour
         else
         {
             Elemental elemental = ElementalCatalog.Instance.GetElemental((ElementalId)selectedElemental);
-            return elemental.idleBonus != null ? $"{elemental.idleBonus.amount * 100}% {elemental.idleBonus.resource}" : "None";
+            return elemental.IdleBonus != null ? $"{elemental.IdleBonus.amount * 100}% {elemental.IdleBonus.resource}" : "None";
         }
     }
 }

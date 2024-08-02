@@ -34,14 +34,14 @@ public class EvolvePanel : MonoBehaviour
         this.elemental = elemental;
 
         gameObject.SetActive(true);
-        Elemental evolutionElemental = ElementalCatalog.Instance.GetElemental(elemental.evolution.evolveTo);
-        IdleBonus idleBonus = evolutionElemental.idleBonus;
+        Elemental evolutionElemental = ElementalCatalog.Instance.GetElemental(elemental.Evolution.evolveTo);
+        IdleBonus idleBonus = evolutionElemental.IdleBonus;
 
-        evolveToText.text = $"Evlove to {evolutionElemental.name} (#{evolutionElemental.id})";
+        evolveToText.text = $"Evlove to {evolutionElemental.name} (#{evolutionElemental.Id})";
         idleBonusText.text = idleBonus != null ? $"Idle bonus: +{idleBonus.amount * 100} {idleBonus.resource}" : "";
 
-        tokenCostText.text = TextUtil.NumberFormatter(elemental.evolution.tokensCost);
-        essenceCostText.text = TextUtil.NumberFormatter(elemental.evolution.essenceCost);
+        tokenCostText.text = TextUtil.NumberFormatter(elemental.Evolution.tokensCost);
+        essenceCostText.text = TextUtil.NumberFormatter(elemental.Evolution.essenceCost);
         LayoutRebuilder.ForceRebuildLayoutImmediate(essenceContainer.GetComponent<RectTransform>());
         LayoutRebuilder.ForceRebuildLayoutImmediate(tokenCostText.GetComponent<RectTransform>());
 
@@ -50,12 +50,12 @@ public class EvolvePanel : MonoBehaviour
 
     void UpdateEvolveButton()
     {
-        evolveButton.interactable = ElementalManager.Instance.CanEvolve(elemental.id);
+        evolveButton.interactable = ElementalManager.Instance.CanEvolve(elemental.Id);
     }
 
     public void Evolve()
     {
-        ElementalManager.Instance.Evolve(elemental.id);
+        ElementalManager.Instance.Evolve(elemental.Id);
         celebrateEvolutionPanel.DisplayPanel(elemental);
         gameObject.SetActive(false);
     }

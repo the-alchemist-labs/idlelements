@@ -65,18 +65,18 @@ public class ElementalManager : MonoBehaviour
         ElementalEntry entry = GetElementalEntry(id);
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
 
-        return elemental.evolution != null
-        && entry.tokens >= elemental.evolution.tokensCost
-        && Player.Instance.Resources.Essence >= elemental.evolution.essenceCost;
+        return elemental.Evolution != null
+        && entry.tokens >= elemental.Evolution.tokensCost
+        && Player.Instance.Resources.Essence >= elemental.Evolution.essenceCost;
     }
 
     public void Evolve(ElementalId id)
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
 
-        UpdateElementalTokens(id, -elemental.evolution.tokensCost);
-        Player.Instance.Resources.UpdateEssence(-elemental.evolution.essenceCost);
-        UpdateElementalTokens(elemental.evolution.evolveTo, 1);
+        UpdateElementalTokens(id, -elemental.Evolution.tokensCost);
+        Player.Instance.Resources.UpdateEssence(-elemental.Evolution.essenceCost);
+        UpdateElementalTokens(elemental.Evolution.evolveTo, 1);
 
         GameEvents.EssenceUpdated();
         GameEvents.TokensUpdated();
@@ -93,7 +93,7 @@ public class ElementalManager : MonoBehaviour
         Ball ball = InventoryCatalog.Instance.GetBall(ballId);
 
         float bonusCatchRate = 0.1f;
-        float totalCatchRate = elemental.catchRate * ball.CatchRate + bonusCatchRate;
+        float totalCatchRate = elemental.CatchRate * ball.CatchRate + bonusCatchRate;
         float randomValue = Random.Range(0f, 1f);
         bool isCaught = totalCatchRate >= randomValue;
 
@@ -109,7 +109,11 @@ public class ElementalManager : MonoBehaviour
 
     public List<SkillId> GetSkills(MinimentalId minimentalId)
     {
-        return ElementalCatalog.Instance.GetElemental(minimentalId).Skills;
+        return ElementalCatalog.Instance
+        .GetElemental(minimentalId).Skills
+        .Where(s => s.Level <= IdleBattleManager.Instance.CurrentStage)
+        .Select(s => s.SkillId)
+        .ToList();
     }
 
     public void EquipSkill(ElementalId elementalId, SkillId skillIdToAdd, SkillId skillIdToRemove)

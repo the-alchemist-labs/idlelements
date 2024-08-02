@@ -54,9 +54,9 @@ public class Party
         return new List<ElementalId?> { First, Second, Third }
         .Where(e => e != ElementalId.None)
         .Select(id => ElementalCatalog.Instance.GetElemental(id.Value))
-        .Where(e => e.idleBonus != null)
-        .Where(e => e.idleBonus?.resource == resource)
-        .Sum(e => e.idleBonus.amount);
+        .Where(e => e.IdleBonus != null)
+        .Where(e => e.IdleBonus?.resource == resource)
+        .Sum(e => e.IdleBonus.amount);
     }
 
     public bool IsInParty(ElementalId? id)
@@ -75,7 +75,7 @@ public class Party
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
         List<SkillId> skillIds = ElementalManager.Instance.GetSkills(id);
-        List<ElementalSkill> skills = skillIds.Select(s => ElementalCatalog.Instance.GetSkill(s)).ToList();
+        List<Skill> skills = skillIds.Select(s => ElementalCatalog.Instance.GetSkill(s)).ToList();
         int maxDamagSkill = skills.Max(s => s.ImpactValue);
         return (elemental.Stats.Attack + level) * maxDamagSkill;
     }

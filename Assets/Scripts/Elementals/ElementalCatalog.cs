@@ -1,12 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ElementalCatalog : MonoBehaviour
 {
+    private string SCRIPTABLE_OBJECT_ELEMENTALS_PATH = "ScriptableObjects/Elementals";
+    private string SCRIPTABLE_OBJECT_MINIMENTALS_PATH = "ScriptableObjects/Minimentals";
+    private string SCRIPTABLE_OBJECT_SKILLS_PATH = "ScriptableObjects/Skills";
+
     public static ElementalCatalog Instance { get; private set; }
     public List<Elemental> Elementals { get; private set; }
     public List<Minimental> Minimentals { get; private set; }
-    public List<ElementalSkill> Skills { get; private set; }
+    public List<Skill> Skills { get; private set; }
     public int Count { get { return Elementals.Count; } }
 
     private void Awake()
@@ -24,22 +29,22 @@ public class ElementalCatalog : MonoBehaviour
 
     private void Initialize()
     {
-        Elementals = DataService.Instance.LoadData<List<Elemental>>(FileName.ElementalCatalog, false);
-        Minimentals = DataService.Instance.LoadData<List<Minimental>>(FileName.MinimentalCatalog, false);
-        Skills = DataService.Instance.LoadData<List<ElementalSkill>>(FileName.SkillCatalog, false);
+        Elementals = Resources.LoadAll<Elemental>(SCRIPTABLE_OBJECT_ELEMENTALS_PATH).ToList();
+        Minimentals = Resources.LoadAll<Minimental>(SCRIPTABLE_OBJECT_MINIMENTALS_PATH).ToList();
+        Skills = Resources.LoadAll<Skill>(SCRIPTABLE_OBJECT_SKILLS_PATH).ToList();
     }
 
     public Elemental GetElemental(ElementalId id)
     {
-        return Elementals.Find(el => el.id == id);
+        return Elementals.Find(el => el.Id == id);
     }
 
     public Minimental GetElemental(MinimentalId id)
     {
-        return Minimentals.Find(el => el.id == id);
+        return Minimentals.Find(el => el.Id == id);
     }
 
-    public ElementalSkill GetSkill(SkillId id)
+    public Skill GetSkill(SkillId id)
     {
         return Skills.Find(el => el.Id == id);
     }

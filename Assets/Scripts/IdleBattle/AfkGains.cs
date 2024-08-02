@@ -57,28 +57,26 @@ public static class AfkGains
         Dictionary<BallId, int> ballsRewards = new Dictionary<BallId, int>();
         Random random = new Random();
 
-        foreach (KeyValuePair<BallId, RewardsItem> kvp in minimental.Rewards.Balls)
+        foreach (BallReward ballReward in minimental.Rewards.Balls)
         {
-            BallId ballId = kvp.Key;
-            RewardsItem rewardsItem = kvp.Value;
             int ballsGained = 0;
-
+            
             for (int i = 0; i < countDefeated; i++)
             {
                 float randomNumber = (float)random.NextDouble();
-                if (rewardsItem.Chance >= randomNumber)
+                if (ballReward.Chance >= randomNumber)
                 {
-                    ballsGained += rewardsItem.Amount;
+                    ballsGained += ballReward.Amount;
                 }
             }
 
-            if (ballsRewards.ContainsKey(ballId))
+            if (ballsRewards.ContainsKey(ballReward.BallId))
             {
-                ballsRewards[ballId] += ballsGained;
+                ballsRewards[ballReward.BallId] += ballsGained;
             }
             else
             {
-                ballsRewards.Add(ballId, ballsGained);
+                ballsRewards.Add(ballReward.BallId, ballsGained);
             }
         }
 

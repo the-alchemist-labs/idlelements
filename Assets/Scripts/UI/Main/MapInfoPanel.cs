@@ -32,7 +32,7 @@ public class MapInfoPanel : MonoBehaviour
             {   
                 Elemental elemental = ElementalCatalog.Instance.GetElemental(encounter.elementalId);
                 ElementalEntry entry = ElementalManager.Instance.GetElementalEntry(encounter.elementalId);
-                item.UpdateIU(encounter.elementalId, elemental.type,  elemental.name, encounter.encounterChance, entry.tokens);
+                item.UpdateIU(encounter.elementalId, elemental.Type,  elemental.name, encounter.encounterChance, entry.tokens);
             }
         }
     }

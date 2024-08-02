@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -20,6 +21,8 @@ public class InventoryCatalogData
 
 public class InventoryCatalog : MonoBehaviour
 {
+    private string SCRIPTABLE_OBJECT_BALLS_PATH = "ScriptableObjects/Inventory/Balls";
+
     public static InventoryCatalog Instance { get; private set; }
     public List<Ball> Balls { get; private set; }
 
@@ -38,8 +41,7 @@ public class InventoryCatalog : MonoBehaviour
 
     private void Initialize()
     {
-        InventoryCatalogData inventory = DataService.Instance.LoadData<InventoryCatalogData>(FileName.InventoryCatalog, false);
-        Balls = inventory.Balls;
+        Balls = Resources.LoadAll<Ball>(SCRIPTABLE_OBJECT_BALLS_PATH).ToList();
     }
 
     public Ball GetBall(BallId id)

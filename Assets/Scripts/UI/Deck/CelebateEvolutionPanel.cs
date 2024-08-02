@@ -17,10 +17,10 @@ public class CelebateEvolutionPanel : MonoBehaviour
 
         SoundManager.Instance.PlaySystemSFX(SystemSFXId.Celebration);
 
-        Elemental evolution = ElementalCatalog.Instance.GetElemental(elemental.evolution.evolveTo);
-        IdleBonus idleBonus = evolution.idleBonus;
+        Elemental evolution = ElementalCatalog.Instance.GetElemental(elemental.Evolution.evolveTo);
+        IdleBonus idleBonus = evolution.IdleBonus;
 
-        sprite.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{evolution.id}");
+        sprite.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{evolution.Id}");
         evolveToText.text = $"Your {elemental.name} evolved to {evolution.name}";
         idleBonusText.text = idleBonus != null ? $"Idle bonus: +{idleBonus.amount * 100} {idleBonus.resource}" : "";
 

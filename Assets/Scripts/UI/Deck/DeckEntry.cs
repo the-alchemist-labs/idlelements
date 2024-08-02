@@ -35,13 +35,13 @@ public class DeckEntry : MonoBehaviour
         _elemental = elemental;
         _evolvePanel = evolvePanel;
 
-        ElementalEntry entry = ElementalManager.Instance.GetElementalEntry(elemental.id);
-        elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
-        elementalIdText.text = $"#{(int)elemental.id}";
+        ElementalEntry entry = ElementalManager.Instance.GetElementalEntry(elemental.Id);
+        elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.Id}");
+        elementalIdText.text = $"#{(int)elemental.Id}";
         elementalName.text = elemental.name;
         tokensText.text = $"Tokens: {entry.tokens}";
-        evolveButtonInfo.gameObject.SetActive(elemental.evolution != null);
-        evolveButtonInfo.GetComponent<Image>().color = ElementalManager.Instance.CanEvolve(elemental.id) ? Color.white : Color.gray;
+        evolveButtonInfo.gameObject.SetActive(elemental.Evolution != null);
+        evolveButtonInfo.GetComponent<Image>().color = ElementalManager.Instance.CanEvolve(elemental.Id) ? Color.white : Color.gray;
 
         UpdateCatchImage();
         UpdateIdleBonusInfo();
@@ -55,7 +55,7 @@ public class DeckEntry : MonoBehaviour
 
     private void UpdateCatchImage()
     {
-        if (ElementalManager.Instance.GetElementalEntry(_elemental.id).isCaught)
+        if (ElementalManager.Instance.GetElementalEntry(_elemental.Id).isCaught)
         {
             elementalImage.color = _unlockedColor;
             caughtIndicatorImage.gameObject.SetActive(true);
@@ -69,9 +69,9 @@ public class DeckEntry : MonoBehaviour
 
     private void UpdateIdleBonusInfo()
     {
-        if (_elemental.idleBonus != null)
+        if (_elemental.IdleBonus != null)
         {
-            idleBonusText.text = $"Idle bonus: {_elemental.idleBonus.amount * 100}% {_elemental.idleBonus.resource}";
+            idleBonusText.text = $"Idle bonus: {_elemental.IdleBonus.amount * 100}% {_elemental.IdleBonus.resource}";
         }
     }
 }

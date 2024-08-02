@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1047e52f6c49d5c449a1a22884dac6ca, type: 3}
+  m_Name: FireRanged
+  m_EditorClassIdentifier: 
+  Id: 1
+  Name: Fire melee
+  Type: 0
+  Stats:
+    Hp: 10
+    Attack: 1
+    Defense: 1
+    MovmentSpeed: 1
+  Skills:
+  - SkillId: 1
+    Level: 0
+  Rewards:
+    Gold: 3
+    Essence: 3
+    Orbs: 0
+    Exp: 1
+    Token: 0
+    Balls:
+    - BallId: 1
+      Amount: 1
+      Chance: 0.1

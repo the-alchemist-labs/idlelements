@@ -18,7 +18,7 @@ public class SkillEffectPrefab : MonoBehaviour
     private string _targetTag;
     private bool _hasHit;
 
-    public void Initialize(Vector2 target, ElementalSkill skill, int power, string targetTag)
+    public void Initialize(Vector2 target, Skill skill, int power, string targetTag)
     {
         SoundManager.Instance.PlaySkillSFX(skill.Id);
         animator.enabled = false;

@@ -69,7 +69,7 @@ public class IdleBattleManager : MonoBehaviour
         LastRewardTimestamp = date;
     }
 
-    public void ActivateSkill(Vector3 spawnPosition, Vector2 targetPosition, ElementalSkill skill, int power, string targetTag)
+    public void ActivateSkill(Vector3 spawnPosition, Vector2 targetPosition, Skill skill, int power, string targetTag)
     {
         GameObject skillEffect = _pool.Get();
         skillEffect.transform.position = spawnPosition;

@@ -10,8 +10,8 @@ public class PartyMemberPrefab : MonoBehaviour
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(elementalId);
 
-        Sprite newSprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.id}");
+        Sprite newSprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.Id}");
         elementalImage.sprite = newSprite;
-        typeColor.color = Types.GetElementalColor(elemental.type);
+        typeColor.color = Types.GetElementalColor(elemental.Type);
     }
 }

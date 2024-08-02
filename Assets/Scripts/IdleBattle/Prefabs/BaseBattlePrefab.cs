@@ -13,11 +13,11 @@ public class BaseBattlePrefab : MonoBehaviour
 
     protected List<SkillId> Skills;
     protected Coroutine AttackCoroutine;
+    protected int Level;
 
     [SerializeField] protected Slider HealthBar;
     [SerializeField] private SpriteRenderer _sprite;
 
-    private int _level;
     private bool _isEnemyPrefab;
     private bool _isDefeated;
 
@@ -44,7 +44,7 @@ public class BaseBattlePrefab : MonoBehaviour
         while (true)
         {
             SkillId skillId = SelectNextSkill();
-            ElementalSkill skill = ElementalCatalog.Instance.GetSkill(skillId);
+            Skill skill = ElementalCatalog.Instance.GetSkill(skillId);
             Vector2? target = GetTargetLocation(skill.AttackTarget);
 
             if (target.HasValue)
@@ -54,7 +54,7 @@ public class BaseBattlePrefab : MonoBehaviour
                 IdleBattleManager.Instance.ActivateSkill(
                     transform.position,
                     resolvedTarget, skill,
-                    Elemental.Stats.Attack + _level,
+                    Elemental.Stats.Attack + Level,
                     GetTargetTag(skill.AttackTarget == AttackTarget.Self)
                 );
                 yield return new WaitForSeconds(ATTACK_SPEED_INTERVAL_SECONDS);
@@ -66,7 +66,7 @@ public class BaseBattlePrefab : MonoBehaviour
 
     protected int GetMaxHealth()
     {
-        return Elemental.Stats.Hp + _level;
+        return Elemental.Stats.Hp + Level;
     }
 
     protected Vector2? GetTargetLocation(AttackTarget target)
@@ -103,7 +103,7 @@ public class BaseBattlePrefab : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        HealthBar.value -= damageAmount - (Elemental.Stats.Defense + _level);
+        HealthBar.value -= damageAmount - (Elemental.Stats.Defense + Level);
 
         if (HealthBar.value <= 0 && !_isDefeated)
         {
@@ -113,7 +113,7 @@ public class BaseBattlePrefab : MonoBehaviour
 
     private void BaseInitialize(int level)
     {
-        _level = level;
+        Level = level;
         _isDefeated = false;
 
         HealthBar.maxValue = GetMaxHealth();

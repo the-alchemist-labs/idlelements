@@ -9,14 +9,13 @@ public enum BallId
     Master
 }
 
-public class Ball
+[CreateAssetMenu(menuName = "Scriptable Objects/Balls")]
+public class Ball: ScriptableObject
 {
     public BallId Id;
     public string Name;
     public string Description;
     public float CatchRate;
-
-    public Ball() { }
 }
 
 public class Inventory
