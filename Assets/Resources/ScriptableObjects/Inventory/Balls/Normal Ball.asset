@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Normal Ball
   m_EditorClassIdentifier: Assembly-CSharp::Ball
   Id: 1
-  Name: Nornal ball
-  Description: Nornal ball
+  Name: Normal ball
+  Description: Normal ball
   CatchRate: 0.6

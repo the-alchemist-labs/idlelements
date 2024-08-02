@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1047e52f6c49d5c449a1a22884dac6ca, type: 3}
   m_Name: FireRanged
   m_EditorClassIdentifier: 
-  Id: 1
-  Name: Fire melee
+  Id: 2
+  Name: Fire ranged
   Type: 0
   Stats:
     Hp: 10

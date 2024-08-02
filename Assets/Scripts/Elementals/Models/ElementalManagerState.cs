@@ -1,16 +1,6 @@
-#nullable enable
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-
-
-[Serializable]
-public class ElementalEntry
-{
-    public ElementalId id;
-    public bool isCaught = false;
-    public int tokens = 0;
-}
 
 [Serializable]
 public class ElementalManagerState
@@ -33,4 +23,12 @@ public class ElementalManagerState
         this.lastEncounter = lastEncounter;
         this.equipedSkills = equipedSkills;
     }
+}
+
+[Serializable]
+public class ElementalEntry
+{
+    public ElementalId id;
+    public bool isCaught = false;
+    public int tokens = 0;
 }

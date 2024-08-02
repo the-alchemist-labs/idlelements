@@ -1,23 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BallId
-{
-    None,
-    Normal,
-    Great,
-    Master
-}
-
-[CreateAssetMenu(menuName = "Scriptable Objects/Balls")]
-public class Ball: ScriptableObject
-{
-    public BallId Id;
-    public string Name;
-    public string Description;
-    public float CatchRate;
-}
-
 public class Inventory
 {
     public Dictionary<BallId, int> Balls { get; private set; }
