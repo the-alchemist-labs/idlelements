@@ -75,6 +75,11 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilFail: 0
+    - _StencilPass: 3
+    - _StencilZFail: 0
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:

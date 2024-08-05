@@ -7,7 +7,7 @@ public class ElementalManager : MonoBehaviour
     public static ElementalManager Instance { get; private set; }
     public List<ElementalEntry> entries { get; private set; }
     public Encounter lastEncounter { get; private set; }
-    public Dictionary<ElementalId, List<SkillId>> equipedSkills { get; private set; }
+    public Dictionary<ElementalId, SkillId?[]> equipedSkills { get; private set; }
     public int elementalCaught { get { return entries.Count(entry => entry.isCaught); } }
 
     private void Awake()
@@ -102,9 +102,11 @@ public class ElementalManager : MonoBehaviour
         return isCaught;
     }
 
-    public List<SkillId> GetSkills(ElementalId elementalId)
+    public List<SkillId?> GetSkills(ElementalId elementalId)
     {
-        return equipedSkills.TryGetValue(elementalId, out List<SkillId> value) ? value : new List<SkillId> { SkillId.Default };
+        bool hasSkills = equipedSkills.TryGetValue(elementalId, out SkillId?[] value) && value.Length > 0;
+
+        return hasSkills ? value.ToList() : new List<SkillId?> { SkillId.Default };
     }
 
     public List<SkillId> GetSkills(MinimentalId minimentalId)
@@ -116,17 +118,18 @@ public class ElementalManager : MonoBehaviour
         .ToList();
     }
 
-    public void EquipSkill(ElementalId elementalId, SkillId skillIdToAdd, SkillId skillIdToRemove)
+    public void EquipSkill(ElementalId elementalId, int skillSlot, SkillId skillId)
     {
         if (!equipedSkills.ContainsKey(elementalId))
         {
-            equipedSkills.Add(elementalId, new List<SkillId>());
+            equipedSkills.Add(elementalId, new SkillId?[] { null, null });
         }
 
-        if (equipedSkills.TryGetValue(elementalId, out List<SkillId> skillsList))
+        if (equipedSkills.TryGetValue(elementalId, out SkillId?[] skillsList))
         {
-            skillsList.Remove(skillIdToRemove);
-            skillsList.Add(skillIdToAdd);
+
+            skillsList[skillSlot] = skillId;
         }
+        GameEvents.PartyUpdated();
     }
 }

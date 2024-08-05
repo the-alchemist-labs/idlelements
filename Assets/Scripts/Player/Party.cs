@@ -19,6 +19,11 @@ public class Party
         this.Third = Third;
     }
 
+    public List<ElementalId> GetPartyIds()
+    {
+        return new List<ElementalId> { First, Second, Third };
+    }
+
     public ElementalId GetPartyMember(int slot)
     {
         switch (slot)
@@ -36,7 +41,21 @@ public class Party
 
     public void SetPartyMember(int slot, ElementalId id)
     {
-        _setPartyMember(slot, id);
+        switch (slot)
+        {
+            case 0:
+                First = id;
+                break;
+
+            case 1:
+                Second = id;
+                break;
+
+            case 2:
+                Third = id;
+                break;
+        }
+
         GameEvents.PartyUpdated();
     }
 
@@ -47,16 +66,6 @@ public class Party
             .Select(entry => entry.id)
             .OrderBy(id => Player.Instance.Party.IsInParty(id))
             .ToArray();
-    }
-
-    public float GetPartyBonusMultipier(BonusResource resource)
-    {
-        return new List<ElementalId?> { First, Second, Third }
-        .Where(e => e != ElementalId.None)
-        .Select(id => ElementalCatalog.Instance.GetElemental(id.Value))
-        .Where(e => e.IdleBonus != null)
-        .Where(e => e.IdleBonus?.resource == resource)
-        .Sum(e => e.IdleBonus.amount);
     }
 
     public bool IsInParty(ElementalId? id)
@@ -74,27 +83,10 @@ public class Party
     private int GetMemberDPS(ElementalId id, int level)
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
-        List<SkillId> skillIds = ElementalManager.Instance.GetSkills(id);
-        List<Skill> skills = skillIds.Select(s => ElementalCatalog.Instance.GetSkill(s)).ToList();
+        List<SkillId?> skillIds = ElementalManager.Instance.GetSkills(id);
+        List<Skill> skills = skillIds.Where(s => s != null).Cast<SkillId>().Select(s => ElementalCatalog.Instance.GetSkill(s)).ToList();
         int maxDamagSkill = skills.Max(s => s.ImpactValue);
         return (elemental.Stats.Attack + level) * maxDamagSkill;
     }
 
-    private void _setPartyMember(int slot, ElementalId id)
-    {
-        switch (slot)
-        {
-            case 0:
-                First = id;
-                return;
-
-            case 1:
-                Second = id;
-                return;
-
-            case 2:
-                Third = id;
-                return;
-        }
-    }
 }

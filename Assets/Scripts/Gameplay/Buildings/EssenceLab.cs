@@ -41,9 +41,7 @@ public static class EssenceLab
             : 0;
         });
 
-        float partyBonus = Player.Instance.Party.GetPartyBonusMultipier(BonusResource.Essence);
-
-        return (int)(gain + (gain * partyBonus));
+        return gain;
     }
 
     public static int GetSecondsSinceLastCollect()

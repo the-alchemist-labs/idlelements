@@ -7,17 +7,17 @@ public class ElementalManagerState
 {
     public List<ElementalEntry> entries { get; private set; }
     public Encounter lastEncounter { get; private set; }
-    public Dictionary<ElementalId, List<SkillId>> equipedSkills { get; private set; }
+    public Dictionary<ElementalId, SkillId?[]> equipedSkills { get; private set; }
 
     public ElementalManagerState()
     {
         entries = new List<ElementalEntry>();
         lastEncounter = new Encounter();
-        equipedSkills = new Dictionary<ElementalId, List<SkillId>>();
+        equipedSkills = new Dictionary<ElementalId, SkillId?[]>();
     }
 
     [JsonConstructor]
-    public ElementalManagerState(List<ElementalEntry> entries, Encounter lastEncounter, Dictionary<ElementalId, List<SkillId>> equipedSkills)
+    public ElementalManagerState(List<ElementalEntry> entries, Encounter lastEncounter, Dictionary<ElementalId, SkillId?[]> equipedSkills)
     {
         this.entries = entries;
         this.lastEncounter = lastEncounter;

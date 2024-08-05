@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class PartySpawner : MonoBehaviour
 {
-    private const int DEATH_PENALTY_SECONDS = 5;
+    public event Action OnPartyWiped;
 
     [SerializeField] private GameObject _idleBattleMemberPrefab;
     [SerializeField] private Transform[] _spawnLocations = new Transform[3];
@@ -36,6 +38,12 @@ public class PartySpawner : MonoBehaviour
     void OnDestroy()
     {
         GameEvents.OnPartyUpdated -= UpdateTeam;
+    }
+
+    public void ResetStage()
+    {
+        _members.ToList().Clear();
+        UpdateTeam();
     }
 
     private void UpdateTeam()
@@ -87,15 +95,10 @@ public class PartySpawner : MonoBehaviour
         int partySlot = _partyIds.IndexOf(((Elemental)obj.GetComponent<BattleMemberPrefab>().Elemental).Id);
         _pool.Release(obj);
         _members[partySlot] = null;
-        StartCoroutine(SpawnNewMemberAfterDelay(partySlot));
-    }
 
-    IEnumerator SpawnNewMemberAfterDelay(int partySlot)
-    {
-        yield return new WaitForSeconds(DEATH_PENALTY_SECONDS);
-        if (_partyIds[partySlot] != ElementalId.None)
+        if (_members.All(item => item == null))
         {
-            _members[partySlot] = SetPartyMember(_partyIds[partySlot], _spawnLocations[partySlot]);
+            OnPartyWiped?.Invoke();
         }
     }
 }

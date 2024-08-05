@@ -1,25 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AvailablePartyMemberPrefub : MonoBehaviour
 {
-    public Button button;
-    public Image backgroundImage;
-    public Image elementalImage;
-    public Image inPartyImage;    
+    public event Action<ElementalId> OnMemberSelected;
 
-    private ElementalId elementalId;
-    private System.Action<ElementalId> onMemberChanged;
+    [SerializeField] Button button;
+    [SerializeField] Image backgroundImage;
+    [SerializeField] Image elementalImage;
+    [SerializeField] Image inPartyImage;
 
-    public void SetPartyMemberOption(int slot, ElementalId id, bool isSelectedElemental, System.Action<ElementalId> onMemberChanged)
+    private ElementalId _elementalId;
+
+    public void SetPartyMemberOption(int slot, ElementalId id, bool isSelectedElemental)
     {
-        this.onMemberChanged = onMemberChanged;
-        elementalId = id;
-
+        _elementalId = id;
         backgroundImage.color = isSelectedElemental ? Color.white : Color.grey;
-        string spritePath = $"Sprites/Elementals/{id}";
-        Sprite sprite = Resources.Load<Sprite>(spritePath);
-        elementalImage.sprite = sprite;
+        elementalImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{id}");
 
         bool shouldAllowToSelect = ShouldAllowToSelect(slot, id);
         inPartyImage.gameObject.SetActive(!shouldAllowToSelect);
@@ -28,7 +26,7 @@ public class AvailablePartyMemberPrefub : MonoBehaviour
 
     public void OnSelected()
     {
-        onMemberChanged(elementalId);
+        OnMemberSelected.Invoke(_elementalId);
     }
 
     public bool ShouldAllowToSelect(int slot, ElementalId id)

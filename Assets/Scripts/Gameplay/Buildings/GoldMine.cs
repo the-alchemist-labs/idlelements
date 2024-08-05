@@ -43,9 +43,7 @@ public static class GoldMine
             : 0;
         });
 
-        float partyBonus = Player.Instance.Party.GetPartyBonusMultipier(BonusResource.Gold);
-
-        return Mathf.CeilToInt(gain + (gain * partyBonus));
+        return Mathf.CeilToInt(gain);
     }
 
     public static int GetSecondsSinceLastCollect()

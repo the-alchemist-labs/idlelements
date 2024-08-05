@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum ElementalId
@@ -30,20 +31,14 @@ public class Elemental : ScriptableObject, IElemental
     public float CatchRate;
     public Evolution Evolution;
     public ElementalStats Stats;
-    public List<SkillByLevel> Skills;
-    public IdleBonus IdleBonus;
+    [SerializeField] List<SkillByLevel> skills;
     public Rewards Rewards;
+
+    public List<SkillByLevel> Skills => skills.OrderBy(s => s.Level).ToList();
 
     ElementalStats IElemental.Stats => Stats;
     List<SkillByLevel> IElemental.Skills => Skills;
     Rewards IElemental.Rewards => Rewards;
-}
-
-[Serializable]
-public class IdleBonus
-{
-    public BonusResource resource;
-    public float amount;
 }
 
 [Serializable]

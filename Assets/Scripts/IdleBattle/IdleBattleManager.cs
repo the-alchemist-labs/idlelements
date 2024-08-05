@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -11,8 +12,11 @@ public class IdleBattleManager : MonoBehaviour
     public DateTime LastRewardTimestamp { get; private set; }
 
     [SerializeField] private GameObject skillPrefab;
+    [SerializeField] private PartySpawner partySpawner;
+    [SerializeField] private EnemySpawner enemySpawner;
 
     private ObjectPool<GameObject> _pool;
+    private List<GameObject> _activeSkillEffects;
 
     private Dictionary<ElementType, List<MinimentalId>> _stageMinimentalByType = new Dictionary<ElementType, List<MinimentalId>> {
         { ElementType.Fire, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireMeele  } },
@@ -52,6 +56,7 @@ public class IdleBattleManager : MonoBehaviour
         IdleBattleManagerState state = DataService.Instance.LoadData<IdleBattleManagerState>(FileName.IdleBattleManagerState, true);
         CurrentStage = state.CurrentStage;
         LastRewardTimestamp = state.LastRewardTimestamp;
+        _activeSkillEffects = new List<GameObject>();
 
         _pool = new ObjectPool<GameObject>(
               createFunc: () => Instantiate(skillPrefab),
@@ -64,6 +69,11 @@ public class IdleBattleManager : MonoBehaviour
           );
     }
 
+    void Start()
+    {
+        partySpawner.OnPartyWiped += ResetStage;
+    }
+
     public void UpdateLastRewardTimestam(DateTime date)
     {
         LastRewardTimestamp = date;
@@ -74,8 +84,9 @@ public class IdleBattleManager : MonoBehaviour
         GameObject skillEffect = _pool.Get();
         skillEffect.transform.position = spawnPosition;
         skillEffect.GetComponent<SkillEffectPrefab>().Initialize(targetPosition, skill, power, targetTag);
+        _activeSkillEffects.Add(skillEffect);
     }
-    
+
     public string GetStageName()
     {
         int quotient = (CurrentStage - 1) / 10;
@@ -119,6 +130,7 @@ public class IdleBattleManager : MonoBehaviour
 
     private void FinishEffect(GameObject obj)
     {
+        _activeSkillEffects.Remove(obj);
         _pool.Release(obj);
     }
 
@@ -133,5 +145,19 @@ public class IdleBattleManager : MonoBehaviour
     {
         Minimental minimental = ElementalCatalog.Instance.GetElemental(id);
         return (minimental.Stats.Hp + level) + (minimental.Stats.Defense + level);
+    }
+
+    private void ResetStage()
+    {
+        Debug.Log("Whiped!");
+
+        _activeSkillEffects.ForEach(s =>
+        {
+            if (s.activeInHierarchy) _pool.Release(s);
+        });
+
+        _activeSkillEffects.Clear();
+        partySpawner.ResetStage();
+        enemySpawner.ResetStage();
     }
 }

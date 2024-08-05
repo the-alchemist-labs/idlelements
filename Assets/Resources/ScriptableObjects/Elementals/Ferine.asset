@@ -24,13 +24,12 @@ MonoBehaviour:
     Hp: 15
     Attack: 2
     Defense: 2
-    MovmentSpeed: 2
-  Skills:
-  - SkillId: 1
+    Speed: 0
+  skills:
+  - SkillId: 0
     Level: 0
-  IdleBonus:
-    resource: 0
-    amount: 10
+  - SkillId: 1
+    Level: 10
   Rewards:
     Gold: 0
     Essence: 0

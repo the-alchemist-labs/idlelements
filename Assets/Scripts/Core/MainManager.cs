@@ -4,8 +4,10 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
 
-    public GameObject afkGainsPanel;
-    public GameObject playerInfoPanel;
+    public GameObject AfkGainsPanel;
+    public GameObject PlayerInfoPanel;
+    public GameObject SelectPartyMemberPanel;
+    public GameObject SelectSkillPanel;
 
     void Awake()
     {
@@ -22,6 +24,6 @@ public class MainManager : MonoBehaviour
 
     void Start()
     {
-        afkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
+        AfkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
     }
 }

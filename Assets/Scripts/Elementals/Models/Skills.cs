@@ -30,6 +30,7 @@ public class Skill: ScriptableObject
     public SkillId Id;
     public string Name;
     public string Description;
+    public ElementType Type;
     public AttackTarget AttackTarget;
     public ElementalStat TargetedSta;
     public int ImpactValue;

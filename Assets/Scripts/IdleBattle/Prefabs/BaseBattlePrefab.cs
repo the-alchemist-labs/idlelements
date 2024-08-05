@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class BaseBattlePrefab : MonoBehaviour
     public IElemental Elemental;
     public event Action<GameObject> OnDefeat;
 
-    protected List<SkillId> Skills;
+    protected List<SkillId?> Skills;
     protected Coroutine AttackCoroutine;
     protected int Level;
 
@@ -34,7 +35,7 @@ public class BaseBattlePrefab : MonoBehaviour
     {
         _isEnemyPrefab = true;
         Elemental = ElementalCatalog.Instance.GetElemental(id);
-        Skills = ElementalManager.Instance.GetSkills(id);
+        Skills = ElementalManager.Instance.GetSkills(id).Cast<SkillId?>().ToList();
         _sprite.sprite = Resources.Load<Sprite>($"Sprites/Minimentals/{id}");
         BaseInitialize(level);
     }
@@ -122,8 +123,15 @@ public class BaseBattlePrefab : MonoBehaviour
 
     private SkillId SelectNextSkill()
     {
-        int random = UnityEngine.Random.Range(0, Skills.Count);
-        return Skills[random];
+        List<SkillId> skills = Skills.Where(s => s != null).Cast<SkillId>().ToList();
+
+        if (skills.Count == 0)
+        {
+            return SkillId.Default;
+        }
+
+        int random = UnityEngine.Random.Range(0, skills.Count);
+        return skills[random];
     }
 
     private string GetTargetTag(bool isTargetingSelf)

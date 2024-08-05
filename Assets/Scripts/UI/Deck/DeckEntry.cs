@@ -15,8 +15,6 @@ public class DeckEntry : MonoBehaviour
     [SerializeField]
     TMP_Text tokensText;
     [SerializeField]
-    TMP_Text idleBonusText;
-    [SerializeField]
     Button evolveButtonInfo;
 
     private Elemental _elemental;
@@ -44,7 +42,6 @@ public class DeckEntry : MonoBehaviour
         evolveButtonInfo.GetComponent<Image>().color = ElementalManager.Instance.CanEvolve(elemental.Id) ? Color.white : Color.gray;
 
         UpdateCatchImage();
-        UpdateIdleBonusInfo();
     }
 
     public void EvolveInfoClicked()
@@ -64,14 +61,6 @@ public class DeckEntry : MonoBehaviour
         {
             elementalImage.color = _lockedColor;
             caughtIndicatorImage.gameObject.SetActive(false);
-        }
-    }
-
-    private void UpdateIdleBonusInfo()
-    {
-        if (_elemental.IdleBonus != null)
-        {
-            idleBonusText.text = $"Idle bonus: {_elemental.IdleBonus.amount * 100}% {_elemental.IdleBonus.resource}";
         }
     }
 }

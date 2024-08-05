@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class EvolvePanel : MonoBehaviour
 {
     public TMP_Text evolveToText;
-    public TMP_Text idleBonusText;
 
     public HorizontalLayoutGroup tokensContainer;
     public HorizontalLayoutGroup essenceContainer;
@@ -35,11 +34,8 @@ public class EvolvePanel : MonoBehaviour
 
         gameObject.SetActive(true);
         Elemental evolutionElemental = ElementalCatalog.Instance.GetElemental(elemental.Evolution.evolveTo);
-        IdleBonus idleBonus = evolutionElemental.IdleBonus;
 
         evolveToText.text = $"Evlove to {evolutionElemental.name} (#{evolutionElemental.Id})";
-        idleBonusText.text = idleBonus != null ? $"Idle bonus: +{idleBonus.amount * 100} {idleBonus.resource}" : "";
-
         tokenCostText.text = TextUtil.NumberFormatter(elemental.Evolution.tokensCost);
         essenceCostText.text = TextUtil.NumberFormatter(elemental.Evolution.essenceCost);
         LayoutRebuilder.ForceRebuildLayoutImmediate(essenceContainer.GetComponent<RectTransform>());

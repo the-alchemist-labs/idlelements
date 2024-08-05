@@ -15,6 +15,12 @@ public sealed class DataService
     private const string KEY = "FAaeKAN0R9eiXi7B2H9mLwUz4qUhOB6x7D2XktjH90U=";
     private const string IV = "G4aMWxXw19wyUVUR9KEpKg==";
 
+    private JsonSerializerSettings settings = new JsonSerializerSettings
+    {
+        NullValueHandling = NullValueHandling.Include,
+        MissingMemberHandling = MissingMemberHandling.Ignore
+    };
+
     private DataService() { }
 
     public static DataService Instance
@@ -49,7 +55,7 @@ public sealed class DataService
             else
             {
                 stream.Close();
-                File.WriteAllText(path, JsonConvert.SerializeObject(Data, Formatting.Indented));
+                File.WriteAllText(path, JsonConvert.SerializeObject(Data, Formatting.Indented, settings));
             }
             return true;
         }
@@ -72,43 +78,43 @@ public sealed class DataService
             CryptoStreamMode.Write
         );
 
-        cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Data)));
+        cryptoStream.Write(Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Data, settings)));
     }
 
-public T LoadData<T>(string fileName, bool isPersistent) where T : class, new()
-{
-    string path = GetPath(fileName, isPersistent);
-
-    if (!File.Exists(path))
+    public T LoadData<T>(string fileName, bool isPersistent) where T : class, new()
     {
-        Debug.LogWarning($"Cannot load file at {path}. File does not exist!");
-        return new T();
-    }
+        string path = GetPath(fileName, isPersistent);
 
-    try
-    {
-        if (isEncrypted)
+        if (!File.Exists(path))
         {
-            return ReadEncryptedData<T>(path);
+            Debug.LogWarning($"Cannot load file at {path}. File does not exist!");
+            return new T();
         }
-        else
+
+        try
         {
-            string data = File.ReadAllText(path);
-            T result = JsonConvert.DeserializeObject<T>(data);
-            if (result == null)
+            if (isEncrypted)
             {
-                Debug.LogWarning($"Failed to deserialize data from {path}. Returning new instance.");
-                return new T();
+                return ReadEncryptedData<T>(path);
             }
-            return result;
+            else
+            {
+                string data = File.ReadAllText(path);
+                T result = JsonConvert.DeserializeObject<T>(data, settings);
+                if (result == null)
+                {
+                    Debug.LogWarning($"Failed to deserialize data from {path}. Returning new instance.");
+                    return new T();
+                }
+                return result;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Failed to load data due to: {e.Message} {e.StackTrace}");
+            return new T();
         }
     }
-    catch (Exception e)
-    {
-        Debug.LogError($"Failed to load data due to: {e.Message} {e.StackTrace}");
-        return new T();
-    }
-}
 
     private T ReadEncryptedData<T>(string Path)
     {
@@ -133,7 +139,7 @@ public T LoadData<T>(string fileName, bool isPersistent) where T : class, new()
         string result = reader.ReadToEnd();
 
         Debug.LogWarning($"Decrypted result (if the following is not legible, probably wrong key or iv): {result}");
-        return JsonConvert.DeserializeObject<T>(result);
+        return JsonConvert.DeserializeObject<T>(result, settings);
     }
 
     private static string GetPath(string fileName, bool isPersistent)

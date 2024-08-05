@@ -7,6 +7,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject _idleBattleEnemyPrefab;
     [SerializeField] private Transform[] _spawnLocations = new Transform[5];
     [SerializeField] private int _enemiesCounter;
+
+    private List<GameObject> _enemies;
     private ObjectPool<GameObject> _pool;
 
     private void Awake()
@@ -20,6 +22,8 @@ public class EnemySpawner : MonoBehaviour
             defaultCapacity: 15,
             maxSize: 25
         );
+
+        _enemies = new List<GameObject>();
     }
 
     void Start()
@@ -27,9 +31,20 @@ public class EnemySpawner : MonoBehaviour
         StartStage(IdleBattleManager.Instance.CurrentStage);
     }
 
+    public void ResetStage()
+    {
+        _enemies.ForEach(s =>
+        {
+            if (s.activeInHierarchy) _pool.Release(s);
+        });
+        
+        StartStage(IdleBattleManager.Instance.CurrentStage);
+    }
+
     private void GetInstance(GameObject obj)
     {
         obj.SetActive(true);
+
         obj.GetComponent<BattleEnemyPrefab>().OnDefeat += onEnemeyDeath;
     }
 
@@ -56,14 +71,17 @@ public class EnemySpawner : MonoBehaviour
         List<MinimentalId> stage = IdleBattleManager.Instance.GetStage(waveNum);
         foreach (MinimentalId stageMinimemtalId in stage)
         {
-            SetEnemy(stageMinimemtalId, waveNum);
+            GameObject enemy = SetEnemy(stageMinimemtalId, waveNum);
+            _enemies.Add(enemy);
         }
         _enemiesCounter = stage.Count;
     }
 
     private void onEnemeyDeath(GameObject obj)
     {
+        _enemies.Remove(obj);
         _pool.Release(obj);
+
         _enemiesCounter--;
 
         if (_enemiesCounter == 0)

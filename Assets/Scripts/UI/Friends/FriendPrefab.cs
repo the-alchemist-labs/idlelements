@@ -20,7 +20,7 @@ public class FriendPrefab : MonoBehaviour
 
     public void OpenFriendPanel()
     {
-        MainManager.Instance.playerInfoPanel?.SetActive(true);
-        MainManager.Instance.playerInfoPanel?.GetComponent<PlayerInfoPanel>().Init(playerInfo);
+        MainManager.Instance.PlayerInfoPanel?.SetActive(true);
+        MainManager.Instance.PlayerInfoPanel?.GetComponent<PlayerInfoPanel>().Init(playerInfo);
     }
 }

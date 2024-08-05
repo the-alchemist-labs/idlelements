@@ -39,7 +39,7 @@ public class PlayerInfoPanel : MonoBehaviour
             if (id == ElementalId.None) continue;
 
             GameObject member = Instantiate(partyMemberPrefub, partyContainer);
-            if (member.TryGetComponent(out PartyMemberPrefab item))
+            if (member.TryGetComponent(out PartyMemberImagePrefab item))
             {
                 item.Init(id);
             }

@@ -45,8 +45,8 @@ public class SkillEffectPrefab : MonoBehaviour
     {
         if (collision.tag == _targetTag)
         {
-            if (_targetTag == Tags.PartyMember) collision.gameObject.GetComponent<BattleMemberPrefab>().TakeDamage(damage);
-            if (_targetTag == Tags.Enemy) collision.gameObject.GetComponent<BattleEnemyPrefab>().TakeDamage(damage);
+            if (_targetTag == Tags.PartyMember) collision.gameObject?.GetComponent<BattleMemberPrefab>()?.TakeDamage(damage);
+            if (_targetTag == Tags.Enemy) collision.gameObject?.GetComponent<BattleEnemyPrefab>()?.TakeDamage(damage);
             Explode();
         }
     }

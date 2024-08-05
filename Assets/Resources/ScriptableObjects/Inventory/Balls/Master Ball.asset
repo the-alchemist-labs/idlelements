@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736d0516be47e6e4592d7ecddb25c20b, type: 3}
   m_Name: Master Ball
   m_EditorClassIdentifier: 
-  Id: 0
-  Name: 
-  Description: 
-  CatchRate: 0
+  Id: 3
+  Name: Master Ball
+  Description: Master Ball
+  CatchRate: 1
