@@ -19,7 +19,7 @@ MonoBehaviour:
     Hp: 10
     Attack: 1
     Defense: 1
-    MovmentSpeed: 1
+    Speed: 0
   Skills:
   - SkillId: 1
     Level: 0
@@ -30,6 +30,10 @@ MonoBehaviour:
     Exp: 1
     Token: 0
     Balls:
-    - BallId: 1
+    - Id: 1
       Amount: 1
-      Chance: 0.1
+      Chance: 0.05
+    Elementokens:
+    - Id: 0
+      Amount: 1
+      Chance: 0.08

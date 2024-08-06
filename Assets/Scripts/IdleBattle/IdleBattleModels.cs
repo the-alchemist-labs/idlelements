@@ -28,5 +28,6 @@ public class IdleRewards
     public int Essence = 0;
     public int Experience = 0;
     public Dictionary<BallId, int> Balls = new Dictionary<BallId, int>();
+    public Dictionary<ElementType, int> Elementokens = new Dictionary<ElementType, int>();
     public string IdleTime;
 }

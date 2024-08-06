@@ -16,9 +16,9 @@ public class SkillByLevel
 }
 
 [Serializable]
-public class BallReward
+public class Reward<T>
 {
-    public BallId BallId;
+    public T Id;
     public int Amount;
     public float Chance;
 }
@@ -31,5 +31,6 @@ public class Rewards
     public int Orbs;
     public int Exp;
     public int Token;
-    public List<BallReward> Balls;
+    public List<Reward<BallId>> Balls;
+    public List<Reward<ElementType>> Elementokens;
 }

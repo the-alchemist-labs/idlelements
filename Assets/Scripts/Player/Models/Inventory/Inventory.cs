@@ -4,6 +4,7 @@ using UnityEngine;
 public class Inventory
 {
     public Dictionary<BallId, int> Balls { get; private set; }
+    public Dictionary<ElementType, int> Elementokens { get; private set; }
 
     public Inventory()
     {
@@ -32,5 +33,22 @@ public class Inventory
 
         Balls[ballId] += amount;
         GameEvents.BallsUpdated();
+    }
+
+    public void UpdateTokens(ElementType tokenType, int amount)
+    {
+        if (!Elementokens.ContainsKey(tokenType))
+        {
+            Elementokens[tokenType] = 0;
+        }
+
+        if (Elementokens[tokenType] + amount < 0)
+        {
+            Debug.LogError($"Player don't have enought {tokenType} Elementokens");
+            return;
+        }
+
+        Elementokens[tokenType] += amount;
+        GameEvents.ElementokensUpdated();
     }
 }

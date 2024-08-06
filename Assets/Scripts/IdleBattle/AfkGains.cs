@@ -33,7 +33,8 @@ public static class AfkGains
             rewards.Essence += minimental.Rewards.Essence * level * countDefeated;
             rewards.Gold += minimental.Rewards.Gold * level * countDefeated;
 
-            rewards.Balls = CalculateBalls(minimental, countDefeated);
+            rewards.Balls = CalculateItems<BallId>(minimental.Rewards.Balls, countDefeated);
+            rewards.Elementokens = CalculateItems<ElementType>(minimental.Rewards.Elementokens, countDefeated);
             rewards.IdleTime = TextUtil.FormatSecondsToTimeString(GetAFKTimeInSeconds());
         }
 
@@ -52,36 +53,39 @@ public static class AfkGains
         }
     }
 
-    static private Dictionary<BallId, int> CalculateBalls(Minimental minimental, int countDefeated)
+    static public Dictionary<T, int> CalculateItems<T>(List<Reward<T>> rewardList, int countDefeated)
     {
-        Dictionary<BallId, int> ballsRewards = new Dictionary<BallId, int>();
+        Dictionary<T, int> ballsRewards = new Dictionary<T, int>();
         Random random = new Random();
 
-        foreach (BallReward ballReward in minimental.Rewards.Balls)
+        foreach (Reward<T> ballReward in rewardList)
         {
             int ballsGained = 0;
-            
+
             for (int i = 0; i < countDefeated; i++)
             {
-                float randomNumber = (float)random.NextDouble();
-                if (ballReward.Chance >= randomNumber)
+                if (ballReward.Chance >= random.NextDouble())
                 {
                     ballsGained += ballReward.Amount;
                 }
             }
 
-            if (ballsRewards.ContainsKey(ballReward.BallId))
+            if (ballsGained > 0)
             {
-                ballsRewards[ballReward.BallId] += ballsGained;
-            }
-            else
-            {
-                ballsRewards.Add(ballReward.BallId, ballsGained);
+                if (ballsRewards.ContainsKey(ballReward.Id))
+                {
+                    ballsRewards[ballReward.Id] += ballsGained;
+                }
+                else
+                {
+                    ballsRewards[ballReward.Id] = ballsGained;
+                }
             }
         }
 
         return ballsRewards;
     }
+
 
     static private int GetAFKTimeInSeconds()
     {
