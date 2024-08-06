@@ -20,6 +20,7 @@ public static class GameEvents
     public static event Action OnEncounterUpdated;
     public static event Action OnStageFinished;
     public static event Action OnElementokensUpdated;
+    public static event Action OnNewNotification;
 
     public static void SocketConnected()
     {
@@ -101,5 +102,10 @@ public static class GameEvents
     public static void ElementokensUpdated()
     {
         OnElementokensUpdated?.Invoke();
+    }
+    
+    public static void NewNotification()
+    {
+        OnNewNotification?.Invoke();
     }
 }

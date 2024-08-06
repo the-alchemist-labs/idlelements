@@ -33,6 +33,7 @@ public class Inventory
 
         Balls[ballId] += amount;
         GameEvents.BallsUpdated();
+        NotificationManager.Instance.PostNotification($"Gained {amount} {ballId}{(amount > 1 ? "s" : "")}.");
     }
 
     public void UpdateTokens(ElementType tokenType, int amount)
@@ -50,5 +51,7 @@ public class Inventory
 
         Elementokens[tokenType] += amount;
         GameEvents.ElementokensUpdated();
+        NotificationManager.Instance.PostNotification($"Gained {amount} {tokenType} Elementoken {(amount > 1 ? "s" : "")}.");
+
     }
 }

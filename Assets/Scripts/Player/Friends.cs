@@ -3,6 +3,11 @@ using System.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
 
+public class FriendRequestAcceptedResponse
+{
+    public string fromPlayerId;
+}
+
 public class FriendRequestReceivedResponse
 {
     public PlayerInfo from;
@@ -37,7 +42,7 @@ public class Friends
 
         SocketIO.Instance.RegisterEvent<FriendRequestReceivedResponse>(SocketEventName.FriendRequestReceived, OnFriendRequestReceived);
         SocketIO.Instance.RegisterEvent<FriendOnlineStatusResponse>(SocketEventName.FriendOnlineStatus, OnFriendOnlineStatus);
-        SocketIO.Instance.RegisterEvent(SocketEventName.FriendRequestaccepted, OnFriendRequestAccepted);
+        SocketIO.Instance.RegisterEvent<FriendRequestAcceptedResponse>(SocketEventName.FriendRequestaccepted, OnFriendRequestAccepted);
 
     }
 
@@ -48,13 +53,15 @@ public class Friends
         {
             PendingFriendRequestsList.Add(response.from);
             GameEvents.FriendsUpdated();
+            NotificationManager.Instance.PostNotification($"Friend request received from {response.from}");
         }
     }
 
-    private async void OnFriendRequestAccepted()
+    private async void OnFriendRequestAccepted(FriendRequestAcceptedResponse response)
     {
         FriendsList = await FriendsApi.GetFriends();
         GameEvents.FriendsUpdated();
+        NotificationManager.Instance.PostNotification($"{response.fromPlayerId} accepted your friend request");
     }
 
     private void OnFriendOnlineStatus(FriendOnlineStatusResponse response)

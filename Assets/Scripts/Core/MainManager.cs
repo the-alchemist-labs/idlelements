@@ -14,6 +14,9 @@ public class MainManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            gameObject.AddComponent<NotificationManager>();
+
             DontDestroyOnLoad(gameObject);
         }
         else
