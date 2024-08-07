@@ -8,7 +8,8 @@ public class MainManager : MonoBehaviour
     public GameObject PlayerInfoPanel;
     public GameObject SelectPartyMemberPanel;
     public GameObject SelectSkillPanel;
-
+    public TabManager TabManager;
+    
     void Awake()
     {
         if (Instance == null)

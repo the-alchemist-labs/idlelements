@@ -87,6 +87,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySkillSFX(SkillId soundId)
     {
+        if (MainManager.Instance.TabManager.ActiveTab != MainSceneTab.Main) return;
         PlaySFX(soundId, _skillSfxAudioClips, BATTLE_SFX_PRIORITY);
     }
 
