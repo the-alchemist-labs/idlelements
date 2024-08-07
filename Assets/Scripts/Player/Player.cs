@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
             FriendCode,
             Name,
             Level,
-            ElementalManager.Instance.elementalCaught,
+            ElementalManager.Instance.ElementalCaught,
             Instance.Party,
             IsOnline
         );

@@ -62,7 +62,9 @@ public class PartySpawner : MonoBehaviour
                 }
                 continue;
             };
-
+            
+            if (_members[i] != null) _pool.Release(_members[i]);
+            
             _members[i] = SetPartyMember(_partyIds[i], _spawnLocations[i]);
         }
     }
@@ -70,12 +72,12 @@ public class PartySpawner : MonoBehaviour
     private void GetInstance(GameObject obj)
     {
         obj.SetActive(true);
-        obj.GetComponent<BattleMemberPrefab>().OnDefeat += handleFaintedMember;
+        obj.GetComponent<BattleMemberPrefab>().OnDefeat += HandleFaintedMember;
     }
 
     private void ReleaseInstance(GameObject obj)
     {
-        obj.GetComponent<BattleMemberPrefab>().OnDefeat -= handleFaintedMember;
+        obj.GetComponent<BattleMemberPrefab>().OnDefeat -= HandleFaintedMember;
         obj.SetActive(false);
     }
 
@@ -90,7 +92,7 @@ public class PartySpawner : MonoBehaviour
         return obj;
     }
 
-    private void handleFaintedMember(GameObject obj)
+    private void HandleFaintedMember(GameObject obj)
     {
         int partySlot = _partyIds.IndexOf(((Elemental)obj.GetComponent<BattleMemberPrefab>().Elemental).Id);
         _pool.Release(obj);

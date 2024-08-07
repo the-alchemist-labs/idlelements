@@ -20,8 +20,8 @@ public class ElementalManagerState
     public ElementalManagerState(List<ElementalEntry> entries, Encounter lastEncounter, Dictionary<ElementalId, SkillId?[]> equipedSkills)
     {
         this.entries = entries;
-        this.lastEncounter = lastEncounter;
-        this.equipedSkills = equipedSkills;
+        this.lastEncounter = lastEncounter ?? new Encounter();
+        this.equipedSkills = equipedSkills ?? new Dictionary<ElementalId, SkillId?[]>();;
     }
 }
 

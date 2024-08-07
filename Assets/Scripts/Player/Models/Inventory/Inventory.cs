@@ -8,14 +8,16 @@ public class Inventory
 
     public Inventory()
     {
+        Elementokens = new Dictionary<ElementType, int>();
         Balls = new Dictionary<BallId, int> {
             { BallId.Normal, 0},
         };
     }
-
-    public Inventory(Dictionary<BallId, int> Balls = null)
+    
+    public Inventory(Dictionary<BallId, int> Balls = null, Dictionary<ElementType, int> Elementokens = null)
     {
         this.Balls = Balls ?? new Dictionary<BallId, int>();
+        this.Elementokens = Elementokens ?? new Dictionary<ElementType, int>();
     }
 
     public void UpdateBalls(BallId ballId, int amount)

@@ -10,33 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5be402fee6ae024faa2eaea56d149cb, type: 3}
-  m_Name: Ferine
+  m_Name: None
   m_EditorClassIdentifier: 
-  Id: 1
-  Name: Ferine
+  Id: 0
+  Name: 
   Type: 0
-  CatchRate: 1
+  CatchRate: 0
   Evolution:
-    evolveTo: 2
-    tokensCost: 100
-    essenceCost: 10000
+    evolveTo: 0
+    tokensCost: 0
+    essenceCost: 0
   Stats:
-    Hp: 15
-    Attack: 2
-    Defense: 2
+    Hp: 0
+    Attack: 0
+    Defense: 0
     Speed: 0
-  skills:
-  - SkillId: 0
-    Level: 0
-  - SkillId: 1
-    Level: 0
-  - SkillId: 2
-    Level: 10
+  skills: []
   Rewards:
     Gold: 0
     Essence: 0
-    Orbs: 50
-    Exp: 10
+    Orbs: 0
+    Exp: 0
     Token: 0
     Balls: []
     Elementokens: []

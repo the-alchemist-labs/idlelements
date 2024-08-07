@@ -4,7 +4,7 @@ using System.Linq;
 
 public static class AfkGains
 {
-    static public int GetTimesCleared()
+    public static int GetTimesCleared()
     {
         int secondsElapsed = Math.Min(GetAFKTimeInSeconds(), Consts.MaxIdleSecond);
         float partyDPS = Player.Instance.Party.PartyPower();
@@ -14,7 +14,7 @@ public static class AfkGains
         return timesCleared;
     }
 
-    static public IdleRewards CalculateRewards(int timesCleared)
+    public static IdleRewards CalculateRewards(int timesCleared)
     {
         IdleRewards rewards = new IdleRewards();
         Dictionary<MinimentalId, int> minimentals = IdleBattleManager.Instance.GetStage(IdleBattleManager.Instance.CurrentStage)
@@ -41,7 +41,7 @@ public static class AfkGains
         return rewards;
     }
 
-    static public void AcceptRewards(IdleRewards rewards)
+    public static void AcceptRewards(IdleRewards rewards)
     {
         Player.Instance.GainExperience(rewards.Experience);
         Player.Instance.Resources.UpdateEssence(rewards.Essence);

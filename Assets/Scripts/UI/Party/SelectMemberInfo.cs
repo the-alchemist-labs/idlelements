@@ -18,9 +18,10 @@ public class SelectMemberInfo : MonoBehaviour
 
     public void Init(ElementalId elementalId)
     {
+        print(elementalId);
         Elemental elemental = ElementalCatalog.Instance.GetElemental(elementalId);
         int level = Player.Instance.Level;
-
+        
         typeText.text = $"Type: {elemental.Type}";
         nameText.text = elemental.Name;
         hpText.text = $"{elemental.Stats.Hp * level}";

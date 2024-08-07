@@ -8,7 +8,7 @@ public class ElementalManager : MonoBehaviour
     public List<ElementalEntry> entries { get; private set; }
     public Encounter lastEncounter { get; private set; }
     public Dictionary<ElementalId, SkillId?[]> equipedSkills { get; private set; }
-    public int elementalCaught { get { return entries.Count(entry => entry.isCaught); } }
+    public int ElementalCaught { get { return entries.Count(entry => entry.isCaught); } }
 
     private void Awake()
     {
@@ -104,6 +104,8 @@ public class ElementalManager : MonoBehaviour
 
     public List<SkillId?> GetSkills(ElementalId elementalId)
     {
+        if (elementalId == ElementalId.None) return new List<SkillId?>();
+        
         bool hasSkills = equipedSkills.TryGetValue(elementalId, out SkillId?[] value) && value.Length > 0;
 
         return hasSkills ? value.ToList() : new List<SkillId?> { SkillId.Default };
@@ -122,7 +124,7 @@ public class ElementalManager : MonoBehaviour
     {
         if (!equipedSkills.ContainsKey(elementalId))
         {
-            equipedSkills.Add(elementalId, new SkillId?[] { null, null });
+            equipedSkills.Add(elementalId, new SkillId?[] { SkillId.None, SkillId.None });
         }
 
         if (equipedSkills.TryGetValue(elementalId, out SkillId?[] skillsList))

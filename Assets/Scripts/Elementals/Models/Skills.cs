@@ -2,6 +2,7 @@ using UnityEngine;
 
 public enum SkillId
 {
+    None,
     Default,
     FireBall,
     WaterBall

@@ -34,7 +34,9 @@ public class Elemental : ScriptableObject, IElemental
     [SerializeField] List<SkillByLevel> skills;
     public Rewards Rewards;
 
-    public List<SkillByLevel> Skills => skills.OrderBy(s => s.Level).ToList();
+    public List<SkillByLevel> Skills => skills.OrderBy(s => s.Level)
+        .Where(s => s.SkillId != SkillId.None)
+        .ToList();
 
     ElementalStats IElemental.Stats => Stats;
     List<SkillByLevel> IElemental.Skills => Skills;

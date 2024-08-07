@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc6e886fc42c3448a82f42cd9301a3d, type: 3}
   m_Name: FireBall
   m_EditorClassIdentifier: 
-  Id: 1
+  Id: 2
   Name: Fire Ball
   Description: A fire ball
+  Type: 0
   AttackTarget: 0
   TargetedSta: 0
   ImpactValue: 3

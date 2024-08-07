@@ -7,12 +7,13 @@ public class SkillPrefab : MonoBehaviour
 {
     public event Action<SkillId> OnSkillChanged;
     
-    [SerializeField] Image skillImage;
-    [SerializeField] Image selectedIndicator;
-    [SerializeField] GameObject lockedIndicator;
-    [SerializeField] GameObject equipedIndicator;
-    [SerializeField] TMP_Text levelToUnlockText;
-    [SerializeField] Material blackAndWhiteMaterial;
+    [SerializeField] private Button button;
+    [SerializeField] private Image skillImage;
+    [SerializeField] private Image selectedIndicator;
+    [SerializeField] private GameObject lockedIndicator;
+    [SerializeField] private GameObject equipedIndicator;
+    [SerializeField] private TMP_Text levelToUnlockText;
+    [SerializeField] private Material blackAndWhiteMaterial;
 
     private SkillId _skillId;
     private Material _basicMaterial;
@@ -26,16 +27,15 @@ public class SkillPrefab : MonoBehaviour
     {
         _skillId = id;
         bool isLocked = requiredLevel > Player.Instance.Level;
-        bool isEquipeAndNotSelected = isEquiped && !isSelected;
 
         selectedIndicator.color = isSelected ? Color.white : Color.grey;
         skillImage.sprite = Resources.Load<Sprite>($"Sprites/Skills/{id}");
         skillImage.material = _basicMaterial;
         lockedIndicator.SetActive(isLocked);
-        equipedIndicator.SetActive(isEquipeAndNotSelected);
+        equipedIndicator.SetActive(isEquiped && !isSelected);
 
-        skillImage.material = (isLocked || isEquipeAndNotSelected) ? blackAndWhiteMaterial : _basicMaterial;
-
+        skillImage.material = (isLocked) ? blackAndWhiteMaterial : _basicMaterial;
+        button.interactable = !isLocked && ! isEquiped;
         if (isLocked)
         {
             levelToUnlockText.text = requiredLevel.ToString();
@@ -46,5 +46,4 @@ public class SkillPrefab : MonoBehaviour
     {
         OnSkillChanged?.Invoke(_skillId);
     }
-
 }

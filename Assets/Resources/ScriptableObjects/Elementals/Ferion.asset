@@ -29,6 +29,8 @@ MonoBehaviour:
   - SkillId: 0
     Level: 0
   - SkillId: 1
+    Level: 0
+  - SkillId: 2
     Level: 10
   Rewards:
     Gold: 0
@@ -37,3 +39,4 @@ MonoBehaviour:
     Exp: 30
     Token: 0
     Balls: []
+    Elementokens: []

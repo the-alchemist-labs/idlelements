@@ -32,11 +32,11 @@ public class SelectPartyMemberPrefab : MonoBehaviour
     private void UpdateUI()
     {
         _elementalId = Player.Instance.Party.GetPartyMember(slot);
-        List<SkillId?> skillIds = ElementalManager.Instance.GetSkills(_elementalId);
-        partyMemberImagePrefab.GetComponent<PartyMemberImagePrefab>().Init(_elementalId);
         
-        skillImageA.sprite = GetSkillSprite((skillIds.Count > 0) ? skillIds[0] : null);
-        skillImageB.sprite = GetSkillSprite((skillIds.Count > 1) ? skillIds[1] : null);
+        partyMemberImagePrefab.GetComponent<PartyMemberImagePrefab>().Init(_elementalId);
+        List<SkillId?> skillIds = ElementalManager.Instance.GetSkills(_elementalId);
+        skillImageA.sprite = GetSkillSprite((skillIds.Count > 0) ? skillIds[0] : SkillId.None);
+        skillImageB.sprite = GetSkillSprite((skillIds.Count > 1) ? skillIds[1] : SkillId.None);
     }
 
     public void OnElementalClicked()
@@ -51,7 +51,7 @@ public class SelectPartyMemberPrefab : MonoBehaviour
 
     private Sprite GetSkillSprite(SkillId? skillId)
     {
-        string spritePath = skillId != null ? $"Sprites/Skills/{skillId}" :  "Sprites/UI/AddCircle";
+        string spritePath = skillId != SkillId.None ? $"Sprites/Skills/{skillId}" : "Sprites/UI/AddCircle";
         return Resources.Load<Sprite>(spritePath);
     }
 }

@@ -20,7 +20,7 @@ public class SelectSkillPanel : MonoBehaviour
     private Elemental _elemental;
     private int _skillSlot;
     private SkillId _selectedSkill;
-    private List<SkillId?> _equipedSkills;
+    private List<SkillId?> _equippedSkills;
 
     public void OpenPanel(ElementalId elementalId, int slot)
     {
@@ -28,7 +28,8 @@ public class SelectSkillPanel : MonoBehaviour
 
         _skillSlot = slot;
         _elemental = ElementalCatalog.Instance.GetElemental(elementalId);
-        _equipedSkills = ElementalManager.Instance.GetSkills(_elemental.Id);
+        _equippedSkills = ElementalManager.Instance.GetSkills(_elemental.Id);
+        _selectedSkill = _equippedSkills[slot] ?? SkillId.Default;
 
         UpdateScrollView();
         UpdateInfo();
@@ -37,17 +38,17 @@ public class SelectSkillPanel : MonoBehaviour
     void UpdateScrollView()
     {
         scrollViewContent.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
-        
+
         foreach (SkillByLevel skillByLevel in _elemental.Skills)
         {
-            GameObject newEntry = Instantiate(prefub, scrollViewContent);
-            if (newEntry.TryGetComponent(out SkillPrefab item))
+            GameObject skill = Instantiate(prefub, scrollViewContent);
+            if (skill.TryGetComponent(out SkillPrefab item))
             {
                 item.Init(
                     skillByLevel.SkillId,
                     skillByLevel.Level,
                     _selectedSkill == skillByLevel.SkillId,
-                    _equipedSkills.Contains(skillByLevel.SkillId)
+                    _equippedSkills.Contains(skillByLevel.SkillId)
                 );
                 item.OnSkillChanged += SkillChanged;
             }
@@ -67,7 +68,7 @@ public class SelectSkillPanel : MonoBehaviour
 
     public void OnSelectClicked()
     {
-        ElementalManager.Instance.EquipSkill(_elemental.Id, _skillSlot, _selectedSkill);
+        ElementalManager.Instance.EquipSkill(_elemental.Id, _skillSlot, _selectedSkill!);
         SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
 
         gameObject.SetActive(false);
@@ -76,7 +77,7 @@ public class SelectSkillPanel : MonoBehaviour
     private void SkillChanged(SkillId skillId)
     {
         _selectedSkill = skillId;
-        _equipedSkills[_skillSlot] = skillId;
+        _equippedSkills[_skillSlot] = skillId;
 
         UpdateScrollView();
         UpdateInfo();

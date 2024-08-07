@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -18,7 +17,7 @@ public class IdleBattleManager : MonoBehaviour
     private ObjectPool<GameObject> _pool;
     private List<GameObject> _activeSkillEffects;
 
-    private Dictionary<ElementType, List<MinimentalId>> _stageMinimentalByType = new Dictionary<ElementType, List<MinimentalId>> {
+    private readonly Dictionary<ElementType, List<MinimentalId>> _stageMinimentalByType = new() {
         { ElementType.Fire, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireMeele  } },
         { ElementType.Water, new List<MinimentalId>() {  MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged } },
         { ElementType.Earth, new List<MinimentalId>() { MinimentalId.FireMeele, MinimentalId.FireMeele, MinimentalId.FireMeele  } },
@@ -28,7 +27,7 @@ public class IdleBattleManager : MonoBehaviour
         { ElementType.Chaos, new List<MinimentalId>() { MinimentalId.FireRanged, MinimentalId.FireRanged, MinimentalId.FireRanged } }
     };
 
-    private Dictionary<ElementType, MinimentalId> _stageBossByType = new Dictionary<ElementType, MinimentalId> {
+    private readonly Dictionary<ElementType, MinimentalId> _stageBossByType = new() {
         { ElementType.Fire, MinimentalId.FireBoss },
         { ElementType.Water,MinimentalId.FireBoss },
         { ElementType.Earth, MinimentalId.FireBoss },

@@ -10,8 +10,7 @@ public class PartyMemberImagePrefab : MonoBehaviour
     {
         if (elementalId == ElementalId.None)
         {
-            typeColor.sprite = Resources.Load<Sprite>("Sprites/UI/add");
-            elementalImage.sprite = null;
+            elementalImage.sprite = Resources.Load<Sprite>("Sprites/UI/add");;
             return;
         }
 
