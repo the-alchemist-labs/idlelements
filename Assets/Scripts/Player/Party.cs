@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Unity.VisualScripting;
+using UnityEngine;
 
 [Serializable]
 public class Party
@@ -83,10 +85,9 @@ public class Party
     private int GetMemberDPS(ElementalId id, int level)
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
-        List<SkillId?> skillIds = ElementalManager.Instance.GetSkills(id);
-        List<Skill> skills = skillIds.Where(s => s != null).Cast<SkillId>().Select(s => ElementalCatalog.Instance.GetSkill(s)).ToList();
-        int maxDamagSkill = skills.Max(s => s.ImpactValue);
+        List<SkillId> skillIds = ElementalManager.Instance.GetSkills(id);
+        List<Skill> skills = skillIds.Where(s => s != SkillId.None).Select(s => ElementalCatalog.Instance.GetSkill(s)).ToList();
+        int maxDamagSkill = skills.Count != 0 ? skills.Max(s => s.ImpactValue) : 1;
         return (elemental.Stats.Attack + level) * maxDamagSkill;
     }
-
 }

@@ -20,7 +20,7 @@ public class SelectSkillPanel : MonoBehaviour
     private Elemental _elemental;
     private int _skillSlot;
     private SkillId _selectedSkill;
-    private List<SkillId?> _equippedSkills;
+    private List<SkillId> _equippedSkills;
 
     public void OpenPanel(ElementalId elementalId, int slot)
     {
@@ -29,7 +29,7 @@ public class SelectSkillPanel : MonoBehaviour
         _skillSlot = slot;
         _elemental = ElementalCatalog.Instance.GetElemental(elementalId);
         _equippedSkills = ElementalManager.Instance.GetSkills(_elemental.Id);
-        _selectedSkill = _equippedSkills[slot] ?? SkillId.Default;
+        _selectedSkill = _equippedSkills[slot];
 
         UpdateScrollView();
         UpdateInfo();

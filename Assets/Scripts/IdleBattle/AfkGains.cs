@@ -51,6 +51,11 @@ public static class AfkGains
         {
             Player.Instance.Inventory.UpdateBalls(kvp.Key, kvp.Value);
         }
+        
+        foreach (KeyValuePair<ElementType, int> kvp in rewards.Elementokens)
+        {
+            Player.Instance.Inventory.UpdateTokens(kvp.Key, kvp.Value);
+        }
     }
 
     static public Dictionary<T, int> CalculateItems<T>(List<Reward<T>> rewardList, int countDefeated)

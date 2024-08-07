@@ -34,7 +34,7 @@ public class SelectPartyMemberPrefab : MonoBehaviour
         _elementalId = Player.Instance.Party.GetPartyMember(slot);
         
         partyMemberImagePrefab.GetComponent<PartyMemberImagePrefab>().Init(_elementalId);
-        List<SkillId?> skillIds = ElementalManager.Instance.GetSkills(_elementalId);
+        List<SkillId> skillIds = ElementalManager.Instance.GetSkills(_elementalId);
         skillImageA.sprite = GetSkillSprite((skillIds.Count > 0) ? skillIds[0] : SkillId.None);
         skillImageB.sprite = GetSkillSprite((skillIds.Count > 1) ? skillIds[1] : SkillId.None);
     }
