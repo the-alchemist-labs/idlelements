@@ -8,7 +8,11 @@ public class ElementalManager : MonoBehaviour
     public List<ElementalEntry> entries { get; private set; }
     public Encounter lastEncounter { get; private set; }
     public Dictionary<ElementalId, SkillId[]> equipedSkills { get; private set; }
-    public int ElementalCaught { get { return entries.Count(entry => entry.isCaught); } }
+
+    public int ElementalCaught
+    {
+        get { return entries.Count(entry => entry.isCaught); }
+    }
 
     private void Awake()
     {
@@ -25,7 +29,8 @@ public class ElementalManager : MonoBehaviour
 
     private void Initialize()
     {
-        ElementalManagerState state = DataService.Instance.LoadData<ElementalManagerState>(FileName.ElementalManagerState, true);
+        ElementalManagerState state =
+            DataService.Instance.LoadData<ElementalManagerState>(FileName.ElementalManagerState, true);
 
         entries = state.entries;
         lastEncounter = state.lastEncounter;
@@ -66,8 +71,8 @@ public class ElementalManager : MonoBehaviour
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
 
         return elemental.Evolution != null
-        && entry.tokens >= elemental.Evolution.tokensCost
-        && Player.Instance.Resources.Essence >= elemental.Evolution.essenceCost;
+               && entry.tokens >= elemental.Evolution.tokensCost
+               && Player.Instance.Resources.Essence >= elemental.Evolution.essenceCost;
     }
 
     public void Evolve(ElementalId id)
@@ -86,7 +91,7 @@ public class ElementalManager : MonoBehaviour
     {
         lastEncounter = encounter;
     }
-    
+
     public bool CatchElemental(ElementalId elementalId, BallId ballId)
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(elementalId);
@@ -98,7 +103,7 @@ public class ElementalManager : MonoBehaviour
         bool isCaught = totalCatchRate >= randomValue;
 
         if (isCaught) GameEvents.ElementalCaught();
-        
+
         if (Instance.IsElementalRegistered(elemental.Id))
         {
             Player.Instance.Inventory.UpdateTokens(elemental.Type, 1);
@@ -107,26 +112,26 @@ public class ElementalManager : MonoBehaviour
         {
             Instance.MarkElementalAsCaught(elemental.Id);
         }
-        
+
         return isCaught;
     }
 
     public List<SkillId> GetSkills(ElementalId elementalId)
     {
         if (elementalId == ElementalId.None) return new List<SkillId>();
-        
+
         bool hasSkills = equipedSkills.TryGetValue(elementalId, out SkillId[] value) && value.Length > 0;
 
-        return hasSkills ? value.ToList() : new List<SkillId> { SkillId.Default };
+        return hasSkills ? value.ToList() : new List<SkillId> { SkillId.Default, SkillId.None };
     }
 
     public List<SkillId> GetSkills(MinimentalId minimentalId)
     {
         return ElementalCatalog.Instance
-        .GetElemental(minimentalId).Skills
-        .Where(s => s.Level <= IdleBattleManager.Instance.CurrentStage)
-        .Select(s => s.SkillId)
-        .ToList();
+            .GetElemental(minimentalId).Skills
+            .Where(s => s.Level <= IdleBattleManager.Instance.CurrentStage)
+            .Select(s => s.SkillId)
+            .ToList();
     }
 
     public void EquipSkill(ElementalId elementalId, int skillSlot, SkillId skillId)
@@ -138,9 +143,9 @@ public class ElementalManager : MonoBehaviour
 
         if (equipedSkills.TryGetValue(elementalId, out SkillId[] skillsList))
         {
-
             skillsList[skillSlot] = skillId;
         }
+
         GameEvents.PartyUpdated();
     }
 }
