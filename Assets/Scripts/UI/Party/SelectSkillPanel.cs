@@ -6,16 +6,17 @@ using UnityEngine.UI;
 
 public class SelectSkillPanel : MonoBehaviour
 {
-    [SerializeField] ScrollRect scrollRect;
-    [SerializeField] Transform scrollViewContent;
-    [SerializeField] GameObject prefub;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private Transform scrollViewContent;
+    [SerializeField] private GameObject skillPrefab;
 
-    [SerializeField] TMP_Text nameText;
-    [SerializeField] TMP_Text descriptionText;
-    [SerializeField] TMP_Text typeText;
-    [SerializeField] TMP_Text targetText;
-    [SerializeField] TMP_Text powerText;
-    [SerializeField] TMP_Text speedText;
+    [SerializeField] private GameObject infoSection;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text typeText;
+    [SerializeField] private TMP_Text targetText;
+    [SerializeField] private TMP_Text powerText;
+    [SerializeField] private TMP_Text speedText;
 
     private Elemental _elemental;
     private int _skillSlot;
@@ -41,7 +42,7 @@ public class SelectSkillPanel : MonoBehaviour
 
         foreach (SkillByLevel skillByLevel in _elemental.Skills)
         {
-            GameObject skill = Instantiate(prefub, scrollViewContent);
+            GameObject skill = Instantiate(skillPrefab, scrollViewContent);
             if (skill.TryGetComponent(out SkillPrefab item))
             {
                 item.Init(
@@ -57,6 +58,11 @@ public class SelectSkillPanel : MonoBehaviour
 
     void UpdateInfo()
     {
+        bool isSkillSelected = _selectedSkill != SkillId.None;
+        
+        infoSection.SetActive(isSkillSelected);
+        if (!isSkillSelected) return;
+        
         Skill skill = ElementalCatalog.Instance.GetSkill(_selectedSkill);
         nameText.text = skill.Name;
         descriptionText.text = skill.Description;

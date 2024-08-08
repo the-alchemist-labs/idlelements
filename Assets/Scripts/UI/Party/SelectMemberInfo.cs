@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SelectMemberInfo : MonoBehaviour
 {
+    [SerializeField] private GameObject infoPanel;
+
     [SerializeField] TMP_Text typeText;
     [SerializeField] TMP_Text nameText;
     [SerializeField] TMP_Text hpText;
@@ -18,7 +20,10 @@ public class SelectMemberInfo : MonoBehaviour
 
     public void Init(ElementalId elementalId)
     {
-        print(elementalId);
+        bool isMemberSelected = elementalId != ElementalId.None;
+        infoPanel.SetActive(isMemberSelected);
+        if (!isMemberSelected) return;
+        
         Elemental elemental = ElementalCatalog.Instance.GetElemental(elementalId);
         int level = Player.Instance.Level;
         

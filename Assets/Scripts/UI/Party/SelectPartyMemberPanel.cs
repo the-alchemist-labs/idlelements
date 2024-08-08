@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class SelectPartyMemberPanel : MonoBehaviour
 {
-    [SerializeField] ScrollRect scrollRect;
-    [SerializeField] Transform scrollViewContent;
-    [SerializeField] GameObject prefub;
-    [SerializeField] SelectMemberInfo selectMemberInfo;
+    [SerializeField] private ScrollRect scrollRect;
+    [SerializeField] private Transform scrollViewContent;
+    [SerializeField] private GameObject memberPrefab;
+    [SerializeField] private SelectMemberInfo selectMemberInfo;
 
     private ElementalId _selectedElemental;
     private int _memberSlot;
@@ -29,7 +29,7 @@ public class SelectPartyMemberPanel : MonoBehaviour
 
         foreach (ElementalId entryId in Player.Instance.Party.GetEligiblePartyMembers())
         {
-            GameObject newEntry = Instantiate(prefub, scrollViewContent);
+            GameObject newEntry = Instantiate(memberPrefab, scrollViewContent);
             if (newEntry.TryGetComponent(out AvailablePartyMemberPrefub item))
             {
                 item.SetPartyMemberOption(_memberSlot, entryId, _selectedElemental == entryId);
