@@ -86,7 +86,7 @@ public class ElementalManager : MonoBehaviour
     {
         lastEncounter = encounter;
     }
-
+    
     public bool CatchElemental(ElementalId elementalId, BallId ballId)
     {
         Elemental elemental = ElementalCatalog.Instance.GetElemental(elementalId);
@@ -98,7 +98,16 @@ public class ElementalManager : MonoBehaviour
         bool isCaught = totalCatchRate >= randomValue;
 
         if (isCaught) GameEvents.ElementalCaught();
-
+        
+        if (Instance.IsElementalRegistered(elemental.Id))
+        {
+            Player.Instance.Inventory.UpdateTokens(elemental.Type, 1);
+        }
+        else
+        {
+            Instance.MarkElementalAsCaught(elemental.Id);
+        }
+        
         return isCaught;
     }
 

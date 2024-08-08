@@ -8,18 +8,18 @@ public class CatchManager : MonoBehaviour
     [SerializeField] BallsScrollView balls;
     [SerializeField] Button throwButton;
 
-    private Encounter encounter;
-    private BallId selectedBallId;
+    private Encounter _encounter;
+    private BallId _selectedBallId;
 
     void Start()
     {
         GameEvents.OnBallSelected += UpdateSelectedBall;
         GameEvents.OnEncounterUpdated += OnEncouterUpdated;
 
-        selectedBallId = (BallId)PlayerPrefs.GetInt(PlayerPrefKeys.SELECTED_BALL, (int)BallId.Normal);
-        encounter = ElementalManager.Instance.lastEncounter ?? new Encounter();
+        _selectedBallId = (BallId)PlayerPrefs.GetInt(PlayerPrefKeys.SELECTED_BALL, (int)BallId.Normal);
+        _encounter = ElementalManager.Instance.lastEncounter ?? new Encounter();
 
-        if (encounter.EncounterId == ElementalId.None)
+        if (_encounter.EncounterId == ElementalId.None)
         {
             GetNewEncounter();
             return;
@@ -36,13 +36,13 @@ public class CatchManager : MonoBehaviour
 
     public void ThrowBall()
     {
-        bool isCaught = ElementalManager.Instance.CatchElemental(encounter.EncounterId, selectedBallId);
-        Player.Instance.Inventory.UpdateBalls(selectedBallId, -1);
-        encounter.UseTry(isCaught);
+        bool isCaught = ElementalManager.Instance.CatchElemental(_encounter.EncounterId, _selectedBallId);
+        Player.Instance.Inventory.UpdateBalls(_selectedBallId, -1);
+        _encounter.UseTry(isCaught);
 
         if (isCaught)
         {
-            // HandleSuccessfulCatch();
+            // HANDLE
         }
         else
         {
@@ -54,7 +54,7 @@ public class CatchManager : MonoBehaviour
 
     private void UpdateSelectedBall()
     {
-        selectedBallId = balls.selectedBall;
+        _selectedBallId = balls.selectedBall;
         Ball selectedBall = InventoryCatalog.Instance.GetBall(balls.selectedBall);
         throwButton.GetComponentInChildren<TMP_Text>().text = $"Catch {selectedBall.CatchRate * 100}%";
         throwButton.interactable = canThrowBall();
@@ -62,21 +62,21 @@ public class CatchManager : MonoBehaviour
 
     private void OnEncouterUpdated()
     {
-        ElementalManager.Instance.UpdatelastEncounter(encounter);
+        ElementalManager.Instance.UpdatelastEncounter(_encounter);
         throwButton.interactable = canThrowBall();
-        encounterPanel.UpdateUI(encounter);
+        encounterPanel.UpdateUI(_encounter);
     }
 
     private void GetNewEncounter()
     {
         ElementalId elementalId = MapManager.Instance.currentMap.GetElementalEncounter();
-        encounter.SetNewEncounter(elementalId);
+        _encounter.SetNewEncounter(elementalId);
         GameEvents.EncounterUpdated();
     }
 
     private bool canThrowBall()
     {
-        bool HasRemainingTries = selectedBallId != BallId.None && Player.Instance.Inventory.Balls[selectedBallId] > 0;
-        return encounter.HasRemainingTries() && HasRemainingTries;
+        bool HasRemainingTries = _selectedBallId != BallId.None && Player.Instance.Inventory.Balls[_selectedBallId] > 0;
+        return _encounter.HasRemainingTries() && HasRemainingTries;
     }
 }

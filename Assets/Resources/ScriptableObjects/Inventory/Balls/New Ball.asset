@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Normal Ball
-  m_EditorClassIdentifier: Assembly-CSharp::Ball
+  m_Script: {fileID: 11500000, guid: 736d0516be47e6e4592d7ecddb25c20b, type: 3}
+  m_Name: New Ball
+  m_EditorClassIdentifier: 
   Id: 1
   Name: Normal ball
   Description: Normal ball

@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class ElementalCatalog : MonoBehaviour
 {
-    private string SCRIPTABLE_OBJECT_ELEMENTALS_PATH = "ScriptableObjects/Elementals";
-    private string SCRIPTABLE_OBJECT_MINIMENTALS_PATH = "ScriptableObjects/Minimentals";
-    private string SCRIPTABLE_OBJECT_SKILLS_PATH = "ScriptableObjects/Skills";
+    private const string SCRIPTABLE_OBJECT_ELEMENTALS_PATH = "ScriptableObjects/Elementals";
+    private const string SCRIPTABLE_OBJECT_MINIMENTALS_PATH = "ScriptableObjects/Minimentals";
+    private const string SCRIPTABLE_OBJECT_SKILLS_PATH = "ScriptableObjects/Skills";
 
     public static ElementalCatalog Instance { get; private set; }
-    public List<Elemental> Elementals { get; private set; }
+    public List<Elemental> Elementals
+    {
+        get => _elementals.Where(s => s.Id != ElementalId.None).ToList();
+    }
     public List<Minimental> Minimentals { get; private set; }
     public List<Skill> Skills { get; private set; }
     public int Count { get { return Elementals.Count; } }
 
+    private List<Elemental> _elementals;
     private void Awake()
     {
         if (Instance == null)
@@ -29,7 +33,7 @@ public class ElementalCatalog : MonoBehaviour
 
     private void Initialize()
     {
-        Elementals = Resources.LoadAll<Elemental>(SCRIPTABLE_OBJECT_ELEMENTALS_PATH).ToList();
+        _elementals = Resources.LoadAll<Elemental>(SCRIPTABLE_OBJECT_ELEMENTALS_PATH).ToList();
         Minimentals = Resources.LoadAll<Minimental>(SCRIPTABLE_OBJECT_MINIMENTALS_PATH).ToList();
         Skills = Resources.LoadAll<Skill>(SCRIPTABLE_OBJECT_SKILLS_PATH).ToList();
     }
