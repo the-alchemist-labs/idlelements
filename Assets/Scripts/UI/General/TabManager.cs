@@ -12,27 +12,28 @@ public enum MainSceneTab
 
 public class TabManager : MonoBehaviour
 {
-    public MainSceneTab ActiveTab = MainSceneTab.Main;
+    public MainSceneTab ActiveTab;
 
-    [SerializeField] Button[] buttons;
-    [SerializeField] GameObject[] panels;
+    [SerializeField] private Button[] buttons;
+    [SerializeField] private GameObject[] panels;
 
     private MainSceneTab _lastTabIndex = 0;
 
     void Start()
-    {
-        UpdateTabActive();
+    {   
+        ActiveTab = MainSceneTab.Encounter;
+        UpdateActiveTab();
     }
 
     public void OnTabClick(int tabIndex)
     {
         _lastTabIndex = ActiveTab;
         ActiveTab = (MainSceneTab)tabIndex;
-        UpdateTabActive();
+        UpdateActiveTab();
         SoundManager.Instance.PlaySystemSFX(SystemSFXId.Click);
     }
 
-    void UpdateTabActive()
+    void UpdateActiveTab()
     {        
         panels[(int)_lastTabIndex].SetActive(false);
         panels[(int)ActiveTab].SetActive(true);

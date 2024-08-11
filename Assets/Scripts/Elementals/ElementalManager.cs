@@ -87,7 +87,7 @@ public class ElementalManager : MonoBehaviour
         GameEvents.TokensUpdated();
     }
 
-    public void UpdatelastEncounter(Encounter encounter)
+    public void UpdateLastEncounter(Encounter encounter)
     {
         lastEncounter = encounter;
     }
@@ -98,7 +98,7 @@ public class ElementalManager : MonoBehaviour
         Ball ball = InventoryCatalog.Instance.GetBall(ballId);
 
         float bonusCatchRate = 0.1f;
-        float totalCatchRate = elemental.CatchRate * ball.CatchRate + bonusCatchRate;
+        float totalCatchRate = ball.GetCatchRate(elemental.Tier) + bonusCatchRate;
         float randomValue = Random.Range(0f, 1f);
         bool isCaught = totalCatchRate >= randomValue;
 

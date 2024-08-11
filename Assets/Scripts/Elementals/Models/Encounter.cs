@@ -15,7 +15,7 @@ public class Encounter
 
     public ElementalId EncounterId { get; private set; }
     public int Tries { get; private set; }
-    public EncounterState state { get; private set; }
+    public EncounterState State { get; private set; }
 
     public Encounter()
     {
@@ -28,34 +28,34 @@ public class Encounter
     {
         this.EncounterId = EncounterId;
         this.Tries = Tries;
-        this.state = state;
+        this.State = state;
     }
 
     public void SetNewEncounter(ElementalId encounterId)
     {
         EncounterId = encounterId;
         Tries = 0;
-        state = EncounterState.InProgress;
+        State = EncounterState.InProgress;
     }
 
     public void UseTry(bool isCaught)
     {
-        Tries++;
-
         if (isCaught)
         {
-            state = EncounterState.Caught;
+            State = EncounterState.Caught;
             return;
         }
 
+        Tries++;
+
         if (Tries >= MAX_CATCH_TRIES)
+            State = EncounterState.OutOfTries;
         {
-            state = EncounterState.OutOfTries;
         }
     }
 
     public bool HasRemainingTries()
     {
-        return state != EncounterState.Caught;
+        return State != EncounterState.Caught;
     }
 }

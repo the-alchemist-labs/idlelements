@@ -22,13 +22,23 @@ public enum ElementalId
     Serphire,
 }
 
+public enum Tier
+{
+    Common,
+    Rare,
+    Epic,
+    Unique,
+    Legendary
+}
+
 [CreateAssetMenu(fileName = "New Elemental", menuName = "Scriptable Objects/Elementals")]
 public class Elemental : ScriptableObject, IElemental
 {
     public ElementalId Id;
     public string Name;
+    public string Description;
     public ElementType Type;
-    public float CatchRate;
+    public Tier Tier;
     public Evolution Evolution;
     public ElementalStats Stats;
     [SerializeField] List<SkillByLevel> skills;

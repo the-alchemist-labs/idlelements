@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 2
   Name: Ferion
+  Description: animal
   Type: 0
+  Tier: 1
   CatchRate: 0.5
   Evolution:
     evolveTo: 0

@@ -72,6 +72,7 @@ public class SoundManager : MonoBehaviour
     public void UpdateSFXVolume(float volume)
     {
         PlayerPrefs.SetFloat(PlayerPrefKeys.SFX_Volume, volume);
+        SFXVolume = volume;
     }
 
     public void UpdateBGVolume(float volume)

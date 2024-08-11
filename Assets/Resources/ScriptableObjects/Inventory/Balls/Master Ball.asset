@@ -15,4 +15,10 @@ MonoBehaviour:
   Id: 3
   Name: Master Ball
   Description: Master Ball
-  CatchRate: 1
+  CatchByTier:
+  - Tier: 0
+    CatchRate: 1
+  - Tier: 1
+    CatchRate: 1
+  - Tier: 2
+    CatchRate: 1

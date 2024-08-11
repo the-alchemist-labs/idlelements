@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1
   Name: Ferine
+  Description: animal
   Type: 0
-  CatchRate: 1
+  Tier: 0
   Evolution:
     evolveTo: 2
     tokensCost: 100

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Wizo
   m_EditorClassIdentifier: 
   Id: 3
-  Name: 
+  Name: Wizo
+  Description: animal
   Type: 1
+  Tier: 0
   CatchRate: 1
   Evolution:
     evolveTo: 4
@@ -39,3 +41,4 @@ MonoBehaviour:
     Exp: 10
     Token: 0
     Balls: []
+    Elementokens: []

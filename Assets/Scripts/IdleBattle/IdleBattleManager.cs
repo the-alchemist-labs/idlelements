@@ -148,8 +148,6 @@ public class IdleBattleManager : MonoBehaviour
 
     private void ResetStage()
     {
-        Debug.Log("Whiped!");
-
         _activeSkillEffects.ForEach(s =>
         {
             if (s.activeInHierarchy) _pool.Release(s);

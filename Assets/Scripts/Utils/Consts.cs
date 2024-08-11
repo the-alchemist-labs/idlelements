@@ -1,3 +1,5 @@
+using System;
+
 public static class FileName
 {
     public const string MapCatalog = "MapCatalog";
@@ -50,11 +52,12 @@ public enum MapId
     LightningAir,
 }
 
-public enum BonusResource
+public enum Resource
 {
+    None,
     Gold,
     Essence,
-    EncounterSpeed,
+    Orb,
     Experience,
 }
 

@@ -15,4 +15,8 @@ MonoBehaviour:
   Id: 2
   Name: Great Ball
   Description: Great Ball
-  CatchRate: 0.85
+  CatchByTier:
+  - Tier: 0
+    CatchRate: 1
+  - Tier: 1
+    CatchRate: 0.9
