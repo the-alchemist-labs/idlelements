@@ -14,7 +14,9 @@ public enum SystemSFXId
     Celebration,
     Click,
     Coins,
-    CoinsDroped
+    CoinsDropped,
+    Failed,
+    Throw
 }
 
 public class SoundManager : MonoBehaviour
