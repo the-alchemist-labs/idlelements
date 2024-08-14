@@ -17,7 +17,6 @@ MonoBehaviour:
   Description: animal
   Type: 1
   Tier: 1
-  CatchRate: 1
   Evolution:
     evolveTo: 4
     tokensCost: 100
@@ -32,11 +31,4 @@ MonoBehaviour:
     Level: 100
   - SkillId: 0
     Level: 0
-  Rewards:
-    Gold: 0
-    Essence: 0
-    Orbs: 30
-    Exp: 10
-    Token: 0
-    Balls: []
-    Elementokens: []
+  Rewards: []

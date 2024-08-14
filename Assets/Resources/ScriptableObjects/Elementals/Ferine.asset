@@ -33,11 +33,4 @@ MonoBehaviour:
     Level: 0
   - SkillId: 2
     Level: 10
-  Rewards:
-    Gold: 0
-    Essence: 0
-    Orbs: 50
-    Exp: 10
-    Token: 0
-    Balls: []
-    Elementokens: []
+  Rewards: []

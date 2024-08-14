@@ -24,10 +24,6 @@ public class IdleBattleManagerState
 
 public class IdleRewards
 {
-    public int Gold = 0;
-    public int Essence = 0;
-    public int Experience = 0;
-    public Dictionary<BallId, int> Balls = new Dictionary<BallId, int>();
-    public Dictionary<ElementType, int> Elementokens = new Dictionary<ElementType, int>();
+    public List<Reward> Rewards = new ();
     public string IdleTime;
 }

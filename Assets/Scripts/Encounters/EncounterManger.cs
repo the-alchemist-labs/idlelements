@@ -21,7 +21,7 @@ public class EncounterManger : MonoBehaviour
             Instance = this;
 
             GameEvents.OnEncounterUpdated += OnEncounterUpdated;
-            SelectedBallId = (BallId)PlayerPrefs.GetInt(PlayerPrefKeys.SELECTED_BALL, (int)BallId.Normal);
+            SelectedBallId = (BallId)PlayerPrefs.GetInt(PlayerPrefKeys.SELECTED_BALL, (int)BallId.NormalBall);
 
             DontDestroyOnLoad(gameObject);
         }

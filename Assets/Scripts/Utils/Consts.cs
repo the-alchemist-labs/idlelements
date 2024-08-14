@@ -3,11 +3,11 @@ using System;
 public static class FileName
 {
     public const string MapCatalog = "MapCatalog";
-    public const string InventoryCatalog = "InventoryCatalog";
     public const string MapManagerState = "MapManagerState";
     public const string ElementalManagerState = "ElementalManagerState";
     public const string IdleBattleManagerState = "IdleBattleManagerState";
     public const string PlayerState = "PlayerState";
+    public const string DailiesProgress = "DailiesProgress";
 
 }
 

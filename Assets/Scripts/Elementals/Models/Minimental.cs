@@ -18,9 +18,9 @@ public class Minimental : ScriptableObject, IElemental
     public ElementType Type;
     public ElementalStats Stats;
     public List<SkillByLevel> Skills;
-    public Rewards Rewards;
+    public List<Reward> Rewards;
 
     ElementalStats IElemental.Stats => Stats;
     List<SkillByLevel> IElemental.Skills => Skills;
-    Rewards IElemental.Rewards => Rewards;
+    List<Reward> IElemental.Rewards => Rewards;
 }

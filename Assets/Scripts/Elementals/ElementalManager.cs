@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class ElementalManager : MonoBehaviour
@@ -106,7 +107,8 @@ public class ElementalManager : MonoBehaviour
 
         if (Instance.IsElementalRegistered(elemental.Id))
         {
-            Player.Instance.Inventory.UpdateTokens(elemental.Type, 1);
+            Elementoken tokenType = RewardService.GetTokenType(elemental.Type);
+            Player.Instance.Inventory.UpdateTokens(tokenType, 1);
         }
         else
         {

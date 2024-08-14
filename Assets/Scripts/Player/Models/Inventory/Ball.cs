@@ -6,9 +6,9 @@ using UnityEngine;
 public enum BallId
 {
     None,
-    Normal,
-    Great,
-    Master
+    NormalBall,
+    GreatBall,
+    MasterBall
 }
 
 [Serializable]

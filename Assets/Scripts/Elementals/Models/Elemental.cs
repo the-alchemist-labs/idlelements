@@ -42,7 +42,7 @@ public class Elemental : ScriptableObject, IElemental
     public Evolution Evolution;
     public ElementalStats Stats;
     [SerializeField] List<SkillByLevel> skills;
-    public Rewards Rewards;
+    public List<Reward> Rewards;
 
     public List<SkillByLevel> Skills => skills.OrderBy(s => s.Level)
         .Where(s => s.SkillId != SkillId.None)
@@ -50,7 +50,7 @@ public class Elemental : ScriptableObject, IElemental
 
     ElementalStats IElemental.Stats => Stats;
     List<SkillByLevel> IElemental.Skills => Skills;
-    Rewards IElemental.Rewards => Rewards;
+    List<Reward> IElemental.Rewards => Rewards;
 }
 
 [Serializable]

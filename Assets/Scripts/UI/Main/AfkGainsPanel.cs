@@ -14,18 +14,31 @@ public class AfkGainsPanel : MonoBehaviour
     [SerializeField] TMP_Text goldText;
     [SerializeField] TMP_Text expText;
 
-    private IdleRewards _rewards;
+    private IdleRewards _idleRewards;
+    private Dictionary<RewardId, int> _items;
+    private int _gold;
+    private int _essence;
+    private int _exp;
 
     void OnDestroy()
     {
-        AfkGains.AcceptRewards(_rewards);
+        AcceptRewards();
     }
 
     public void DisplayAfkGains()
     {
         gameObject.SetActive(true);
         int timesCleared = AfkGains.GetTimesCleared();
-        _rewards = AfkGains.CalculateRewards(timesCleared);
+        _idleRewards = AfkGains.CalculateRewards(timesCleared);
+
+
+        _gold = _idleRewards.Rewards.Single(r => r.Type == RewardType.Gold)?.Amount ?? 0;
+        _essence =_idleRewards.Rewards.Single(r => r.Type == RewardType.Essence)?.Amount ?? 0;
+        _exp = _idleRewards.Rewards.Single(r => r.Type == RewardType.Exp)?.Amount ?? 0;
+        _items =  _idleRewards.Rewards
+            .Where(r => !new RewardType[] { RewardType.Gold, RewardType.Essence, RewardType.Exp}.Contains(r.Type))
+            .ToDictionary(kvp => kvp.Id, kvp => kvp.Amount);
+        
         IdleBattleManager.Instance.UpdateLastRewardTimestam(DateTime.Now);
         UpdatePanel();
     }
@@ -39,7 +52,9 @@ public class AfkGainsPanel : MonoBehaviour
 
     private void PopulateItems()
     {
-        if (!_rewards.Elementokens.Any() && !_rewards.Balls.Any())
+        Dictionary<RewardId, int> d = new();
+        
+        if (!_items.Any())
         {
             itemsSection.SetActive(false);
             return;
@@ -47,19 +62,10 @@ public class AfkGainsPanel : MonoBehaviour
 
         itemsContainer.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
-        foreach (KeyValuePair<ElementType, int> reward in _rewards.Elementokens)
+        foreach (KeyValuePair<RewardId, int> reward in _items)
         {
             GameObject tokens = Instantiate(itemPrefab, itemsContainer);
             if (tokens.TryGetComponent(out ItemRewardPrefab item))
-            {
-                item.SetItemPrefab(reward.Key, reward.Value);
-            }
-        }
-
-        foreach (KeyValuePair<BallId, int> reward in _rewards.Balls)
-        {
-            GameObject balls = Instantiate(itemPrefab, itemsContainer);
-            if (balls.TryGetComponent(out ItemRewardPrefab item))
             {
                 item.SetItemPrefab(reward.Key, reward.Value);
             }
@@ -68,15 +74,15 @@ public class AfkGainsPanel : MonoBehaviour
 
     private void UpdateText()
     {
-        idleTimeText.text = $"You idle rewards for {_rewards.IdleTime}";
-        goldText.text = TextUtil.NumberFormatter(_rewards.Gold);
-        essenceText.text = TextUtil.NumberFormatter(_rewards.Essence);
-        expText.text = TextUtil.NumberFormatter(_rewards.Experience);
+        idleTimeText.text = $"You idle rewards for {_idleRewards.IdleTime}";
+        goldText.text = TextUtil.NumberFormatter(_gold);
+        essenceText.text = TextUtil.NumberFormatter(_essence);
+        expText.text = TextUtil.NumberFormatter(_exp);
     }
 
     public void AcceptRewards()
     {
-        AfkGains.AcceptRewards(_rewards);
+        RewardService.ClaimRewards(_idleRewards.Rewards, IdleBattleManager.Instance.CurrentStage);
         gameObject.SetActive(false);
     }
 }

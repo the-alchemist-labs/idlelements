@@ -1,23 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType
+{
+    Ball,
+    Token,
+}
+
 public class Inventory
 {
     public Dictionary<BallId, int> Balls { get; private set; }
-    public Dictionary<ElementType, int> Elementokens { get; private set; }
+    public Dictionary<Elementoken, int> Elementokens { get; private set; }
 
     public Inventory()
     {
-        Elementokens = new Dictionary<ElementType, int>();
+        Elementokens = new Dictionary<Elementoken, int>();
         Balls = new Dictionary<BallId, int> {
-            { BallId.Normal, 5},
+            { BallId.NormalBall, 5},
         };
     }
     
-    public Inventory(Dictionary<BallId, int> Balls = null, Dictionary<ElementType, int> Elementokens = null)
+    public Inventory(Dictionary<BallId, int> Balls = null, Dictionary<Elementoken, int> Elementokens = null)
     {
         this.Balls = Balls ?? new Dictionary<BallId, int>();
-        this.Elementokens = Elementokens ?? new Dictionary<ElementType, int>();
+        this.Elementokens = Elementokens ?? new Dictionary<Elementoken, int>();
     }
 
     public void UpdateBalls(BallId ballId, int amount)
@@ -41,7 +47,7 @@ public class Inventory
         }
     }
 
-    public void UpdateTokens(ElementType tokenType, int amount)
+    public void UpdateTokens(Elementoken tokenType, int amount)
     {
         if (!Elementokens.ContainsKey(tokenType))
         {

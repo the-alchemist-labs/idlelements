@@ -21,7 +21,7 @@ public class TabManager : MonoBehaviour
 
     void Start()
     {   
-        ActiveTab = MainSceneTab.Encounter;
+        ActiveTab = MainSceneTab.Main;
         UpdateActiveTab();
     }
 
