@@ -16,7 +16,6 @@ public class ElementalEncounterPanel : MonoBehaviour
     [SerializeField] Image caughtIndicator;
     [SerializeField] Material backAndWhiteMaterial;
     
-    [SerializeField] TMP_Text encounterStateText;
     [SerializeField] TMP_Text baseCatchRateText;
 
     private void Awake()
@@ -51,7 +50,5 @@ public class ElementalEncounterPanel : MonoBehaviour
 
         encounterImage.sprite = Resources.Load<Sprite>($"Sprites/Elementals/{elemental.Id}");
         caughtIndicator.material = isCaught ? null : backAndWhiteMaterial;
-        
-        encounterStateText.text = $"State: {encounter.State}";
     }
 }

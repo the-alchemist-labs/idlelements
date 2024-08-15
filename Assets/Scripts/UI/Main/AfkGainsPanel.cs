@@ -32,9 +32,9 @@ public class AfkGainsPanel : MonoBehaviour
         _idleRewards = AfkGains.CalculateRewards(timesCleared);
 
 
-        _gold = _idleRewards.Rewards.Single(r => r.Type == RewardType.Gold)?.Amount ?? 0;
-        _essence =_idleRewards.Rewards.Single(r => r.Type == RewardType.Essence)?.Amount ?? 0;
-        _exp = _idleRewards.Rewards.Single(r => r.Type == RewardType.Exp)?.Amount ?? 0;
+        _gold = _idleRewards.Rewards.SingleOrDefault(r => r.Type == RewardType.Gold)?.Amount ?? 0;
+        _essence =_idleRewards.Rewards.SingleOrDefault(r => r.Type == RewardType.Essence)?.Amount ?? 0;
+        _exp = _idleRewards.Rewards.SingleOrDefault(r => r.Type == RewardType.Exp)?.Amount ?? 0;
         _items =  _idleRewards.Rewards
             .Where(r => !new RewardType[] { RewardType.Gold, RewardType.Essence, RewardType.Exp}.Contains(r.Type))
             .ToDictionary(kvp => kvp.Id, kvp => kvp.Amount);

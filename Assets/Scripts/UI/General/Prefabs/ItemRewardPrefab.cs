@@ -10,6 +10,6 @@ public class ItemRewardPrefab : MonoBehaviour
     public void SetItemPrefab(RewardId id, int amount = 0)
     {
         itemImage.sprite = Resources.Load<Sprite>($"Sprites/Inventory/{RewardService.GetItemType(id)}s/{id}");
-        amountText.text = (amount != 0) ? $"X{amount}" : "";
+        amountText.text = (amount != 0) ? $"X{TextUtil.NumberFormatter(amount)}" : "";
     }
 }

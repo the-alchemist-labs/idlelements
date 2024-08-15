@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +8,7 @@ public class ElementalCatalog : MonoBehaviour
     private const string SCRIPTABLE_OBJECT_ELEMENTALS_PATH = "ScriptableObjects/Elementals";
     private const string SCRIPTABLE_OBJECT_MINIMENTALS_PATH = "ScriptableObjects/Minimentals";
     private const string SCRIPTABLE_OBJECT_SKILLS_PATH = "ScriptableObjects/Skills";
-
+    
     public static ElementalCatalog Instance { get; private set; }
     public List<Elemental> Elementals
     {
@@ -17,6 +18,17 @@ public class ElementalCatalog : MonoBehaviour
     public List<Skill> Skills { get; private set; }
     public int Count { get { return Elementals.Count; } }
 
+    private static readonly Dictionary<ElementType, Elementoken> _typeTokenMap = new()
+    {
+        { ElementType.Fire, Elementoken.FireToken },
+        { ElementType.Water, Elementoken.WaterToken },
+        { ElementType.Air, Elementoken.AirToken },
+        { ElementType.Earth, Elementoken.EarthToken },
+        { ElementType.Lightning, Elementoken.LightningToken },
+        { ElementType.Ice, Elementoken.IceToken },
+        { ElementType.Chaos, Elementoken.ChaosToken },
+    };
+    
     private List<Elemental> _elementals;
     private void Awake()
     {
@@ -53,6 +65,15 @@ public class ElementalCatalog : MonoBehaviour
         return Skills.Find(el => el.Id == id);
     }
 
+    public Elementoken GetTokenType(ElementType id)
+    {
+        if (_typeTokenMap.TryGetValue(id, out Elementoken tokenType))
+        {
+            return tokenType;
+        }
+
+        throw new Exception($"No Elementoken mapped to {id}");
+    }
     
     public int CalculateDPS(Elemental elemental, int level)
     {

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
             gameObject.AddComponent<ElementalManager>();
             gameObject.AddComponent<MainThreadDispatcher>();
             gameObject.AddComponent<Player>();
+            gameObject.AddComponent<DailiesManager>();
 
             DontDestroyOnLoad(gameObject);
         }

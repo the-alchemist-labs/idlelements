@@ -21,6 +21,8 @@ public static class GameEvents
     public static event Action OnStageFinished;
     public static event Action OnElementokensUpdated;
     public static event Action OnNewNotification;
+    
+    public static event Action OnDailyUpdated;
 
     public static void SocketConnected()
     {
@@ -107,5 +109,10 @@ public static class GameEvents
     public static void NewNotification()
     {
         OnNewNotification?.Invoke();
+    }
+    
+    public static void DailyUpdated()
+    {
+        OnDailyUpdated?.Invoke();
     }
 }

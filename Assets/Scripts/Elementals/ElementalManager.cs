@@ -107,7 +107,7 @@ public class ElementalManager : MonoBehaviour
 
         if (Instance.IsElementalRegistered(elemental.Id))
         {
-            Elementoken tokenType = RewardService.GetTokenType(elemental.Type);
+            Elementoken tokenType = ElementalCatalog.Instance.GetTokenType(elemental.Type);
             Player.Instance.Inventory.UpdateTokens(tokenType, 1);
         }
         else

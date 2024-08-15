@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 
 public static class RewardService
 {
@@ -35,16 +36,6 @@ public static class RewardService
         { RewardId.ChaosToken, Elementoken.ChaosToken },
     };
 
-    private static readonly Dictionary<ElementType, Elementoken> _typeTokenMap = new()
-    {
-        { ElementType.Fire, Elementoken.FireToken },
-        { ElementType.Water, Elementoken.WaterToken },
-        { ElementType.Air, Elementoken.AirToken },
-        { ElementType.Earth, Elementoken.EarthToken },
-        { ElementType.Lightning, Elementoken.LightningToken },
-        { ElementType.Ice, Elementoken.IceToken },
-        { ElementType.Chaos, Elementoken.ChaosToken },
-    };
     public static void ClaimRewards(List<Reward> rewards, int level = 1)
     {
         rewards.ForEach(r => ClaimReward(r, level));
@@ -52,13 +43,10 @@ public static class RewardService
 
     public static ItemType GetItemType(RewardId id)
     {
-        return _itemType[id];
+        return TranslateRewardId(_itemType,id);
     }
-    public static Elementoken GetTokenType(ElementType id)
-    {
-        return _typeTokenMap[id];
-    }
-    private static void ClaimReward(Reward reward, int level = 1)
+
+    public static void ClaimReward(Reward reward, int level = 1)
     {
         switch (reward.Type)
         {
@@ -75,11 +63,23 @@ public static class RewardService
                 Player.Instance.Resources.UpdateOrbs(reward.Amount);
                 break;
             case RewardType.Ball:
-                Player.Instance.Inventory.UpdateBalls(_ballMap[reward.Id], reward.Amount);
+                Player.Instance.Inventory.UpdateBalls(TranslateRewardId(_ballMap, reward.Id), reward.Amount);
                 break;
             case RewardType.Token:
-                Player.Instance.Inventory.UpdateTokens(_tokenMap[reward.Id], reward.Amount);
+                Player.Instance.Inventory.UpdateTokens(TranslateRewardId(_tokenMap, reward.Id), reward.Amount);
                 break;
+            default:
+                throw new Exception($"RewardType {reward.Type} is not handled");
         }
+    }
+
+    private static T TranslateRewardId<T>(Dictionary<RewardId, T> map, RewardId id)
+    {
+        if (map.TryGetValue(id, out T value))
+        {
+            return value;
+        }
+
+        throw new Exception($"No {typeof(T).Name} mapped to {id}");
     }
 }
