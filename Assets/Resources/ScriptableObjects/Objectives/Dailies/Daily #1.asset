@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Daily #1
   m_EditorClassIdentifier: 
   Id: 0
-  Description: Encounter 1 Elemental
-  RequiredToComplete: 1
+  Description: Encounter 5 Elemental
+  RequiredToComplete: 5
   Objective: 0
   Reward:
     Id: 6

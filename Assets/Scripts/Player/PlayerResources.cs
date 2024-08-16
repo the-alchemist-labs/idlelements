@@ -21,6 +21,7 @@ public class PlayerResources
     {
         Gold = (Gold + amount >= 0) ? Gold + amount : 0;
         GameEvents.GoldUpdated();
+        if (amount < 0) DailyEvents.GoldSpent(amount);
     }
 
     public void UpdateOrbs(int amount)

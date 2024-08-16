@@ -11,7 +11,6 @@ public class DailiesManager : MonoBehaviour
 
     private List<DailyProgress> _dailyProgresses;
     private List<Daily> _dailyTasks;
-    private DailyEvents _dailyEvents;
 
     void Awake()
     {
@@ -30,6 +29,15 @@ public class DailiesManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        DailyProgress dailyProgress = _dailyProgresses.First();
+        if (IsNewDay(dailyProgress.ClaimedAt))
+        {
+            ResetDailyProgress();
+        }
+    }
+
     private void OnDestroy()
     {
         GameEvents.OnDailyUpdated -= SaveProgress;
@@ -38,12 +46,6 @@ public class DailiesManager : MonoBehaviour
 
     public List<DailyProgress> GetDailies()
     {
-        DailyProgress dailyProgress = _dailyProgresses.First();
-        if (IsNewDay(dailyProgress.ClaimedAt))
-        {
-            ResetDailyProgress();
-        }
-        
         return SortDailies();
     }
 
@@ -86,8 +88,7 @@ public class DailiesManager : MonoBehaviour
         List<DailyProgress> progresses = DataService.Instance.LoadData<List<DailyProgress>>(FileName.DailiesProgress, true);
         
         _dailyProgresses = InitDailiesProgress(_dailyTasks, progresses);
-        _dailyEvents = new DailyEvents();
-        _dailyEvents.Subscribe();
+        DailyEvents.Subscribe();
     }
 
     private List<DailyProgress> InitDailiesProgress(List<Daily> dailyTasks, List<DailyProgress> progresses)
@@ -112,7 +113,7 @@ public class DailiesManager : MonoBehaviour
     {
         _dailyProgresses.Sort((x, y) =>
         {
-            if (x.IsCompleted && !y.IsCompleted || !x.WasClaimed && y.WasClaimed) return -1;
+            if ((x.IsCompleted && !x.WasClaimed) && !y.IsCompleted || !x.WasClaimed && y.WasClaimed) return -1;
             if (!x.IsCompleted && y.IsCompleted || x.WasClaimed && !y.WasClaimed) return 1;
             return 0;
         });

@@ -63,6 +63,7 @@ public class EncounterManger : MonoBehaviour
         ElementalId elementalId = MapManager.Instance.currentMap.GetElementalEncounter();
         Encounter.SetNewEncounter(elementalId);
         GameEvents.EncounterUpdated();
+        DailyEvents.NewEncounter();
     }
 
     public void UpdateSelectedBall(BallId ballId)
