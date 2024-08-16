@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 
 public static class RewardService
 {
@@ -43,7 +42,7 @@ public static class RewardService
 
     public static ItemType GetItemType(RewardId id)
     {
-        return TranslateRewardId(_itemType,id);
+        return TranslateRewardId(_itemType, id);
     }
 
     public static void ClaimReward(Reward reward, int level = 1)
