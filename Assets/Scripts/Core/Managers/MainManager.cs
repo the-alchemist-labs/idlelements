@@ -4,7 +4,6 @@ public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
 
-    public GameObject AfkGainsPanel;
     public GameObject PlayerInfoPanel;
     public GameObject SelectPartyMemberPanel;
     public GameObject SelectSkillPanel;
@@ -28,6 +27,7 @@ public class MainManager : MonoBehaviour
 
     void Start()
     {
-        AfkGainsPanel.GetComponent<AfkGainsPanel>()?.DisplayAfkGains();
+        AfkGainsPanel popup = PopupManager.Instance.OpenPopUp<AfkGainsPanel>(PopupId.AfkGains);
+        popup.InitAfkGains();
     }
 }

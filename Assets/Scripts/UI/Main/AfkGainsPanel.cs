@@ -4,8 +4,10 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class AfkGainsPanel : MonoBehaviour
+public class AfkGainsPanel : BasePopup
 {
+    public override PopupId Id { get; } = PopupId.AfkGains;
+
     [SerializeField] GameObject itemsSection;
     [SerializeField] Transform itemsContainer;
     [SerializeField] GameObject itemPrefab;
@@ -20,40 +22,37 @@ public class AfkGainsPanel : MonoBehaviour
     private int _essence;
     private int _exp;
 
+    void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
     void OnDestroy()
     {
         AcceptRewards();
     }
 
-    public void DisplayAfkGains()
+    public void InitAfkGains()
     {
-        gameObject.SetActive(true);
         int timesCleared = AfkGains.GetTimesCleared();
         _idleRewards = AfkGains.CalculateRewards(timesCleared);
 
 
         _gold = _idleRewards.Rewards.SingleOrDefault(r => r.Type == RewardType.Gold)?.Amount ?? 0;
-        _essence =_idleRewards.Rewards.SingleOrDefault(r => r.Type == RewardType.Essence)?.Amount ?? 0;
+        _essence = _idleRewards.Rewards.SingleOrDefault(r => r.Type == RewardType.Essence)?.Amount ?? 0;
         _exp = _idleRewards.Rewards.SingleOrDefault(r => r.Type == RewardType.Exp)?.Amount ?? 0;
-        _items =  _idleRewards.Rewards
-            .Where(r => !new RewardType[] { RewardType.Gold, RewardType.Essence, RewardType.Exp}.Contains(r.Type))
+        _items = _idleRewards.Rewards
+            .Where(r => !new RewardType[] { RewardType.Gold, RewardType.Essence, RewardType.Exp }.Contains(r.Type))
             .ToDictionary(kvp => kvp.Id, kvp => kvp.Amount);
-        
-        IdleBattleManager.Instance.UpdateLastRewardTimestam(DateTime.Now);
-        UpdatePanel();
-    }
 
-    public void UpdatePanel()
-    {
-        gameObject.SetActive(true);
+        IdleBattleManager.Instance.UpdateLastRewardTimestam(DateTime.Now);
         PopulateItems();
         UpdateText();
     }
-
+    
     private void PopulateItems()
     {
         Dictionary<RewardId, int> d = new();
-        
+
         if (!_items.Any())
         {
             itemsSection.SetActive(false);
@@ -84,5 +83,6 @@ public class AfkGainsPanel : MonoBehaviour
     {
         RewardService.ClaimRewards(_idleRewards.Rewards, IdleBattleManager.Instance.CurrentStage);
         gameObject.SetActive(false);
+        PopupManager.Instance.ClosePopup(PopupId.AfkGains);
     }
 }

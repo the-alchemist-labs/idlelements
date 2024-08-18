@@ -1,9 +1,12 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectPartyMemberPanel : MonoBehaviour
+public class SelectPartyMemberPanel : BasePopup
 {
+    public override PopupId Id { get; } = PopupId.SelectPartyMember;
+    
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private Transform scrollViewContent;
     [SerializeField] private GameObject memberPrefab;
@@ -11,6 +14,11 @@ public class SelectPartyMemberPanel : MonoBehaviour
 
     private ElementalId _selectedElemental;
     private int _memberSlot;
+
+    private void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
 
     public void OpenPanel(int slot)
     {

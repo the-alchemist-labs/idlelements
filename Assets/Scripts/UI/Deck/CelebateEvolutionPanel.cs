@@ -4,10 +4,8 @@ using UnityEngine.UI;
 
 public class CelebateEvolutionPanel : MonoBehaviour
 {
-    [SerializeField]
-    TMP_Text evolveToText;
-    [SerializeField]
-    Image sprite;
+    [SerializeField] TMP_Text evolveToText;
+    [SerializeField] Image sprite;
 
     public void DisplayPanel(Elemental elemental)
     {
