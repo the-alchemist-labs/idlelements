@@ -4,8 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectSkillPanel : MonoBehaviour
+public class SelectSkillPopup : BasePopup
 {
+    public override PopupId Id { get; } = PopupId.SelectSkill;
+
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private Transform scrollViewContent;
     [SerializeField] private GameObject skillPrefab;
@@ -23,6 +25,11 @@ public class SelectSkillPanel : MonoBehaviour
     private SkillId _selectedSkill;
     private List<SkillId> _equippedSkills;
 
+    void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
+    
     public void OpenPanel(ElementalId elementalId, int slot)
     {
         gameObject.SetActive(true);

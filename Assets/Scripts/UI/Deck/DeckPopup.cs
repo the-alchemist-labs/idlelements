@@ -2,13 +2,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DeckScrollView : MonoBehaviour
+public class DeckPopup : BasePopup
 {
+    public override PopupId Id { get; } = PopupId.Deck;
+
     public ScrollRect scrollRect;
     public Transform scrollViewContent;
     public GameObject rowPrefab;
-    public EvolvePanel evolvePanel;
 
+    void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
+    
     void Start()
     {
         GameEvents.OnElementalCaught += PopulateDeck;
@@ -33,7 +39,7 @@ public class DeckScrollView : MonoBehaviour
             GameObject newEntry = Instantiate(rowPrefab, scrollViewContent);
             if (newEntry.TryGetComponent(out DeckEntry item))
             {
-                item.UpdateEntry(entry, evolvePanel);
+                item.UpdateEntry(entry);
             }
         }
 

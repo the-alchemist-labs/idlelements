@@ -1,8 +1,10 @@
 using TMPro;
 using UnityEngine;
 
-public class RequestResultPanel : MonoBehaviour
+public class RequestResultPanel : BasePopup
 {
+    public override PopupId Id { get; } = PopupId.FriendRequest;
+
     public TMP_Text title;
 
     private const string FriendRequestSent = "Friend request sent";
@@ -11,6 +13,11 @@ public class RequestResultPanel : MonoBehaviour
     private const string AlreadyFriends = "You are already friends";
     private const string SomethingWentWrong = "Oops something went wrong";
 
+    void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
+    
     public void Init(StatusResponse res)
     {
         print(res);

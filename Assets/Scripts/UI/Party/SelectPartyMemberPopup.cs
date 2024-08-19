@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectPartyMemberPanel : BasePopup
+public class SelectPartyMemberPopup : BasePopup
 {
     public override PopupId Id { get; } = PopupId.SelectPartyMember;
     
@@ -15,7 +15,7 @@ public class SelectPartyMemberPanel : BasePopup
     private ElementalId _selectedElemental;
     private int _memberSlot;
 
-    private void Awake()
+    void Awake()
     {
         SetupCloseableBackground(true);
     }

@@ -70,7 +70,7 @@ public class ElementalManager : MonoBehaviour
         ElementalEntry entry = GetElementalEntry(id);
         Elemental elemental = ElementalCatalog.Instance.GetElemental(id);
 
-        return elemental.Evolution != null
+        return elemental.Evolution.evolveTo != ElementalId.None
                && entry.tokens >= elemental.Evolution.tokensCost
                && Player.Instance.Resources.Essence >= elemental.Evolution.essenceCost;
     }

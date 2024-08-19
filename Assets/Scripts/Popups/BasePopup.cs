@@ -16,6 +16,7 @@ public abstract class BasePopup : MonoBehaviour
     {
         _background?.SetActive(false);
     }
+    
     protected void SetupCloseableBackground (bool isTainted = false)
     {    Canvas rootCanvas = GetComponentInParent<Canvas>();
 

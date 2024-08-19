@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class EvolvePanel : MonoBehaviour
+public class EvolvePopup : BasePopup
 {
+    public override PopupId Id { get; } = PopupId.Evolve;
+
     public TMP_Text evolveToText;
 
     public HorizontalLayoutGroup tokensContainer;
@@ -12,10 +15,14 @@ public class EvolvePanel : MonoBehaviour
     public TMP_Text essenceCostText;
 
     public Button evolveButton;
-    public CelebateEvolutionPanel celebrateEvolutionPanel;
 
     Elemental elemental;
 
+    void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
+    
     void Start()
     {
         GameEvents.OnTokensUpdated += UpdateEvolveButton;
@@ -32,7 +39,6 @@ public class EvolvePanel : MonoBehaviour
     {
         this.elemental = elemental;
 
-        gameObject.SetActive(true);
         Elemental evolutionElemental = ElementalCatalog.Instance.GetElemental(elemental.Evolution.evolveTo);
 
         evolveToText.text = $"Evlove to {evolutionElemental.name} (#{evolutionElemental.Id})";
@@ -52,7 +58,7 @@ public class EvolvePanel : MonoBehaviour
     public void Evolve()
     {
         ElementalManager.Instance.Evolve(elemental.Id);
-        celebrateEvolutionPanel.DisplayPanel(elemental);
-        gameObject.SetActive(false);
+        CelebrateEvolutionPopup popup = PopupManager.Instance.OpenPopUp<CelebrateEvolutionPopup>(PopupId.CelebrateEvolution);
+        popup.DisplayPanel(elemental);
     }
 }

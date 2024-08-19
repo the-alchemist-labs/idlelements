@@ -105,7 +105,7 @@ public class BaseBattlePrefab : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        HealthBar.value -= damageAmount - (Elemental.Stats.Defense + Level);
+        HealthBar.value -= damageAmount - (Elemental?.Stats?.Defense ?? 0 + Level);
 
         if (HealthBar.value <= 0 && !_isDefeated)
         {

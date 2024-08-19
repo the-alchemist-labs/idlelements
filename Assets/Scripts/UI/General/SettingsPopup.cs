@@ -1,13 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsPanel : MonoBehaviour
+public class SettingsPopup : BasePopup
 {
-    [SerializeField]
-    Slider bGMSlider;
-    [SerializeField]
-    Slider sFXSlider;
+    public override PopupId Id { get; } = PopupId.Settings;
 
+    [SerializeField] Slider bGMSlider;
+    [SerializeField] Slider sFXSlider;
+
+    void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
+    
     void Start()
     {
         bGMSlider.value = SoundManager.Instance.BGMVolume;

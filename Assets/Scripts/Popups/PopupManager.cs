@@ -7,6 +7,13 @@ public enum PopupId
 {
     AfkGains,
     SelectPartyMember,
+    SelectSkill,
+    Evolve,
+    CelebrateEvolution,
+    Deck,
+    FriendRequest, 
+    Settings,
+    PlayerInfo,
 }
 
 public class PopupManager : MonoBehaviour
@@ -41,6 +48,11 @@ public class PopupManager : MonoBehaviour
         return popup.GetComponent<T>();
     }
 
+    public void OpenPopUp(PopupId popupId)
+    {
+        OpenPopUp<MonoBehaviour>(popupId);
+    }
+    
     public void ClosePopup(PopupId popupId)
     {
         BasePopup popup = popupList.Single(p => p.Id == popupId);
@@ -54,8 +66,11 @@ public class PopupManager : MonoBehaviour
 
     public void ClosePopup()
     {
-        _currentPopup?.gameObject.SetActive(false);
-        _currentPopup = null;
+        if (_currentPopup != null)
+        {
+            _currentPopup?.gameObject?.SetActive(false);
+            _currentPopup = null;
+        }
     }
 
     private void SubscribeToClickOutsideEvent(BasePopup popup)

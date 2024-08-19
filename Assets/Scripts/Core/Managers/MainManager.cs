@@ -27,7 +27,7 @@ public class MainManager : MonoBehaviour
 
     void Start()
     {
-        AfkGainsPanel popup = PopupManager.Instance.OpenPopUp<AfkGainsPanel>(PopupId.AfkGains);
+        AfkGainsPopup popup = PopupManager.Instance.OpenPopUp<AfkGainsPopup>(PopupId.AfkGains);
         popup.InitAfkGains();
     }
 }

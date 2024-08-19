@@ -4,7 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-public class AfkGainsPanel : BasePopup
+public class AfkGainsPopup : BasePopup
 {
     public override PopupId Id { get; } = PopupId.AfkGains;
 
@@ -26,6 +26,7 @@ public class AfkGainsPanel : BasePopup
     {
         SetupCloseableBackground(true);
     }
+    
     void OnDestroy()
     {
         AcceptRewards();

@@ -2,15 +2,20 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CelebateEvolutionPanel : MonoBehaviour
+public class CelebrateEvolutionPopup : BasePopup
 {
+    public override PopupId Id { get; } = PopupId.CelebrateEvolution;
+    
     [SerializeField] TMP_Text evolveToText;
     [SerializeField] Image sprite;
 
+    void Awake()
+    {
+        SetupCloseableBackground(true);
+    }
+    
     public void DisplayPanel(Elemental elemental)
     {
-        gameObject.SetActive(true);
-
         SoundManager.Instance.PlaySystemSFX(SystemSFXId.Celebration);
 
         Elemental evolution = ElementalCatalog.Instance.GetElemental(elemental.Evolution.evolveTo);

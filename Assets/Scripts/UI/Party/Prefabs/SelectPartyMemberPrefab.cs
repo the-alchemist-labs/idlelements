@@ -9,8 +9,6 @@ public class SelectPartyMemberPrefab : MonoBehaviour
     [SerializeField] Image skillImageA;
     [SerializeField] Image skillImageB;
 
-    private SelectPartyMemberPanel _selectPartyMemberPanel;
-    private SelectSkillPanel _selectSkillPanel;
     private ElementalId _elementalId;
     void Awake()
     {
@@ -19,8 +17,6 @@ public class SelectPartyMemberPrefab : MonoBehaviour
 
     void Start()
     {
-        _selectPartyMemberPanel = MainManager.Instance.SelectPartyMemberPanel.GetComponent<SelectPartyMemberPanel>();
-        _selectSkillPanel = MainManager.Instance.SelectSkillPanel.GetComponent<SelectSkillPanel>();
         UpdateUI();
     }
 
@@ -41,12 +37,14 @@ public class SelectPartyMemberPrefab : MonoBehaviour
 
     public void OnElementalClicked()
     {
-        _selectPartyMemberPanel.OpenPanel(slot);
+        SelectPartyMemberPopup popup = PopupManager.Instance.OpenPopUp<SelectPartyMemberPopup>(PopupId.SelectPartyMember);
+        popup.OpenPanel(slot);
     }
 
     public void OnSkillClicked(int slot)
     {
-        _selectSkillPanel.OpenPanel(_elementalId, slot);
+        SelectSkillPopup popup = PopupManager.Instance.OpenPopUp<SelectSkillPopup>(PopupId.SelectSkill);
+        popup.OpenPanel(_elementalId, slot);
     }
 
     private Sprite GetSkillSprite(SkillId? skillId)
