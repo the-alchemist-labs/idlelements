@@ -15,11 +15,6 @@ public class SelectPartyMemberPopup : BasePopup
     private ElementalId _selectedElemental;
     private int _memberSlot;
 
-    void Awake()
-    {
-        SetupCloseableBackground(true);
-    }
-
     public void OpenPanel(int slot)
     {
         gameObject.SetActive(true);

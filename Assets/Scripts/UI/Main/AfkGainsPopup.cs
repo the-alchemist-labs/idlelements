@@ -21,11 +21,6 @@ public class AfkGainsPopup : BasePopup
     private int _gold;
     private int _essence;
     private int _exp;
-
-    void Awake()
-    {
-        SetupCloseableBackground(true);
-    }
     
     void OnDestroy()
     {

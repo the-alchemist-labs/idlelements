@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public enum PopupId
 {
+    Background,
     AfkGains,
     SelectPartyMember,
     SelectSkill,
@@ -21,6 +24,8 @@ public class PopupManager : MonoBehaviour
     public static PopupManager Instance;
 
     [SerializeField] private List<BasePopup> popupList;
+    [SerializeField] private Image background;
+    
     private BasePopup _currentPopup;
 
     void Awake()
@@ -30,6 +35,8 @@ public class PopupManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             TabManager.OnTabChanged += ClosePopup;
+            Button backgroundButton = background.AddComponent<Button>();
+            backgroundButton.onClick.AddListener(ClosePopup);
         }
         else
         {
@@ -39,6 +46,7 @@ public class PopupManager : MonoBehaviour
 
     public T OpenPopUp<T>(PopupId popupId)
     {
+        background.gameObject.SetActive(true);
         BasePopup popup = popupList.Single(p => p.Id == popupId);
         _currentPopup?.gameObject.SetActive(false);
         popup.gameObject.SetActive(true);
@@ -60,6 +68,7 @@ public class PopupManager : MonoBehaviour
 
         if (_currentPopup?.Id == popupId)
         {
+            background.gameObject.SetActive(false);
             _currentPopup = null;
         }
     }
@@ -68,6 +77,7 @@ public class PopupManager : MonoBehaviour
     {
         if (_currentPopup != null)
         {
+            background.gameObject.SetActive(false);
             _currentPopup?.gameObject?.SetActive(false);
             _currentPopup = null;
         }

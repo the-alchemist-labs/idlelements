@@ -24,11 +24,6 @@ public class SelectSkillPopup : BasePopup
     private int _skillSlot;
     private SkillId _selectedSkill;
     private List<SkillId> _equippedSkills;
-
-    void Awake()
-    {
-        SetupCloseableBackground(true);
-    }
     
     public void OpenPanel(ElementalId elementalId, int slot)
     {

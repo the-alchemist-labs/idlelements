@@ -8,11 +8,6 @@ public class CelebrateEvolutionPopup : BasePopup
     
     [SerializeField] TMP_Text evolveToText;
     [SerializeField] Image sprite;
-
-    void Awake()
-    {
-        SetupCloseableBackground(true);
-    }
     
     public void DisplayPanel(Elemental elemental)
     {

@@ -9,11 +9,6 @@ public class DeckPopup : BasePopup
     public ScrollRect scrollRect;
     public Transform scrollViewContent;
     public GameObject rowPrefab;
-
-    void Awake()
-    {
-        SetupCloseableBackground(true);
-    }
     
     void Start()
     {

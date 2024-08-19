@@ -14,7 +14,7 @@ public class FriendCode : MonoBehaviour
     public async void SendFriendRequest()
     {
         StatusResponse res = await Player.Instance.Friends.SendFriendRequest(friendCodeInput.text);
-        RequestResultPanel popup = PopupManager.Instance.OpenPopUp<RequestResultPanel>(PopupId.FriendRequest);
+        RequestResultPopup popup = PopupManager.Instance.OpenPopUp<RequestResultPopup>(PopupId.FriendRequest);
         popup.Init(res);
     }
 }

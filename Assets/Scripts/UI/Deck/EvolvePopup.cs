@@ -17,11 +17,6 @@ public class EvolvePopup : BasePopup
     public Button evolveButton;
 
     Elemental elemental;
-
-    void Awake()
-    {
-        SetupCloseableBackground(true);
-    }
     
     void Start()
     {

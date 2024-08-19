@@ -7,11 +7,6 @@ public class SettingsPopup : BasePopup
 
     [SerializeField] Slider bGMSlider;
     [SerializeField] Slider sFXSlider;
-
-    void Awake()
-    {
-        SetupCloseableBackground(true);
-    }
     
     void Start()
     {
