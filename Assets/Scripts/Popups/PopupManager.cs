@@ -14,7 +14,7 @@ public enum PopupId
     Evolve,
     CelebrateEvolution,
     Deck,
-    FriendRequest, 
+    FriendRequest,
     Settings,
     PlayerInfo,
 }
@@ -23,9 +23,8 @@ public class PopupManager : MonoBehaviour
 {
     public static PopupManager Instance;
 
-    [SerializeField] private List<BasePopup> popupList;
-    [SerializeField] private Image background;
-    
+    private List<BasePopup> _popupList;
+    private Image _background;
     private BasePopup _currentPopup;
 
     void Awake()
@@ -34,9 +33,7 @@ public class PopupManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            TabManager.OnTabChanged += ClosePopup;
-            Button backgroundButton = background.AddComponent<Button>();
-            backgroundButton.onClick.AddListener(ClosePopup);
+            Init();
         }
         else
         {
@@ -46,8 +43,8 @@ public class PopupManager : MonoBehaviour
 
     public T OpenPopUp<T>(PopupId popupId)
     {
-        background.gameObject.SetActive(true);
-        BasePopup popup = popupList.Single(p => p.Id == popupId);
+        _background.gameObject.SetActive(true);
+        BasePopup popup = _popupList.Single(p => p.Id == popupId);
         _currentPopup?.gameObject.SetActive(false);
         popup.gameObject.SetActive(true);
         _currentPopup = popup;
@@ -60,15 +57,15 @@ public class PopupManager : MonoBehaviour
     {
         OpenPopUp<MonoBehaviour>(popupId);
     }
-    
+
     public void ClosePopup(PopupId popupId)
     {
-        BasePopup popup = popupList.Single(p => p.Id == popupId);
+        BasePopup popup = _popupList.Single(p => p.Id == popupId);
         popup.gameObject.SetActive(false);
 
         if (_currentPopup?.Id == popupId)
         {
-            background.gameObject.SetActive(false);
+            _background.gameObject.SetActive(false);
             _currentPopup = null;
         }
     }
@@ -77,10 +74,17 @@ public class PopupManager : MonoBehaviour
     {
         if (_currentPopup != null)
         {
-            background.gameObject.SetActive(false);
+            _background.gameObject.SetActive(false);
             _currentPopup?.gameObject?.SetActive(false);
             _currentPopup = null;
         }
+    }
+
+    private void Init()
+    {
+        _popupList = transform.Cast<Transform>().Select(t => t.GetComponent<BasePopup>()).Where(p => p != null).ToList();
+        _background = _popupList.Single(p => p.Id == PopupId.Background).gameObject.GetComponent<Image>();
+        TabManager.OnTabChanged += ClosePopup;
     }
 
     private void SubscribeToClickOutsideEvent(BasePopup popup)
