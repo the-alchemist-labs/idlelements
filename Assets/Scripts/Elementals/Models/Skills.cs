@@ -33,7 +33,6 @@ public class Skill: ScriptableObject
     public string Description;
     public ElementType Type;
     public AttackTarget AttackTarget;
-    public ElementalStat TargetedSta;
     public int ImpactValue;
     public TravelTime SkillSpeed;
 }
