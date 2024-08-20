@@ -82,7 +82,8 @@ public class PopupManager : MonoBehaviour
 
     private void Init()
     {
-        _popupList = transform.Cast<Transform>().Select(t => t.GetComponent<BasePopup>()).Where(p => p != null).ToList();
+        Canvas canvas = transform.GetComponentInChildren<Canvas>();
+        _popupList = canvas.transform.Cast<Transform>().Select(t => t.GetComponent<BasePopup>()).Where(p => p != null).ToList();
         _background = _popupList.Single(p => p.Id == PopupId.Background).gameObject.GetComponent<Image>();
         TabManager.OnTabChanged += ClosePopup;
     }
