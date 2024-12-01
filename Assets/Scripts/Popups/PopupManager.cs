@@ -14,6 +14,7 @@ public enum PopupId
     Evolve,
     CelebrateEvolution,
     Deck,
+    Dailies,
     FriendRequest,
     Settings,
     PlayerInfo,

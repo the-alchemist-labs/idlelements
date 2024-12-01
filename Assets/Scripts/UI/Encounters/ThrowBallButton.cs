@@ -56,6 +56,7 @@ public class ThrowBallButton : MonoBehaviour
         if (isCaught)
         {
             SoundManager.Instance.PlaySystemSFX(SystemSFXId.Celebration);
+            EncounterManger.Instance.EncounterCaught();
         }
         else
         {

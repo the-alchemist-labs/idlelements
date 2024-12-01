@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Encounters;
+using TMPro;
 using UnityEngine;
 
 public class EncounterManger : MonoBehaviour
@@ -12,7 +13,8 @@ public class EncounterManger : MonoBehaviour
     public BallId SelectedBallId;
     public int RerollCost;
     
-    [SerializeField] BallsScrollView balls;
+    [SerializeField] private TMP_Text RerollCostText;
+    [SerializeField] private BallsScrollView balls;
     
     private void Awake()
     {
@@ -51,9 +53,10 @@ public class EncounterManger : MonoBehaviour
 
     public void GetNewEncounter()
     {
-        if (Player.Instance.Resources.Essence >= RerollCost)
+        if (Player.Instance.Resources.Essence >= RerollCost || Encounter.State == EncounterState.Caught)
         {
             Player.Instance.Resources.UpdateEssence(-RerollCost);
+            RerollCostText.text = RerollCost.ToString();
         }
         else
         {
@@ -72,7 +75,11 @@ public class EncounterManger : MonoBehaviour
         PlayerPrefs.SetInt(PlayerPrefKeys.SELECTED_BALL, (int)ballId);
         GameEvents.BallSelected();
     }
-    
+
+    public void EncounterCaught()
+    {
+        RerollCostText.text = "Free";
+    }
     private void OnEncounterUpdated()
     {
         ElementalManager.Instance.UpdateLastEncounter(Encounter);
